@@ -1,0 +1,136 @@
+ <app-content-menu [title]="'Camions'" [menus]="menus">
+   <div class="col-5"><h1>Camion</h1></div>
+   <div class="col-7" style="text-align: right">
+     <button (click)="addCamion()" class="btn btn-secondary rounded rounded-pill mt-3 "  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus"></i>Ajouter un camion</button>
+   </div>
+ </app-content-menu>
+ <button  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()"> Details camion</button>
+<div>
+  <div class="row">
+    <div class="col-6 row mt-3">
+      <div class="col-6">
+        <input type="text" class="form-control border-2 border border-secondary rounded rounded-pill">
+      </div>
+      <div class="col-3">
+
+        <select class="form-control border  border-2 border-secondary rounded rounded-pill"></select>
+      </div>
+      <div class="col-3">
+
+        <select class="form-control border border-2  border-secondary rounded rounded-pill"></select>
+      </div>
+    </div>
+    <div class="col-2">
+
+    </div>
+    <div class="col-4"></div>
+  </div>
+</div>
+<app-modal [modalTitle]="modalTitle" [size]="size">
+
+  <div *ngIf="modalTitle == 'Ajout d\' un camion'" class="modal-body overflow-auto">
+    <div class="row">
+      <div class="col-4">
+        <button class="imgBg">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+      <div class="col-8" style="margin-left: -40px;  margin-top: 10px;">
+        <span class="txtImg">Image du camion</span><br>
+        <span style="font-size: 11px;color: #959595">Veuillez importer une photo de l’ordinateur</span>
+      </div>
+    </div>
+    <div class="mb-4">
+      <label class="mb-2" style="font-weight: bold;padding-left: 5px">Immatriculation</label>
+      <input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
+    </div>
+    <div class="mb-4">
+      <label class="mb-2" style="font-weight: bold;padding-left: 5px">Carburant</label>
+      <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
+      <option selected>Choisir le type de carburant</option>
+      </select>
+    </div>
+    <div class="mb-4">
+      <label class="mb-2" style="font-weight: bold;padding-left: 5px">Type de camion</label>
+      <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
+      <option selected>Choisir le type de camion</option>
+      </select>
+    </div>
+    <p class="caracCamion">Caractéristiques du type de camion</p>
+    <p class="detailsCam">Qté carburant a vide<span style="float: right">12</span></p>
+    <p class="detailsCam">Qté carburant au chargement<span style="float: right">12</span> </p>
+    <p class="detailsCam">Nbre pneus de secours<span style="float: right">12</span></p>
+    <p class="detailsCam">Nbre pneus de chaussés<span style="float: right">12</span></p>
+
+    <div class="mb-4">
+      <label class="mb-2" style="font-weight: bold;padding-left: 5px">Chauffeur principal</label>
+      <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
+        <option selected>Choisir un chauffeur</option>
+      </select>
+    </div>
+    <div class="md-chips">
+
+      <div style="border-radius: 50px;    height: 40px;   padding-top: 3px;   padding-left: 17px;" class="md-chip  md-chip-hover">
+        <img class="md-chip-icon"src="https://source.unsplash.com/random">
+        <span>Abdou Niang</span>
+        <button type="button" class="md-chip-remove">
+        </button>
+      </div>
+    </div>
+    <div class="mb-4">
+      <label class="mb-2" style="font-weight: bold;padding-left: 5px">Chauffeurs secondaires</label>
+      <input  (click)="toggleMenu(); preventCloseOnClick()"   class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Choisir des chauffeurs">
+    </div>
+    <div id="chauffeursList" (click)="preventCloseOnClick()" *ngIf="menuOpen" style="padding:20px;height: 353px;width: 353px; border-radius: 8px; box-shadow: 0 0 15px 0 rgba(121, 121, 121, 0.16);border: solid 0.5px #dedede;background-color: #fff;">
+
+      <div class="form-group has-search col-8">
+        <span class="fa fa-search form-control-feedback"></span>
+        <input  style="border: none;color: #747474;width: 300px" type="text" class="form-control   vsearch  "  placeholder="Que recherchez-vous ?">
+
+      </div>
+      <hr>
+      <span style="color: #bcbcbc;">Liste chauffeur</span>
+      <div class="row mt-2">
+        <div class="col-2">
+          <img style="margin: 0px !important;" class="md-chip-icon"src="https://source.unsplash.com/random">
+        </div>
+        <div class="col-8" style="padding-top: 3px">Mamadou Niang</div>
+        <div class="col-2" style="text-align: right;padding-top: 6px"><input type="checkbox"></div>
+      </div>
+    </div>
+   </div>
+  <div  *ngIf="modalTitle == 'Ajout d\' un camion'" class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary rounded rounded-pill" data-bs-dismiss="modal">Annuler</button>
+    <button type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
+  </div>
+
+
+  <div  *ngIf="modalTitle == 'Details d\' un camion'" class="modal-body overflow-auto">
+   <div class="row">
+     <div class="col-2">
+       <div class="container">
+
+         <div class="avatar-upload">
+           <div class="avatar-edit">
+             <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+             <label for="imageUpload"></label>
+           </div>
+           <div class="avatar-preview">
+             <div id="imagePreview" style="background-image: url(http://i.pravatar.cc/500?img=7);">
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="col-6">
+       <p>Immatriculation </p>
+       <p>Categorie   -   tonnage </p>
+       <p>Alioune Cissé </p>
+     </div>
+     <div class="col-4">
+       <p class="montant">240 000 frcfa</p>
+     </div>
+   </div>
+  </div>
+</app-modal>
+

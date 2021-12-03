@@ -1,0 +1,162 @@
+<style>
+  .vbd{
+    border: solid 1.5px #f4f4f4;
+  }
+  .vmenu{
+    height: 80px;
+    padding: 12px 15px 12px 15px;
+    background-color: white;
+    margin: 0;
+  }
+  .vsearch::placeholder{
+    color: #747474;
+  }
+
+
+
+
+  .has-search .form-control {
+    padding-left: 2.375rem;
+  }
+
+  .has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 3.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+  }
+
+
+
+  a.fa-bell {
+    position: relative;
+    color: grey;
+    cursor: pointer;
+  }
+  span.fa-comment {
+    position: absolute;
+    font-size: 1.2em;
+    top: -10px;
+    color: #e34850;
+    right: -9px;
+  }
+  span.num {
+    position: absolute;
+    font-size: 0.8em;
+    top:-5px;
+    color: #fff;
+    right: -2px;
+  }
+</style>
+<div class="fixed-top col-12 row vmenu vbd">
+  <div class="logo col-xl-3 col-lg-3 col-sm-12 col-md-2 col-12">
+    <img src="assets/images/logo.png">
+  </div>
+  <div class="  col-xl-5 col-lg-5 col-sm-12 col-md-6 col-12 row">
+    <div class="form-group has-search col-8">
+      <span class="fa fa-search form-control-feedback"></span>
+      <input  style="height:52px;background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
+
+    </div>
+    <div class="col-4 "style="">
+      <button style="height:52px ;width:52px;margin-right:10px;margin-left: 10px;background-color:  #0089ff47;" class="btn rounded rounded-circle mr-5 "><i style="color: #0089ff;font-size: 23px"  class="fa fa-shopping-basket"></i></button>
+
+      <button style="height:52px ;width:52px;background-color:  #f4f4f4 ;" class="btn rounded rounded-circle "><i style="color: #959595;font-size: 23px"  class="fa fa-cart-arrow-down"></i></button>
+    </div>
+  </div>
+  <div class="  col-xl-4 col-lg-4 col-sm-12 col-md-4 col-12 ">
+
+    <button style="float:right;height:52px ;width:52px;background-color:  #3e3e3e;color: white" class="btn rounded rounded-circle  ">AN</button>
+
+    <button style="float:right;height:52px ;width:52px;background-color:  #f4f4f4 ;margin-right:10px" class="btn rounded rounded-circle ">
+      <a class="fa fa-bell">
+        <span class="fa notif fa-comment"></span>
+        <span class="num">2</span>
+      </a>
+    </button>
+    <button style="float:right;height:52px ;width:52px;margin-right:10px;background-color:  #f4f4f4;" class="btn rounded rounded-circle mr-5 "><i style="color: #959595;font-size: 23px" class="fa fa-cog"></i></button>
+    <button style="float:right;height:52px ;width:52px;margin-right:10px;background-color:  #f4f4f4;" class="btn rounded rounded-circle mr-5 "><i style="color: #959595;font-size: 23px" class="fa fa-question-circle"></i></button>
+
+
+  </div>
+</div>
+<div  style="--bs-gutter-x: 0px;" class="row">
+  <div class="col-">
+    <div [class.expander]="expanded" id="body">
+      <div  [class.shows]="expanded" class="l-navbar vbd" id="navbar">
+        <div class=".nav">
+          <!-- Logo+Text -->
+
+          <!-- Toggle -->
+          <div (click)="toggleMenu()" [class.rotate]="expanded" class="nav-toggle" id="nav-toggle">
+            <i class="bx bx-chevron-right"></i>
+          </div>
+          <!-- List -->
+          <ul class="nav-list">
+            <a href="#" class="nav-link active">
+              <i  style="color: #959595;font-size: 23px"  class="fa fa-chart-bar"></i>
+              <span class="link-text">Statistiques</span>
+            </a>
+<br>
+            <p class="showing">Courses</p>
+            <a href="#" class="nav-link active">
+              <i  style="color: #959595;font-size: 23px"  class="fas fa-random"></i>
+
+              <span class="link-text">Courses</span>
+            </a>
+
+
+            <a href="#" class="nav-link active">
+              <i  style="color: #959595;font-size: 23px"  class="fa fa-user"></i>
+              <span class="link-text">Clients</span>
+            </a>
+            <p class="showing">Parc</p>
+
+
+            <a href="#" class="nav-link active">
+              <i  style="color: #959595;font-size: 23px"  class="fas fa-truck-moving"></i>
+              <span class="link-text">Camion</span>
+            </a>
+
+            <a href="#" class="nav-link active">
+              <i  style="color: #959595;font-size: 23px"  class="fa fa-users"></i>
+              <span class="link-text">Chauffeur</span>
+            </a>
+
+            <a href="#" class="nav-link active">
+              <i  style="color: #959595;font-size: 23px"  class="fas fa-tools"></i>
+              <span class="link-text">Entretien</span>
+            </a>
+            <p class="showing">Gestion</p>
+            <a href="#" class="nav-link active">
+              <i  style="color: #959595;font-size: 23px"  class="fa fa-chart-bar"></i>
+              <span class="link-text">Utilisateurs</span>
+            </a>
+
+            <a href="#" class="nav-link active">
+              <i  style="color: #959595;font-size: 23px"  class="fa fa-chart-bar"></i>
+              <span class="link-text">Ressources</span>
+            </a>
+
+            <a href="#" style="margin-top: 14rem;" class="nav-link active vbd">
+              <i style="color: #959595;font-size: 23px"  class="fas fa-arrow-circle-left"></i>
+              <span class="link-text">Réduireujjj</span>
+            </a>
+          </ul>
+        </div>
+      </div>
+      <div [class.expandedDiv]="expanded"  [class.unexpandedDiv]="!expanded"  class=" float-right p-2" style="width: 95% " >
+
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

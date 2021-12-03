@@ -1,0 +1,8 @@
+<div class="row">
+  <ng-content></ng-content>
+</div>
+<div class="col-12 pb-2" style="border-bottom: solid 2px #f4f4f4;">
+  <span   (click)="setCurrentMenu(i)" [class.activedMenu]="i==currentMenu" *ngFor="let menu of menus;let i = index;" class="pb-2 itemMenu">
+    {{menu?.title}}
+  </span>
+</div>
