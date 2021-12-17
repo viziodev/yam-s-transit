@@ -1,29 +1,56 @@
  <app-content-menu [title]="'Camions'" [menus]="menus">
-   <div class="col-5"><h1>Camion</h1></div>
+   <div class="col-5"><h2>Camion</h2></div>
    <div class="col-7" style="text-align: right">
      <button (click)="addCamion()" class="btn btn-secondary rounded rounded-pill mt-3 "  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus"></i>Ajouter un camion</button>
    </div>
  </app-content-menu>
  <button  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()"> Details camion</button>
-<div>
-  <div class="row">
-    <div class="col-6 row mt-3">
-      <div class="col-6">
-        <input type="text" class="form-control border-2 border border-secondary rounded rounded-pill">
-      </div>
+<div  >
+  <div class="row mb-4">
+    <div class="col-12 row mt-3">
       <div class="col-3">
+        <div class="form-group has-search col-12">
+          <span class="fa fa-search form-control-feedback"></span>
+          <input  style="background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
+
+        </div>
+      </div>
+      <div class="col-1">
 
         <select class="form-control border  border-2 border-secondary rounded rounded-pill"></select>
       </div>
-      <div class="col-3">
+      <div class="col-1">
 
         <select class="form-control border border-2  border-secondary rounded rounded-pill"></select>
+      </div>
+      <div class="col-1">
+
+        <select class="form-control border border-2  border-secondary rounded rounded-pill"></select>
+      </div>
+      <div class="col-1">
+
+        <select class="form-control   border border-2  border-secondary rounded rounded-pill"></select>
+      </div>
+      <div class="col-5" style="text-align: right">
+        <button style="background-color: #F2F2F2" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
+        <button style="background-color: #F2F2F2" class="btn ml-5  rounded rounded-circle"><i class="fas fa-bars"></i></button>
+        <button style="background-color: #F2F2F2" class="btn ml-2  rounded rounded-circle"><i class="fas fa-th-large"></i></button>
       </div>
     </div>
     <div class="col-2">
 
     </div>
     <div class="col-4"></div>
+  </div>
+  <div class="row">
+    <div class="col-2">  <app-card ></app-card></div>
+    <div class="col-2">  <app-card ></app-card></div>
+    <div class="col-2">  <app-card ></app-card></div>
+    <div class="col-2">  <app-card ></app-card></div>
+    <div class="col-2">  <app-card ></app-card></div>
+    <div class="col-2">  <app-card ></app-card></div>
+    <div class="col-3">  <app-card ></app-card></div>
+    <div class="col-3">  <app-card ></app-card></div>
   </div>
 </div>
 <app-modal [modalTitle]="modalTitle" [size]="size">
@@ -84,42 +111,42 @@
        <p class="caracCamion">Assurance</p>
        <div class="row">
          <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Carte grise</p>
        <div class="row">
          <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Visite technique</p>
        <div class="row">
          <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Carte d'extincteur</p>
        <div class="row">
          <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">License de transport</p>
        <div class="row">
          <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Expertise</p>
        <div class="row">
          <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
       <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
@@ -187,12 +214,94 @@
        </div>
      </div>
      <div class="col-6">
-       <p>Immatriculation </p>
-       <p>Categorie   -   tonnage </p>
-       <p>Alioune Cissé </p>
+       <span>Immatriculation </span><br>
+       <span>Categorie   -   tonnage </span><br>
+       <span>Alioune Cissé </span>
      </div>
-     <div class="col-4">
+     <div class="col-4" style="text-align: right">
+       <button class="btn btn-secondary rounded rounded-pill">Amener en entretien</button>
+       <br>
        <p class="montant">240 000 frcfa</p>
+     </div>
+
+     <div class="row" style="border-top: solid 1px grey">
+       <div class="col-6" style="border-right: solid 1px grey">
+         <p>Statut</p>
+         <span class="badge " style="background-color: red">Dispo</span>
+         <p>Ce camion est dispo pourtout type de trajet</p>
+         <div class="row mt-2">
+           <div class="col-6"><p>Chauffeurs</p></div>
+           <div class="col-6" style="text-align: right"><p><u>Historique des chauffeurs</u></p></div>
+         </div>
+         <div class="row mt-4">
+           <div class="col-3 text-center">
+             <div style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto">
+
+             </div>
+             <p>Alpha Baldé<br><span>Principal</span></p>
+
+           </div>
+           <div class="col-3 text-center">
+             <div style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto">
+
+             </div>
+             <p>Alpha Baldé<br><span>Principal</span></p>
+
+           </div>
+           <div class="col-3 text-center">
+             <div style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto">
+
+             </div>
+             <p>Alpha Baldé<br><span>Principal</span></p>
+
+           </div>
+         </div>
+         <div>
+           <p>Statistiques(par mois)</p>
+           <div class="row">
+             <div class="col-3">
+               <p><span  style="font-size: 40px">24L</span><br><span style="font-size: 15px">Carburant</span></p>
+             </div>
+             <div class="col-3">
+               <p><span  style="font-size: 40px">23</span><br><span style="font-size: 15px">Pannes</span></p>
+             </div>
+             <div class="col-3">
+               <p><span  style="font-size: 40px">67K</span><br><span style="font-size: 15px">Recettes</span></p>
+             </div>
+             <div class="col-3">
+               <p><span  style="font-size: 40px">67K</span><br><span style="font-size: 15px">Depenses</span></p>
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class="col-6">
+         <p class="">Caractéristiques </p>
+         <span class="detailsCam">Marque<span style="float: right">12</span></span><br>
+         <span class="detailsCam">Type<span style="float: right">12</span></span><br>
+         <span class="detailsCam">Modele<span style="float: right">12</span></span><br>
+         <span class="detailsCam">Type carburant<span style="float: right">12</span></span><br>
+         <span class="detailsCam">Qté carburant a vide<span style="float: right">12</span></span><br>
+         <span class="detailsCam">Qté carburant au chargement<span style="float: right">12</span> </span><br>
+         <span class="detailsCam">Nbre pneus de secours<span style="float: right">12</span></span><br>
+         <span class="detailsCam">Nbre pneus de chaussés<span style="float: right">12</span></span><br>
+         <div class="row mt-2">
+           <div class="col-6"><p>Entretien</p></div>
+           <div class="col-6" style="text-align: right"><p><u>Fiche d'entretien</u></p></div>
+           <strong>Pieces</strong><br>
+           <span class="detailsCam">Huile<span style="float: right">12</span></span><br>
+           <span class="detailsCam">Filtre gazoil<span style="float: right">12</span></span><br>
+           <span class="detailsCam">Filtre a huile<span style="float: right">12</span></span><br>
+           <strong>Entretien</strong><br>
+           <span class="detailsCam">Type de vidange<span style="float: right">Simple</span></span><br>
+           <span class="detailsCam">Prochaine vidange<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
+
+
+           <strong>Révision</strong><br>
+           <span class="detailsCam">Prochaine revision<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
+
+         </div>
+       </div>
+
      </div>
    </div>
   </div>

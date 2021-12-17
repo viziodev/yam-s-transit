@@ -1,0 +1,163 @@
+<style>
+  .vbd{
+    border: solid 1.5px #f4f4f4;
+  }
+  .vmenu{
+    height: 70px;
+    padding: 12px 15px 12px 15px;
+    background-color: #383A4D;
+    border-color: #383A4D !important;
+    margin: 0;
+  }
+  .vsearch::placeholder{
+    color: #747474;
+  }
+
+
+
+
+  .has-search .form-control {
+    padding-left: 2.375rem;
+  }
+
+  .has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.80rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+  }
+
+
+
+  a.fa-bell {
+    position: relative;
+    color: grey;
+    cursor: pointer;
+  }
+  span.fa-comment {
+    position: absolute;
+    font-size: 1.2em;
+    top: -10px;
+    color: #e34850;
+    right: -9px;
+  }
+  span.num {
+    position: absolute;
+    font-size: 0.8em;
+    top:-5px;
+    color: #fff;
+    right: -2px;
+  }
+</style>
+<div class="fixed-top col-12 row vmenu vbd">
+  <div class="logo col-xl-3 col-lg-3 col-sm-12 col-md-2 col-12">
+    <p style="    font-size: 30px;  color: white;     ">YamManager</p>
+  </div>
+  <div class="  col-xl-5 col-lg-5 col-sm-12 col-md-6 col-12 row">
+    <div class="form-group has-search col-8">
+      <span class="fa fa-search form-control-feedback"></span>
+      <input  style="height:42px;background-color: #4B4D5D;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
+
+    </div>
+    <!--<div class="col-4 "style="">
+      <button style="height:52px ;width:52px;margin-right:10px;margin-left: 10px;background-color:  #0089ff47;" class="btn rounded rounded-circle mr-5 "><i style="color: #0089ff;font-size: 23px"  class="fa fa-shopping-basket"></i></button>
+
+      <button style="height:52px ;width:52px;background-color:  #f4f4f4 ;" class="btn rounded rounded-circle "><i style="color: #959595;font-size: 23px"  class="fa fa-cart-arrow-down"></i></button>
+    </div>-->
+  </div>
+  <div class="  col-xl-4 col-lg-4 col-sm-12 col-md-4 col-12 ">
+
+    <button style="float:right;" class="btn rounded rounded-circle btns-round-name "><span style="font-size: 11px;color: ">AN</span></button>
+
+    <button style="float:right;" class="btn rounded btns-round rounded-circle ">
+      <a class="fa fa-bell">
+        <span class="fa notif fa-comment"></span>
+        <span class="num">2</span>
+      </a>
+    </button>
+    <button style="float:right;" class="btn rounded rounded-circle mr-5 btns-round"><i style="color: #959595;font-size: 16px" class="fa fa-cog"></i></button>
+    <button style="float:right;" class="btn rounded rounded-circle mr-5 btns-round"><i style="color: #959595;font-size: 23px" class="fa fa-question-circle"></i></button>
+
+
+  </div>
+</div>
+<div  style="--bs-gutter-x: 0px;" class="row">
+  <div class="col-">
+    <div [class.expander]="expanded" id="body">
+      <div  [class.shows]="expanded" class="l-navbar vbd" id="navbar">
+        <div class=".nav">
+          <!-- Logo+Text -->
+
+          <!-- Toggle -->
+          <div (click)="toggleMenu()" [class.rotate]="expanded" class="nav-toggle" id="nav-toggle">
+            <i class="bx bx-chevron-right"></i>
+          </div>
+          <!-- List -->
+          <ul class="nav-list">
+            <a href="#" class="nav-link active">
+              <i    class="fa fa-chart-bar yam-menu-icon"></i>
+              <span class="link-text">Statistiques</span>
+            </a>
+            <br>
+            <p  class="showing"><span [hidden]="!expanded" >Courses</span></p>
+            <a href="#" class="nav-link active">
+              <i    class="fas fa-random yam-menu-icon"></i>
+
+              <span class="link-text">Courses</span>
+            </a>
+
+
+            <a href="#" class="nav-link active">
+              <i  class="fa fa-user yam-menu-icon"></i>
+              <span class="link-text">Clients</span>
+            </a>
+            <p class="showing"><span [hidden]="!expanded" >Parc</span></p>
+
+
+            <a href="#" class="nav-link active">
+              <i    class="yam-menu-icon fas fa-truck-moving"></i>
+              <span class="link-text">Camion</span>
+            </a>
+
+            <a href="#" class="nav-link active">
+              <i    class="fa fa-users yam-menu-icon"></i>
+              <span class="link-text">Chauffeur</span>
+            </a>
+
+            <a href="#" class="nav-link active">
+              <i     class="fas fa-tools yam-menu-icon"></i>
+              <span class="link-text">Entretien</span>
+            </a>
+            <p class="showing"><span [hidden]="!expanded" >Gestion</span></p>
+            <a href="#" class="nav-link active">
+               <i class="fas fa-user-plus yam-menu-icon"></i>
+              <span class="link-text">Utilisateurs</span>
+            </a>
+
+            <a href="#" class="nav-link active">
+              <i class="fas fa-th-large  yam-menu-icon"></i>
+               <span class="link-text">Ressources</span>
+            </a>
+
+            <a href="#" style="margin-top: 14rem;" class="nav-link active vbd">
+              <i style="color: #959595;font-size: 23px"  class="fas fa-arrow-circle-left"></i>
+              <span class="link-text">Réduireujjj</span>
+            </a>
+          </ul>
+        </div>
+      </div>
+      <div [class.expandedDiv]="expanded"  [class.unexpandedDiv]="!expanded"  class=" float-right p-2" style="width: 86% " >
+
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

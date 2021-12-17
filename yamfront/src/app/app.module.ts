@@ -8,6 +8,11 @@ import { ModalComponent } from './components/shared/modal/modal.component';
 import { ContentMenuComponent } from './components/shared/content-menu/content-menu.component';
 import { CamionComponent } from './components/pages/camion/camion.component';
 import { SideMenuComponent } from './components/shared/side-menu/side-menu.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {TokenInterceptorService} from "./services/api/token-interceptor.service";
+import { LoginComponent } from './components/pages/auth/login/login.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import { HomeComponent } from './components/pages/layout/home/home.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +21,23 @@ import { SideMenuComponent } from './components/shared/side-menu/side-menu.compo
     ModalComponent,
     ContentMenuComponent,
     CamionComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass : TokenInterceptorService,
+      multi : true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
