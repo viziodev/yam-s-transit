@@ -1,0 +1,278 @@
+<app-content-menu [title]="'Chauffeurs'" [menus]="menus">
+  <div class="col-5"><h2>Chauffeur</h2></div>
+  <div class="col-7" style="text-align: right">
+    <button (click)="addChauffeur()" class="btn btn-secondary rounded rounded-pill mt-3 "  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus"></i>Ajouter un chauffeur</button>
+  </div>
+</app-content-menu>
+<div  >
+  <div class="row mb-4">
+    <div class="col-12 row mt-3">
+      <div class="col-2">
+
+      </div>
+      <div style="display: inline" class="co">
+        <div  style="display: inline;width: 100px;margin-right: 20px" class="form-group has-search col-12">
+          <span class="fa fa-search form-control-feedback"></span>
+          <input  style="width:200px;display:inline;background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
+
+        </div>
+        <select style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
+          <option selected>Type permis</option>
+        </select>
+
+        <select  style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+          <option selected>Disponible</option>
+
+        </select>
+        <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+          <option selected>Nbre de courses</option>
+
+        </select>
+        <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+          <option selected>Affectation</option>
+
+        </select>
+        <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 20px" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
+        <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-5  rounded rounded-circle"><i class="fas fa-bars"></i></button>
+        <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-2  rounded rounded-circle"><i class="fas fa-th-large"></i></button>
+
+      </div>
+      <div class="col-2" style="text-align: right">
+      </div>
+    </div>
+    <div class="col-2">
+
+    </div>
+    <div class="col-4"></div>
+  </div>
+  <div class="row">
+
+    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
+    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
+    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
+    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
+    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
+    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
+    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
+    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
+
+
+  </div>
+</div>
+<app-modal [modalTitle]="modalTitle" [size]="size">
+
+  <div *ngIf="modalTitle == 'Ajout d\' un chauffeur'" class="modal-body overflow-auto">
+    <div class="row">
+      <div class="col-6">
+
+        <div class="row">
+          <div class="col-4">
+            <button class="imgBg">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class="col-8" style="margin-left: -40px;  margin-top: 10px;">
+            <span class="txtImg">Image du camion</span><br>
+            <span style="font-size: 11px;color: #959595">Veuillez importer une photo de l’ordinateur</span>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Nom et prénom(s)</label>
+          <input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le nom ">
+        </div>
+        <div class="mb-4">
+          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Téléphone</label>
+          <input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le téléphone ">
+
+        </div>
+        <div class="mb-4">
+          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Adresse</label>
+          <input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir l'adresse ">
+        </div>
+        <div class="mb-4">
+          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Date de naissance</label>
+          <input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir la date de naissance ">
+        </div>
+        <div class="mb-4">
+          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Description</label>
+          <textarea rows="4" class="form-control" name="" style="border-radius:4px;outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir la description "></textarea>
+        </div>
+ 
+      </div>
+      <div class="col-6">
+
+        <div class="mb-2">
+          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Permis</label>
+          <select class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" >
+            <option selected>Choisir le type de permis</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
+        </div>
+        <div class="mb-4 ">
+          <p>Periode de validité</p>
+          <div class="row">
+            <div class="col-6">
+
+                <input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
+
+            </div>
+            <div class="col-6">
+               <input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
+
+            </div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Type de chauffeur</label>
+          <select class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" >
+            <option selected>Choisir le type de chauffeur</option>
+          </select>
+        </div>
+        <div>
+          <p>Liste des camions</p>
+          <div class="row">
+            <div class="col-10"><p>NP-700 435GGT</p></div>
+            <div class="col-1"><input type="checkbox"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div  *ngIf="modalTitle == 'Ajout d\' un chauffeur'" class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary rounded rounded-pill" data-bs-dismiss="modal">Annuler</button>
+    <button type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
+  </div>
+
+
+  <div  *ngIf="modalTitle == 'Details d\' un chauffeur'" class="modal-body overflow-auto">
+    <div class="row">
+      <div class="col-2">
+        <div class="container">
+
+          <div class="avatar-upload">
+            <div class="avatar-edit">
+              <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+              <label for="imageUpload"></label>
+            </div>
+            <div class="avatar-preview">
+              <div id="imagePreview" style="background-image: url(http://i.pravatar.cc/500?img=7);">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <span style="font-size: 18px;">Immatriculation </span><br>
+        <span style="font-size: 13px;color: #2680EB ">Categorie   -   tonnage </span><br>
+        <span style="font-size: 13px;color: #959595">Alioune Cissé </span>
+      </div>
+      <div class="col-4" style="text-align: right">
+        <button class="btn btn-outline-secondary rounded rounded-pill">Amener en entretien</button>
+        <br>
+        <div class="row mt-3">
+          <div class="col-1"><img src="../assets/images/good_courbe.svg"></div>
+          <div class="col-10"> <p class="montant">240 000 frcfa</p></div>
+        </div>
+      </div>
+
+      <div class="row" style="border-top: solid 1px #DEDEDE">
+        <div class="col-6 p-2" style="border-right: solid 1px  #DEDEDE">
+          <p style="font-size: 13px;font-weight: bold">Statut</p>
+          <span class="badge " style="background-color: red">Dispo</span>
+          <p style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce camion est dispo pourtout type de trajet</p>
+          <div class="row mt-2">
+            <div class="col-4"><p style="font-size: 13px;font-weight: bold">Chauffeurs</p></div>
+            <div class="col-8" style="text-align: right"><p style="cursor:pointer;font-size: 13px;  color: blue;"><u>Historique des chauffeurs</u></p></div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-3 text-center">
+              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+
+              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+            </div>
+            <div class="col-3 text-center">
+              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+
+              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+            </div>
+            <div class="col-3 text-center">
+              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+            </div>
+            <div class="col-3 text-center">
+              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+            </div>
+            <div class="col-3 text-center">
+              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+            </div>
+            <div class="col-3 text-center">
+              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+            </div>
+            <div class="col-3 text-center">
+              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+            </div>
+          </div>
+          <div>
+            <p style="font-size: 13px;font-weight: bold">Statistiques(par mois)</p>
+            <div class="row">
+              <div class="col-3">
+                <p><span  style="font-size: 23px;  color: #505050;">24L</span><br><span style="font-size: 12px">Carburant</span></p>
+              </div>
+              <div class="col-3">
+                <p><span  style="font-size: 23px;  color: #505050;">23</span><br><span style="font-size: 12px">Pannes</span></p>
+              </div>
+              <div class="col-3">
+                <p><span  style="font-size: 23px;  color: #505050;">67K</span><br><span style="font-size: 12px">Recettes</span></p>
+              </div>
+              <div class="col-3">
+                <p><span  style="font-size: 23px;  color: #505050;">67K</span><br><span style="font-size: 12px">Depenses</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 p-2">
+          <p style="font-weight: bold;font-size: 13px">Caractéristiques </p>
+          <span class="detailsCam">Marque<span style="float: right">12</span></span><br>
+          <span class="detailsCam">Type<span style="float: right">12</span></span><br>
+          <span class="detailsCam">Modele<span style="float: right">12</span></span><br>
+          <span class="detailsCam">Type carburant<span style="float: right">12</span></span><br>
+          <span class="detailsCam">Qté carburant a vide<span style="float: right">12</span></span><br>
+          <span class="detailsCam">Qté carburant au chargement<span style="float: right">12</span> </span><br>
+          <span class="detailsCam">Nbre pneus de secours<span style="float: right">12</span></span><br>
+          <span class="detailsCam">Nbre pneus de chaussés<span style="float: right">12</span></span><br>
+          <div class="row mt-2">
+            <div class="col-6"><p style="font-size: 13px;font-weight: bold">Entretien</p></div>
+            <div class="col-6" style="text-align: right"><p style="cursor:pointer;font-size: 11px;color: blue"><u>Fiche d'entretien</u></p></div>
+            <strong>Pieces</strong><br>
+            <span class="detailsCam">Huile<span style="float: right">12</span></span><br>
+            <span class="detailsCam">Filtre gazoil<span style="float: right">12</span></span><br>
+            <span class="detailsCam">Filtre a huile<span style="float: right">12</span></span><br>
+            <strong>Entretien</strong><br>
+            <span class="detailsCam">Type de vidange<span style="float: right">Simple</span></span><br>
+            <span class="detailsCam">Prochaine vidange<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
+
+
+            <strong>Révision</strong><br>
+            <span class="detailsCam">Prochaine revision<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</app-modal>
+

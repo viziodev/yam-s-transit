@@ -4,6 +4,7 @@ import {AppComponent} from "./app.component";
 import {CamionComponent} from "./components/pages/camion/camion.component";
 import {LoginComponent} from "./components/pages/auth/login/login.component";
 import {HomeComponent} from "./components/pages/layout/home/home.component";
+import {ChauffeurComponent} from "./components/pages/chauffeur/chauffeur.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/', pathMatch: 'full'},
@@ -12,6 +13,7 @@ const routes: Routes = [
     path: '', component: HomeComponent,
     children: [
       {path: 'camion', component: CamionComponent},
+      {path: 'chauffeur', component: ChauffeurComponent},
     ]
   },
 ]

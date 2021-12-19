@@ -13,6 +13,8 @@ import {TokenInterceptorService} from "./services/api/token-interceptor.service"
 import { LoginComponent } from './components/pages/auth/login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { HomeComponent } from './components/pages/layout/home/home.component';
+import { CardChauffeurComponent } from './components/shared/card-chauffeur/card-chauffeur.component';
+import { ChauffeurComponent } from './components/pages/chauffeur/chauffeur.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { HomeComponent } from './components/pages/layout/home/home.component';
     CamionComponent,
     SideMenuComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    CardChauffeurComponent,
+    ChauffeurComponent
   ],
   imports: [
     BrowserModule,

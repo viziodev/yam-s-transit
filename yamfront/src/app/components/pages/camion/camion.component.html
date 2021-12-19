@@ -4,38 +4,44 @@
      <button (click)="addCamion()" class="btn btn-secondary rounded rounded-pill mt-3 "  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus"></i>Ajouter un camion</button>
    </div>
  </app-content-menu>
- <button  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()"> Details camion</button>
-<div  >
+ <div  >
   <div class="row mb-4">
     <div class="col-12 row mt-3">
-      <div class="col-3">
-        <div class="form-group has-search col-12">
+      <div class="col-2">
+
+      </div>
+      <div style="display: inline" class="co">
+        <div  style="display: inline;width: 100px;margin-right: 20px" class="form-group has-search col-12">
           <span class="fa fa-search form-control-feedback"></span>
-          <input  style="background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
+          <input  style="width:200px;display:inline;background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
 
         </div>
-      </div>
-      <div class="col-1">
+        <select style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
+          <option selected>Marque</option>
+        </select>
+        <select  style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class="form-control border border-2  border-secondary rounded rounded-pill">
+          <option selected>Catégorie</option>
 
-        <select class="form-control border  border-2 border-secondary rounded rounded-pill"></select>
-      </div>
-      <div class="col-1">
+        </select>
+        <select  style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class="form-control border border-2  border-secondary rounded rounded-pill">
+          <option selected>Modele</option>
 
-        <select class="form-control border border-2  border-secondary rounded rounded-pill"></select>
-      </div>
-      <div class="col-1">
+        </select>
+        <select  style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+          <option selected>Disponible</option>
 
-        <select class="form-control border border-2  border-secondary rounded rounded-pill"></select>
-      </div>
-      <div class="col-1">
+        </select>
+        <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+          <option selected>Nbre de courses</option>
 
-        <select class="form-control   border border-2  border-secondary rounded rounded-pill"></select>
+        </select>
+        <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 20px" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
+        <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-5  rounded rounded-circle"><i class="fas fa-bars"></i></button>
+        <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-2  rounded rounded-circle"><i class="fas fa-th-large"></i></button>
+
       </div>
-      <div class="col-5" style="text-align: right">
-        <button style="background-color: #F2F2F2" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
-        <button style="background-color: #F2F2F2" class="btn ml-5  rounded rounded-circle"><i class="fas fa-bars"></i></button>
-        <button style="background-color: #F2F2F2" class="btn ml-2  rounded rounded-circle"><i class="fas fa-th-large"></i></button>
-      </div>
+      <div class="col-2" style="text-align: right">
+       </div>
     </div>
     <div class="col-2">
 
@@ -43,14 +49,20 @@
     <div class="col-4"></div>
   </div>
   <div class="row">
-    <div class="col-2">  <app-card ></app-card></div>
-    <div class="col-2">  <app-card ></app-card></div>
-    <div class="col-2">  <app-card ></app-card></div>
-    <div class="col-2">  <app-card ></app-card></div>
-    <div class="col-2">  <app-card ></app-card></div>
-    <div class="col-2">  <app-card ></app-card></div>
-    <div class="col-3">  <app-card ></app-card></div>
-    <div class="col-3">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
+
+
   </div>
 </div>
 <app-modal [modalTitle]="modalTitle" [size]="size">
@@ -110,42 +122,42 @@
      <div>
        <p class="caracCamion">Assurance</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
+         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
          <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Carte grise</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
+         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
          <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Visite technique</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
+         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
          <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Carte d'extincteur</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
+         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
          <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">License de transport</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
+         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
          <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Expertise</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="color: blue"><u>Téléverser le fichier</u></p></div>
+         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
          <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
@@ -214,68 +226,87 @@
        </div>
      </div>
      <div class="col-6">
-       <span>Immatriculation </span><br>
-       <span>Categorie   -   tonnage </span><br>
-       <span>Alioune Cissé </span>
+       <span style="font-size: 18px;">Immatriculation </span><br>
+       <span style="font-size: 13px;color: #2680EB ">Categorie   -   tonnage </span><br>
+       <span style="font-size: 13px;color: #959595">Alioune Cissé </span>
      </div>
      <div class="col-4" style="text-align: right">
-       <button class="btn btn-secondary rounded rounded-pill">Amener en entretien</button>
+       <button class="btn btn-outline-secondary rounded rounded-pill">Amener en entretien</button>
        <br>
-       <p class="montant">240 000 frcfa</p>
+       <div class="row mt-3">
+         <div class="col-1"><img src="../assets/images/good_courbe.svg"></div>
+         <div class="col-10"> <p class="montant">240 000 frcfa</p></div>
+       </div>
      </div>
 
-     <div class="row" style="border-top: solid 1px grey">
-       <div class="col-6" style="border-right: solid 1px grey">
-         <p>Statut</p>
+     <div class="row" style="border-top: solid 1px #DEDEDE">
+       <div class="col-6 p-2" style="border-right: solid 1px  #DEDEDE">
+         <p style="font-size: 13px;font-weight: bold">Statut</p>
          <span class="badge " style="background-color: red">Dispo</span>
-         <p>Ce camion est dispo pourtout type de trajet</p>
+         <p style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce camion est dispo pourtout type de trajet</p>
          <div class="row mt-2">
-           <div class="col-6"><p>Chauffeurs</p></div>
-           <div class="col-6" style="text-align: right"><p><u>Historique des chauffeurs</u></p></div>
+           <div class="col-4"><p style="font-size: 13px;font-weight: bold">Chauffeurs</p></div>
+           <div class="col-8" style="text-align: right"><p style="cursor:pointer;font-size: 13px;  color: blue;"><u>Historique des chauffeurs</u></p></div>
          </div>
          <div class="row mt-4">
            <div class="col-3 text-center">
-             <div style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto">
+             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
 
-             </div>
-             <p>Alpha Baldé<br><span>Principal</span></p>
-
-           </div>
-           <div class="col-3 text-center">
-             <div style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto">
-
-             </div>
-             <p>Alpha Baldé<br><span>Principal</span></p>
+             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
 
            </div>
            <div class="col-3 text-center">
-             <div style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto">
+             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
 
-             </div>
-             <p>Alpha Baldé<br><span>Principal</span></p>
+             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+           </div>
+           <div class="col-3 text-center">
+             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+           </div>
+           <div class="col-3 text-center">
+             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+           </div>
+           <div class="col-3 text-center">
+             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+           </div>
+           <div class="col-3 text-center">
+             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+           </div>
+           <div class="col-3 text-center">
+             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
 
            </div>
          </div>
          <div>
-           <p>Statistiques(par mois)</p>
+           <p style="font-size: 13px;font-weight: bold">Statistiques(par mois)</p>
            <div class="row">
              <div class="col-3">
-               <p><span  style="font-size: 40px">24L</span><br><span style="font-size: 15px">Carburant</span></p>
+               <p><span  style="font-size: 23px;  color: #505050;">24L</span><br><span style="font-size: 12px">Carburant</span></p>
              </div>
              <div class="col-3">
-               <p><span  style="font-size: 40px">23</span><br><span style="font-size: 15px">Pannes</span></p>
+               <p><span  style="font-size: 23px;  color: #505050;">23</span><br><span style="font-size: 12px">Pannes</span></p>
              </div>
              <div class="col-3">
-               <p><span  style="font-size: 40px">67K</span><br><span style="font-size: 15px">Recettes</span></p>
+               <p><span  style="font-size: 23px;  color: #505050;">67K</span><br><span style="font-size: 12px">Recettes</span></p>
              </div>
              <div class="col-3">
-               <p><span  style="font-size: 40px">67K</span><br><span style="font-size: 15px">Depenses</span></p>
+               <p><span  style="font-size: 23px;  color: #505050;">67K</span><br><span style="font-size: 12px">Depenses</span></p>
              </div>
            </div>
          </div>
        </div>
-       <div class="col-6">
-         <p class="">Caractéristiques </p>
+       <div class="col-6 p-2">
+         <p style="font-weight: bold;font-size: 13px">Caractéristiques </p>
          <span class="detailsCam">Marque<span style="float: right">12</span></span><br>
          <span class="detailsCam">Type<span style="float: right">12</span></span><br>
          <span class="detailsCam">Modele<span style="float: right">12</span></span><br>
@@ -285,8 +316,8 @@
          <span class="detailsCam">Nbre pneus de secours<span style="float: right">12</span></span><br>
          <span class="detailsCam">Nbre pneus de chaussés<span style="float: right">12</span></span><br>
          <div class="row mt-2">
-           <div class="col-6"><p>Entretien</p></div>
-           <div class="col-6" style="text-align: right"><p><u>Fiche d'entretien</u></p></div>
+           <div class="col-6"><p style="font-size: 13px;font-weight: bold">Entretien</p></div>
+           <div class="col-6" style="text-align: right"><p style="cursor:pointer;font-size: 11px;color: blue"><u>Fiche d'entretien</u></p></div>
            <strong>Pieces</strong><br>
            <span class="detailsCam">Huile<span style="float: right">12</span></span><br>
            <span class="detailsCam">Filtre gazoil<span style="float: right">12</span></span><br>

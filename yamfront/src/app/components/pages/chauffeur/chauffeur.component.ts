@@ -1,11 +1,11 @@
 import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 
 @Component({
-  selector: 'app-camion',
-  templateUrl: './camion.component.html',
-  styleUrls: ['./camion.component.scss']
+  selector: 'app-chauffeur',
+  templateUrl: './chauffeur.component.html',
+  styleUrls: ['./chauffeur.component.scss']
 })
-export class CamionComponent implements OnInit {
+export class ChauffeurComponent implements OnInit {
   menus: any[];
   modalTitle:string;
   size:string;
@@ -25,21 +25,21 @@ export class CamionComponent implements OnInit {
   ngOnInit(): void {
     this.selectChauffeur = false;
     this.menus = [  {
-      title: 'Camions',
+      title: 'Chauffeurs',
       url: 'Pages',
-      },  {
+    },  {
       title: 'Statistiques',
       url: 'Pages',
-      }
+    }
     ]
   }
-  addCamion(){
-    this.modalTitle='Ajout d\' un camion';
-    this.size="moitie";
+  addChauffeur(){
+    this.modalTitle='Ajout d\' un chauffeur';
+    this.size="complet";
   }
 
-  detailsCamion(){
-    this.modalTitle='Details d\' un camion';
+  detailsChauffeur(){
+    this.modalTitle='Details d\' un chauffeur';
     this.size="complet";
   }
 
