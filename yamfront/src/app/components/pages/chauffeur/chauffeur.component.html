@@ -62,87 +62,107 @@
 <app-modal [modalTitle]="modalTitle" [size]="size">
 
   <div *ngIf="modalTitle == 'Ajout d\' un chauffeur'" class="modal-body overflow-auto">
-    <div class="row">
-      <div class="col-6">
+    <form [formGroup]="chauffeurForm">
+      <div class="row">
+        <div class="col-6">
 
-        <div class="row">
-          <div class="col-4">
-            <button class="imgBg">
-              <i class="fa fa-plus"></i>
-            </button>
-          </div>
-          <div class="col-8" style="margin-left: -40px;  margin-top: 10px;">
-            <span class="txtImg">Image du camion</span><br>
-            <span style="font-size: 11px;color: #959595">Veuillez importer une photo de l’ordinateur</span>
-          </div>
-        </div>
-        <div class="mb-4">
-          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Nom et prénom(s)</label>
-          <input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le nom ">
-        </div>
-        <div class="mb-4">
-          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Téléphone</label>
-          <input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le téléphone ">
-
-        </div>
-        <div class="mb-4">
-          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Adresse</label>
-          <input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir l'adresse ">
-        </div>
-        <div class="mb-4">
-          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Date de naissance</label>
-          <input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir la date de naissance ">
-        </div>
-        <div class="mb-4">
-          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Description</label>
-          <textarea rows="4" class="form-control" name="" style="border-radius:4px;outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir la description "></textarea>
-        </div>
- 
-      </div>
-      <div class="col-6">
-
-        <div class="mb-2">
-          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Permis</label>
-          <select class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" >
-            <option selected>Choisir le type de permis</option>
-          </select>
-        </div>
-        <div class="mb-4">
-          <input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
-        </div>
-        <div class="mb-4 ">
-          <p>Periode de validité</p>
           <div class="row">
-            <div class="col-6">
-
-                <input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
+            <div class="col-4">
+              <img (click)="clickUpload()" style="cursor:pointer" [src]="imgURL" class="imgBg">
+              <input  #file  accept='image/*' (change)="preview(file.files, $event)" type="file" id="avatar" hidden>
 
             </div>
-            <div class="col-6">
-               <input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
+            <div class="col-8" style="margin-left: -40px;  margin-top: 10px;">
+              <span class="txtImg">Image du chauffeur</span><br>
+              <span style="font-size: 11px;color: #959595">Veuillez importer une photo de l’ordinateur</span>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Nom et prénom(s)</label>
+            <input formControlName="nom" type="text" class="rounded-pill rounded form-control" name="nom" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le nom ">
+          </div>
+          <div class="mb-4">
+            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Téléphone
+              <span *ngIf="chauffeurForm.controls['tel1'].invalid &&( chauffeurForm.controls['tel1'].dirty ||chauffeurForm.controls['tel1'].touched) " class="alert">
+                    <small class="text-danger" *ngIf="chauffeurForm.controls['tel1'].errors.required">
+                      Veuillez saisir la categorie
+                    </small>
+                </span>
+            </label>
+           <div class="row">
+             <div class="col-6">
+               <input  formControlName="tel1"  type="text" class="rounded-pill rounded form-control" name="tel1" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le téléphone 1">
 
+             </div>
+             <div class="col-6">
+               <input  formControlName="tel2"  type="text" class="rounded-pill rounded form-control" name="tel2" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le téléphone 2">
+             </div>
+           </div>
+
+          </div>
+          <div class="mb-4">
+            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Adresse</label>
+            <input formControlName="adresse" type="text" class="rounded-pill rounded form-control" name="adresse" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir l'adresse ">
+          </div>
+          <div class="mb-4">
+            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Date de naissance</label>
+            <input formControlName="dateNaissance" type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir la date de naissance ">
+          </div>
+          <div class="mb-4">
+            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Description</label>
+            <textarea formControlName="description"  rows="4" class="form-control" name="description" style="border-radius:4px;outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir la description "></textarea>
+          </div>
+
+        </div>
+        <div class="col-6">
+
+          <div class="mb-2">
+            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Permis</label>
+            <select formControlName="typePermis" class="rounded-pill rounded form-control" name="typePermis" style="outline: none;  background-color: #f4f4f4;border: none" >
+              <option selected>Choisir le type de permis</option>
+              <option *ngFor="let typP of listTypePermis">{{typP?.libelle}}</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <input formControlName="numeroPermis" type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
+          </div>
+          <div class="mb-4 ">
+            <p>Periode de validité</p>
+            <div class="row">
+              <div class="col-6">
+
+                <input formControlName="debut" type="date" class="rounded-pill rounded form-control" name="debut" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
+
+              </div>
+              <div class="col-6">
+                <input formControlName="fin" type="date" class="rounded-pill rounded form-control" name="fin" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
+
+              </div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Type de chauffeur</label>
+            <select formControlName="typeChauffeur" class="rounded-pill rounded form-control" name="typeChauffeur" style="outline: none;  background-color: #f4f4f4;border: none" >
+              <option selected>Choisir le type de chauffeur</option>
+              <option value="Principal">Principal</option>
+              <option value="Chauffeur">Principal</option>
+            </select>
+          </div>
+          <div>
+            <p>Liste des camions</p>
+            <div class="row" *ngFor="let cam of listCamions">
+              <div class="col-10"><p>NP-700 435GGT</p></div>
+              <div class="col-1"><input name="camions[]" id="{{cam.id}}" type="checkbox"></div>
             </div>
           </div>
         </div>
-        <div class="mb-4">
-          <label class="mb-2" style="font-weight: bold;padding-left: 5px">Type de chauffeur</label>
-          <select class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" >
-            <option selected>Choisir le type de chauffeur</option>
-          </select>
-        </div>
-        <div>
-          <p>Liste des camions</p>
-          <div class="row">
-            <div class="col-10"><p>NP-700 435GGT</p></div>
-            <div class="col-1"><input type="checkbox"></div>
-          </div>
-        </div>
       </div>
-    </div>
+    </form>
+
   </div>
   <div  *ngIf="modalTitle == 'Ajout d\' un chauffeur'" class="modal-footer">
     <button type="button" class="btn btn-outline-secondary rounded rounded-pill" data-bs-dismiss="modal">Annuler</button>
-    <button type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
+    <button (click)="createChauffeur()" type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
   </div>
 
 

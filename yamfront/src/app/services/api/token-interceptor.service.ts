@@ -11,7 +11,7 @@ export class TokenInterceptorService implements HttpInterceptor{
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
      if (this.localStorageToken.getLocalStorageToken()){
-      const token = this.localStorageToken.getLocalStorageToken().token;
+      const token = this.localStorageToken.getLocalStorageToken();
       const authHeader = 'Bearer ' + token;
       console.log(authHeader);
       const newReq = req.clone({setHeaders: {Authorization: authHeader}});
