@@ -15,4 +15,16 @@ export class ParamsService{
   listTypePermisSelect(){
     return this.http.get(this.BASE_URL + 'type_permis' , {headers: this.headersApplicationJson});
   }
-}
+  listTypesCamions(){
+    return this.http.get(this.BASE_URL + 'listTypesCamions' , {headers: this.headersApplicationJson});
+  }
+  listMarques(){
+    return this.http.get(this.BASE_URL + 'listMarques' , {headers: this.headersApplicationJson});
+  }
+  listModeles(){
+    return this.http.get(this.BASE_URL + 'listModeles' , {headers: this.headersApplicationJson});
+  }
+  listChauffeursSelect(params=''){
+    return this.http.get(this.BASE_URL + 'listChauffeursSelect'+params , {headers: this.headersApplicationJson});
+  }
+ }

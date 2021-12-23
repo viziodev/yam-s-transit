@@ -68,11 +68,11 @@
 <app-modal [modalTitle]="modalTitle" [size]="size">
 
   <div *ngIf="modalTitle == 'Ajout d\' un camion'" class="modal-body overflow-auto">
+    <form [formGroup]="camionDetailsForm" >
     <div class="row">
       <div class="col-4">
-        <button class="imgBg">
-          <i class="fa fa-plus"></i>
-        </button>
+        <img (click)="clickUpload('avatar')" style="cursor:pointer" [src]="imgURL" class="imgBg">
+        <input  #file  accept='image/*' (change)="preview(file.files, $event)" type="file" id="avatar" hidden>
       </div>
       <div class="col-8" style="margin-left: -40px;  margin-top: 10px;">
         <span class="txtImg">Image du camion</span><br>
@@ -81,36 +81,42 @@
     </div>
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Immatriculation</label>
-      <input type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
+      <input formControlName="immatriculation" type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
     </div>
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Carburant</label>
-      <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
+      <select formControlName="typeCarburant"  class="rounded-pill rounded form-control" name="typeCarburant" style="outline: none;  background-color: #f4f4f4;border: none" >
       <option selected>Choisir le type de carburant</option>
+      <option value="Diesel">Diesel</option>
+      <option value="Essence">Essence</option>
       </select>
     </div>
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Marque de camion</label>
-      <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
+      <select formControlName="marque" class="rounded-pill rounded form-control" name="marque" style="outline: none;  background-color: #f4f4f4;border: none" >
       <option selected>Choisir la marque du camion</option>
+      <option *ngFor="let mark of listMarques" value="{{mark.id}}">{{mark.libelle}}</option>
       </select>
     </div>
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Type de camion</label>
-      <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
+      <select formControlName="typeCamion" (change)="onSelectTypeCamion()" class="rounded-pill rounded form-control" name="typeCamion" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
       <option selected>Choisir le type de camion</option>
+      <option *ngFor="let type of listTypesCamions" value="{{type.id}}">{{type.libelle}}</option>
       </select>
     </div>
     <p class="caracCamion">Caractéristiques du type de camion</p>
-    <p class="detailsCam">Qté carburant a vide<span style="float: right">12</span></p>
-    <p class="detailsCam">Qté carburant au chargement<span style="float: right">12</span> </p>
-    <p class="detailsCam">Nbre pneus de secours<span style="float: right">12</span></p>
-    <p class="detailsCam">Nbre pneus de chaussés<span style="float: right">12</span></p>
+    <p class="detailsCam">Qté carburant a vide<span style="float: right">{{selectedTypeCamion?.qteCarburantVide}}</span></p>
+    <p class="detailsCam">Qté carburant au chargement<span style="float: right">{{selectedTypeCamion?.qteCarburantCharge}}</span> </p>
+    <p class="detailsCam">Nbre pneus de secours<span style="float: right">{{selectedTypeCamion?.nbrePneusSecours}}</span></p>
+    <p class="detailsCam">Nbre pneus de chaussés<span style="float: right">{{selectedTypeCamion?.nbrePneusChaussee}}</span></p>
 
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Modele du camion</label>
-      <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
-        <option selected>Choisir un chauffeur</option>
+      <select formControlName="modeleCamion" (change)="onSelectModeleCamion()"  class="rounded-pill rounded form-control" name="modeleCamion" style="outline: none;  background-color: #f4f4f4;border: none" >
+        <option selected>Choisir un modele</option>
+        <option *ngFor="let modele of listModeles" value="{{modele.id}}">{{modele.libelle}}</option>
+
       </select>
     </div>
     <p class="caracCamion">Caractéristiques du modele du camion</p>
@@ -122,43 +128,58 @@
      <div>
        <p class="caracCamion">Assurance</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><p (click)="clickUpload('assuranceFile')" class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
+         <input type="file" id="assuranceFile" hidden (change)="onFileSelect('fileAssurance',$event)">
+         </div>
+         <div class="col-6"><input type="date" formControlName="deAssurance" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Carte grise</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><p (click)="clickUpload('cgFile')"  class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
+           <input type="file" id="cgFile" hidden (change)="onFileSelect('fileCG',$event)">
+         </div>
+         <div class="col-6"><input formControlName="deCg" type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Visite technique</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><p (click)="clickUpload('vtFile')"  class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
+           <input type="file"  id="vtFile" hidden (change)="onFileSelect('fileVT',$event)">
+         </div>
+         <div class="col-6"><input type="date" formControlName="deVt" class="rounded-pill rounded form-control" name="deVt" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Carte d'extincteur</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><p (click)="clickUpload('ceFile')"  class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
+           <input type="file" id="ceFile" hidden (change)="onFileSelect('fileCE',$event)">
+
+         </div>
+         <div class="col-6"><input formControlName="deExtincteur" type="date" class="rounded-pill rounded form-control" name="deExtincteur" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">License de transport</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><p (click)="clickUpload('ltFile')"  class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
+           <input type="file" id="ltFile" hidden (change)="onFileSelect('fileLT',$event)">
+
+         </div>
+         <div class="col-6"><input formControlName="deLicenceTransport" type="date" class="rounded-pill rounded form-control" name="deLicenceTransport" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
      <div>
        <p class="caracCamion">Expertise</p>
        <div class="row">
-         <div class="col-6"><p class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p></div>
-         <div class="col-6"><input type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
+         <div class="col-6"><p (click)="clickUpload('expertiseFile')"  class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
+           <input type="file" id="expertiseFile" hidden (change)="onFileSelect('fileExpertise',$event)">
+
+         </div>
+         <div class="col-6"><input type="date" formControlName="deExpertise" class="rounded-pill rounded form-control" name="deExpertise" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
       <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
@@ -201,10 +222,12 @@
         <div class="col-2" style="text-align: right;padding-top: 6px"><input type="checkbox"></div>
       </div>
     </div>
+    </form>
    </div>
+
   <div  *ngIf="modalTitle == 'Ajout d\' un camion'" class="modal-footer">
     <button type="button" class="btn btn-outline-secondary rounded rounded-pill" data-bs-dismiss="modal">Annuler</button>
-    <button type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
+    <button (click)="postCamion()" type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
   </div>
 
 
