@@ -145,13 +145,13 @@
             <select formControlName="typeChauffeur" class="rounded-pill rounded form-control" name="typeChauffeur" style="outline: none;  background-color: #f4f4f4;border: none" >
               <option selected>Choisir le type de chauffeur</option>
               <option value="Principal">Principal</option>
-              <option value="Chauffeur">Principal</option>
+              <option value="Secondaire">Secondaire</option>
             </select>
           </div>
           <div>
             <p>Liste des camions</p>
             <div class="row" *ngFor="let cam of listCamions">
-              <div class="col-10"><p>NP-700 435GGT</p></div>
+              <div class="col-10"><p>{{cam.libelle}}</p></div>
               <div class="col-1"><input name="camions[]" id="{{cam.id}}" type="checkbox"></div>
             </div>
           </div>

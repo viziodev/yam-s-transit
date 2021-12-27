@@ -16,6 +16,10 @@ export class ChauffeurService{
      return this.http.get(this.BASE_URL + 'listChauffeursSelect' , {headers: this.headersApplicationJson});
   }
 
+  listAllChauffeurs(filtre=''){
+     return this.http.get(this.BASE_URL + 'listAllChauffeurs'+filtre , {headers: this.headersApplicationJson});
+  }
+
   addChauffeurs(body){
      return this.http.post(this.BASE_URL + 'chauffeur/add' , body,{headers: this.headersFormData});
   }

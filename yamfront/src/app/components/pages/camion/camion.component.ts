@@ -1,7 +1,10 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ParamsService} from "../../../services/api/params-service";
 import {CamionService} from "../../../services/api/camion.service";
+import {AlertService} from "../../../services/alert.service";
+import {CardComponent} from "../../shared/card/card.component";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-camion',
@@ -9,16 +12,28 @@ import {CamionService} from "../../../services/api/camion.service";
   styleUrls: ['./camion.component.scss']
 })
 export class CamionComponent implements OnInit {
+  @ViewChildren(CardComponent) cards: QueryList<CardComponent>;
   menus: any[];
+  id: any;
   listTypesCamions: any[];
   listMarques: any[];
   listModeles: any[];
+  allCamions: any[];
+  pieces: any;
+  camion: any;
+  loaderList: boolean = false;
+  loaderDetails: boolean = false;
+  loaderAdd: boolean = true;
   listChauffeursPrin: any[];
   listChauffeursSecon: any[];
+  listChauffeursChips: any[]=[];
   modalTitle:string;
   size:string;
   selectedTypeCamion:any;
+  selectedCP:any;
+  selectedCS:any = [];
   selectedModeleCamion:any;
+  search:string='';
   selectChauffeur:boolean;
   camionForm:FormData;
   camionDetailsForm:FormGroup;
@@ -28,7 +43,7 @@ export class CamionComponent implements OnInit {
   @ViewChild('toggleButton') toggleButton: ElementRef;
   @ViewChild('chauffeursList') chauffeursList: ElementRef;
 
-  constructor(private renderer: Renderer2,private fb: FormBuilder,private paramsService: ParamsService,private camionService: CamionService) {
+  constructor(private renderer: Renderer2,private fb: FormBuilder,private paramsService: ParamsService,private camionService: CamionService,private alertService: AlertService) {
     this.camionDetailsForm=this.fb.group({
       immatriculation:['',[Validators.required]],
       marque:['',[Validators.required]],
@@ -41,6 +56,7 @@ export class CamionComponent implements OnInit {
       deExtincteur:['',[Validators.required]],
       deLicenceTransport:['',[Validators.required]],
       deExpertise:['',[Validators.required]],
+      chaufPrin:['',[Validators.required]],
     })
     this.camionForm = new FormData();
     this.renderer.listen('window', 'click', (e: Event) => {
@@ -60,6 +76,15 @@ export class CamionComponent implements OnInit {
       url: 'Pages',
       }
     ]
+    this.camionService.listAllCamions().subscribe(
+      data => {
+        this.loaderList = true;
+        this.allCamions=data['hydra:member'];
+      },error => {
+        this.loaderList = true;
+      }
+    )
+
     this.paramsService.listTypesCamions().subscribe(
       data => {
         this.listTypesCamions=data['hydra:member']
@@ -83,6 +108,11 @@ export class CamionComponent implements OnInit {
     this.paramsService.listChauffeursSelect('?etat=Disponible&type=Secondaire').subscribe(
       data => {
         this.listChauffeursSecon=data['hydra:member'];
+      }
+    )
+    this.camionService.listCamion().subscribe(
+      data => {
+        console.log(data)
       }
     )
   }
@@ -131,6 +161,9 @@ export class CamionComponent implements OnInit {
     input.click();
   }
   onFileSelect=(type,e)=>{
+    const elem=document.getElementById(type);
+    elem.innerText=e.target.files[0].name;
+    console.log(e.target.files[0].name)
     this.camionForm.delete('type');
     this.camionForm.append(type, e.target.files[0])
     console.log( this.camionForm)
@@ -138,12 +171,24 @@ export class CamionComponent implements OnInit {
 onSelectTypeCamion(){
   for (const tc of this.listTypesCamions) {
     if(tc.id == this.camionDetailsForm.value.typeCamion){
+      console.log(this.selectedTypeCamion)
       this.selectedTypeCamion = tc;
     }
   }
 
 }
+onSelectChaufPrin(){
+  console.log()
+  for (const cp of this.listChauffeursPrin) {
+    if(cp.id == this.camionDetailsForm.value.chaufPrin){
+      console.log(this.selectedTypeCamion)
+      this.selectedCP = cp;
+    }
+  }
+
+}
   onSelectModeleCamion(){
+    this.detailsModelePiece();
   for (const mod of this.listModeles) {
     if(mod.id == this.camionDetailsForm.value.modeleCamion){
       this.selectedModeleCamion = mod;
@@ -152,6 +197,7 @@ onSelectTypeCamion(){
 
 }
 postCamion(){
+    this.loaderAdd = false;
      this.camionForm.append('immatriculation',this.camionDetailsForm.value.immatriculation)
     this.camionForm.append('marqueId',this.camionDetailsForm.value.marque)
     this.camionForm.append('typeCamionId',this.camionDetailsForm.value.typeCamion)
@@ -163,11 +209,121 @@ postCamion(){
     this.camionForm.append('deExtincteur',this.camionDetailsForm.value.deExtincteur)
     this.camionForm.append('deLicenceTransport',this.camionDetailsForm.value.deLicenceTransport)
     this.camionForm.append('deExpertise',this.camionDetailsForm.value.deExpertise)
+    this.camionForm.append('chauffeurId',this.camionDetailsForm.value.chaufPrin)
     this.camionForm.append('camionImg',this.camionImg)
+    this.checkVerif();
   this.camionService.addCamion(this.camionForm).subscribe(
     data => {
+      this.loaderAdd = true;
+      this.alertService.successDangerNotif('success','Camion ajouté avec succés!')
+      setTimeout(function () {
+        document.location.reload()
+      },3500)
       console.log(data)
+    },error => {
+      this.loaderAdd = true;
+      this.alertService.successDangerNotif('warning','Erreur lors de l\'ajout du camion!')
     }
   )
 }
+  checkVerif() {
+    var cboxes = document.getElementsByName('chauffeurs[]');
+    var len = cboxes.length;
+    console.log(cboxes)
+
+    for (var i=0; i<len; i++) {
+      // @ts-ignore
+      if (cboxes[i].checked){
+
+        this.selectedCS.push({id:cboxes[i].id})
+        console.log(this.listChauffeursSecon)
+      }
+    }
+  }
+
+  handle(){
+    this.listChauffeursChips=[];
+    var cboxes = document.getElementsByName('chauffeurs[]');
+    var len = cboxes.length;
+    console.log(cboxes)
+
+    for (var i=0; i<len; i++) {
+      // @ts-ignore
+      if (cboxes[i].checked){
+
+        for (const cp of this.listChauffeursSecon) {
+          // @ts-ignore
+          if(cp.id == cboxes[i].value){
+            this.listChauffeursChips.push(cp)
+
+           }
+        }
+        console.log(this.listChauffeursChips)
+      }
+    }
+  }
+  delChaufSec(id){
+    let pos=null;
+    for (let i = 0; i <this.listChauffeursChips.length ; i++) {
+    if(  this.listChauffeursChips[i].id == id){
+      pos=i;
+    }
+    }
+    this.listChauffeursChips.splice(pos,1);
+  }
+
+  detailsModelePiece(){
+    this.paramsService.detailsModelePiece(this.camionDetailsForm.value.modeleCamion).subscribe(
+      (data: any) => {
+        this.pieces= data.data;
+      }
+    )
+  }
+
+  getSelectedCamion(id){
+    this.cards.forEach((card) => {
+      if (card.cardId != id) {
+        card.isExpanded = false;
+      }
+    });
+  }
+
+  getAction(e){
+    this.id = e?.id;
+    if(e?.type == 'Details'){
+      const detailsButton = document.getElementById('detailsButton');
+      detailsButton.click();
+      this.getDetailsCamion()
+    }else if (e?.type == 'Archiver'){
+      this.deleteCamion()
+    }
+    console.log(e)
+  }
+  getDetailsCamion(){
+    this.camionService.detailsCamion(this.id).subscribe(
+      data => {
+        this.camion = data;
+        console.log(data)
+      }
+    )
+  }
+  deleteCamion(){
+    Swal.fire({
+      title: 'Etes vous sure de vouloir supprimer ce camion?',
+      text: "Cet action est irreversible!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Supprimé!',
+          'Le camion a été supprimé avec succés!',
+          'success'
+        )
+      }
+    })
+  }
 }

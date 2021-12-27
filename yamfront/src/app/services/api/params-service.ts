@@ -10,7 +10,10 @@ export class ParamsService{
 
   constructor(private http: HttpClient) { }
   listCamionsSelect(){
-    return this.http.get(this.BASE_URL + 'camions' , {headers: this.headersApplicationJson});
+    return this.http.get(this.BASE_URL + 'listCamions' , {headers: this.headersApplicationJson});
+  }
+  listTypeCamionsSelect(){
+    return this.http.get(this.BASE_URL + 'listTypesCamions' , {headers: this.headersApplicationJson});
   }
   listTypePermisSelect(){
     return this.http.get(this.BASE_URL + 'type_permis' , {headers: this.headersApplicationJson});
@@ -26,5 +29,8 @@ export class ParamsService{
   }
   listChauffeursSelect(params=''){
     return this.http.get(this.BASE_URL + 'listChauffeursSelect'+params , {headers: this.headersApplicationJson});
+  }
+  detailsModelePiece(id){
+    return this.http.get(this.BASE_URL + 'detailsModele/'+id , {headers: this.headersApplicationJson});
   }
  }

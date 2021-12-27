@@ -18,6 +18,7 @@
         </div>
         <select style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
           <option selected>Marque</option>
+          <option *ngFor="let mark of listMarques">{{mark.libelle}}</option>
         </select>
         <select  style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class="form-control border border-2  border-secondary rounded rounded-pill">
           <option selected>Catégorie</option>
@@ -25,16 +26,25 @@
         </select>
         <select  style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class="form-control border border-2  border-secondary rounded rounded-pill">
           <option selected>Modele</option>
+          <option *ngFor="let modele of listModeles">{{modele.libelle}}</option>
 
         </select>
         <select  style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
-          <option selected>Disponible</option>
+          <option selected>Etat</option>
+          <option value="Dispo">Dispo</option>
+          <option value="En course">En course</option>
+          <option value="En entretien">En entretien</option>
+          <option value="En panne">En panne</option>
 
         </select>
         <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
           <option selected>Nbre de courses</option>
 
         </select>
+        <button  style="font-size:12px;display: inline;margin-right: 20px" class="btn btn-secondary border border-2  border-secondary rounded rounded-pill">
+          <i class="fas fa-search"></i>
+
+        </button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 20px" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-5  rounded rounded-circle"><i class="fas fa-bars"></i></button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-2  rounded rounded-circle"><i class="fas fa-th-large"></i></button>
@@ -49,20 +59,12 @@
     <div class="col-4"></div>
   </div>
   <div class="row">
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-    <div class="col-2 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">  <app-card ></app-card></div>
-
-
+   <app-loader [hidden]="loaderList"></app-loader>
+    <div *ngFor="let camion of allCamions" class="col-2 mt-5" >
+      <app-card (clickActionItem)="getAction($event)" (clickedAction)="getSelectedCamion($event)" [cardId]="camion?.id" [camion]="camion"></app-card>
+    </div>
+    <!--  -->
+<button id="detailsButton" hidden="true"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">h</button>
   </div>
 </div>
 <app-modal [modalTitle]="modalTitle" [size]="size">
@@ -81,10 +83,20 @@
     </div>
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Immatriculation</label>
+      <span style="font-size: small;font-weight: lighter" *ngIf="camionDetailsForm.controls['immatriculation'].invalid &&( camionDetailsForm.controls['immatriculation'].dirty ||camionDetailsForm.controls['immatriculation'].touched) " class="alert">
+                    <small class="text-danger" *ngIf="camionDetailsForm.controls['immatriculation'].errors.required">
+                      Veuillez saisir l'immatriculation
+                    </small>
+                </span>
       <input formControlName="immatriculation" type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
     </div>
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Carburant</label>
+      <span style="font-size: small;font-weight: lighter" *ngIf="camionDetailsForm.controls['typeCarburant'].invalid &&( camionDetailsForm.controls['typeCarburant'].dirty ||camionDetailsForm.controls['typeCarburant'].touched) " class="alert">
+                    <small class="text-danger" *ngIf="camionDetailsForm.controls['typeCarburant'].errors.required">
+                      Veuillez saisir le type de carburant
+                    </small>
+                </span>
       <select formControlName="typeCarburant"  class="rounded-pill rounded form-control" name="typeCarburant" style="outline: none;  background-color: #f4f4f4;border: none" >
       <option selected>Choisir le type de carburant</option>
       <option value="Diesel">Diesel</option>
@@ -93,6 +105,11 @@
     </div>
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Marque de camion</label>
+      <span style="font-size: small;font-weight: lighter" *ngIf="camionDetailsForm.controls['marque'].invalid &&( camionDetailsForm.controls['marque'].dirty ||camionDetailsForm.controls['marque'].touched) " class="alert">
+                    <small class="text-danger" *ngIf="camionDetailsForm.controls['marque'].errors.required">
+                      Veuillez saisir la marque
+                    </small>
+                </span>
       <select formControlName="marque" class="rounded-pill rounded form-control" name="marque" style="outline: none;  background-color: #f4f4f4;border: none" >
       <option selected>Choisir la marque du camion</option>
       <option *ngFor="let mark of listMarques" value="{{mark.id}}">{{mark.libelle}}</option>
@@ -100,7 +117,12 @@
     </div>
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Type de camion</label>
-      <select formControlName="typeCamion" (change)="onSelectTypeCamion()" class="rounded-pill rounded form-control" name="typeCamion" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
+      <span style="font-size: small;font-weight: lighter" *ngIf="camionDetailsForm.controls['typeCamion'].invalid &&( camionDetailsForm.controls['typeCamion'].dirty ||camionDetailsForm.controls['typeCamion'].touched) " class="alert">
+                    <small class="text-danger" *ngIf="camionDetailsForm.controls['typeCamion'].errors.required">
+                      Veuillez saisir le type de camion
+                    </small>
+                </span>
+      <select formControlName="typeCamion" (select)="onSelectTypeCamion()" (change)="onSelectTypeCamion()" class="rounded-pill rounded form-control" name="typeCamion" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
       <option selected>Choisir le type de camion</option>
       <option *ngFor="let type of listTypesCamions" value="{{type.id}}">{{type.libelle}}</option>
       </select>
@@ -113,20 +135,24 @@
 
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Modele du camion</label>
-      <select formControlName="modeleCamion" (change)="onSelectModeleCamion()"  class="rounded-pill rounded form-control" name="modeleCamion" style="outline: none;  background-color: #f4f4f4;border: none" >
+      <span style="font-size: small;font-weight: lighter" *ngIf="camionDetailsForm.controls['modeleCamion'].invalid &&( camionDetailsForm.controls['modeleCamion'].dirty ||camionDetailsForm.controls['modeleCamion'].touched) " class="alert">
+                    <small class="text-danger" *ngIf="camionDetailsForm.controls['modeleCamion'].errors.required">
+                      Veuillez saisir le modele de camion
+                    </small>
+                </span>
+      <select  formControlName="modeleCamion" (change)="onSelectModeleCamion()"  class="rounded-pill rounded form-control" name="modeleCamion" style="outline: none;  background-color: #f4f4f4;border: none" >
         <option selected>Choisir un modele</option>
         <option *ngFor="let modele of listModeles" value="{{modele.id}}">{{modele.libelle}}</option>
 
       </select>
     </div>
     <p class="caracCamion">Caractéristiques du modele du camion</p>
-    <p class="detailsCam">Qté huile<span style="float: right">12</span></p>
-    <p class="detailsCam">Filtre gazoil<span style="float: right">12</span> </p>
-    <p class="detailsCam">Filtre à huile<span style="float: right">12</span></p>
+    <p class="detailsCam" *ngFor="let piece of pieces">{{piece.libelle}}<span style="float: right">{{piece.quantite}}</span></p>
+
     <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Documents</label>
      <div>
-       <p class="caracCamion">Assurance</p>
+       <p class="caracCamion">Assurance <span id="fileAssurance"></span></p>
        <div class="row">
          <div class="col-6"><p (click)="clickUpload('assuranceFile')" class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
          <input type="file" id="assuranceFile" hidden (change)="onFileSelect('fileAssurance',$event)">
@@ -135,7 +161,7 @@
        </div>
      </div>
      <div>
-       <p class="caracCamion">Carte grise</p>
+       <p class="caracCamion">Carte grise <span id="fileCG"></span></p>
        <div class="row">
          <div class="col-6"><p (click)="clickUpload('cgFile')"  class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
            <input type="file" id="cgFile" hidden (change)="onFileSelect('fileCG',$event)">
@@ -144,7 +170,7 @@
        </div>
      </div>
      <div>
-       <p class="caracCamion">Visite technique</p>
+       <p class="caracCamion">Visite technique <span id="fileVT"></span></p>
        <div class="row">
          <div class="col-6"><p (click)="clickUpload('vtFile')"  class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
            <input type="file"  id="vtFile" hidden (change)="onFileSelect('fileVT',$event)">
@@ -153,7 +179,7 @@
        </div>
      </div>
      <div>
-       <p class="caracCamion">Carte d'extincteur</p>
+       <p class="caracCamion">Carte d'extincteur <span id="fileCE"></span></p>
        <div class="row">
          <div class="col-6"><p (click)="clickUpload('ceFile')"  class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
            <input type="file" id="ceFile" hidden (change)="onFileSelect('fileCE',$event)">
@@ -163,7 +189,7 @@
        </div>
      </div>
      <div>
-       <p class="caracCamion">License de transport</p>
+       <p class="caracCamion">License de transport <span id="fileLT"></span></p>
        <div class="row">
          <div class="col-6"><p (click)="clickUpload('ltFile')"  class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
            <input type="file" id="ltFile" hidden (change)="onFileSelect('fileLT',$event)">
@@ -173,7 +199,7 @@
        </div>
      </div>
      <div>
-       <p class="caracCamion">Expertise</p>
+       <p class="caracCamion">Expertise <span id="fileExpertise"></span></p>
        <div class="row">
          <div class="col-6"><p (click)="clickUpload('expertiseFile')"  class="mt-1" style="cursor:pointer;color: blue"><u>Téléverser le fichier</u></p>
            <input type="file" id="expertiseFile" hidden (change)="onFileSelect('fileExpertise',$event)">
@@ -182,22 +208,21 @@
          <div class="col-6"><input type="date" formControlName="deExpertise" class="rounded-pill rounded form-control" name="deExpertise" style="outline: none;  background-color: #f4f4f4;border: none"  placeholder="Date d'expiration"></div>
        </div>
      </div>
-      <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
-        <option selected>Choisir un chauffeur</option>
-      </select>
+
     </div>
      <div class="mb-4">
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Chauffeur principal</label>
-      <select  class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro d’immatriculation">
+      <select (change)="onSelectChaufPrin()" formControlName="chaufPrin"  class="rounded-pill rounded form-control" name="chaufPrin" style="outline: none;  background-color: #f4f4f4;border: none">
         <option selected>Choisir un chauffeur</option>
+        <option *ngFor="let chauf of listChauffeursPrin" value="{{chauf?.id}}">{{chauf?.nomComplet}}</option>
       </select>
     </div>
-    <div class="md-chips">
+    <div *ngIf="selectedCP" class="md-chips">
 
       <div style="border-radius: 50px;    height: 40px;   padding-top: 3px;   padding-left: 17px;" class="md-chip  md-chip-hover">
         <img class="md-chip-icon"src="https://source.unsplash.com/random">
-        <span>Abdou Niang</span>
-        <button type="button" class="md-chip-remove">
+        <span>{{selectedCP?.nomComplet}}</span>
+        <button type="button" (click)="selectedCP=null" class="md-chip-remove">
         </button>
       </div>
     </div>
@@ -205,29 +230,42 @@
       <label class="mb-2" style="font-weight: bold;padding-left: 5px">Chauffeurs secondaires</label>
       <input  (click)="toggleMenu(); preventCloseOnClick()"   class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Choisir des chauffeurs">
     </div>
-    <div id="chauffeursList" (click)="preventCloseOnClick()" *ngIf="menuOpen" style="padding:20px;height: 353px;width: 353px; border-radius: 8px; box-shadow: 0 0 15px 0 rgba(121, 121, 121, 0.16);border: solid 0.5px #dedede;background-color: #fff;">
+    <div class="overflow-auto" id="chauffeursList" (click)="preventCloseOnClick()" *ngIf="menuOpen" style="padding:20px;height: 353px;width: 353px; border-radius: 8px; box-shadow: 0 0 15px 0 rgba(121, 121, 121, 0.16);border: solid 0.5px #dedede;background-color: #fff;">
 
       <div class="form-group has-search col-8">
         <span class="fa fa-search form-control-feedback"></span>
-        <input  style="border: none;color: #747474;width: 300px" type="text" class="form-control   vsearch  "  placeholder="Que recherchez-vous ?">
+        <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="search"  style="border: none;color: #747474;width: 300px" type="text" class="form-control   vsearch  "  placeholder="Que recherchez-vous ?">
 
       </div>
       <hr>
       <span style="color: #bcbcbc;">Liste chauffeur</span>
-      <div class="row mt-2">
+      <div class="row mt-2" *ngFor="let chauf of listChauffeursSecon | filter  :search:'nomComplet'">
         <div class="col-2">
           <img style="margin: 0px !important;" class="md-chip-icon"src="https://source.unsplash.com/random">
         </div>
-        <div class="col-8" style="padding-top: 3px">Mamadou Niang</div>
-        <div class="col-2" style="text-align: right;padding-top: 6px"><input type="checkbox"></div>
+        <div class="col-8" style="padding-top: 3px">{{chauf?.nomComplet}}</div>
+        <div class="col-2" style="text-align: right;padding-top: 6px"><input (click)="handle()" value="{{chauf?.id}}" name="chauffeurs[]" type="checkbox"></div>
       </div>
     </div>
+      <div *ngIf="listChauffeursChips" class="row">
+        <div  *ngFor="let cs of listChauffeursChips "  class="md-chips col-6">
+
+          <div style="border-radius: 50px;    height: 40px;   padding-top: 3px;   padding-left: 17px;" class="md-chip  md-chip-hover">
+            <img class="md-chip-icon" src="https://source.unsplash.com/random">
+            <span>{{cs?.nomComplet | slice :0:15}}</span>
+            <button (click)="delChaufSec(cs?.id)" type="button" class="md-chip-remove">
+            </button>
+          </div>
+        </div>
+      </div>
+
     </form>
    </div>
 
   <div  *ngIf="modalTitle == 'Ajout d\' un camion'" class="modal-footer">
     <button type="button" class="btn btn-outline-secondary rounded rounded-pill" data-bs-dismiss="modal">Annuler</button>
-    <button (click)="postCamion()" type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
+    <button [hidden]="!loaderAdd" (click)="postCamion()" type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
+    <button [hidden]="loaderAdd" type="button" class="btn btn-secondary rounded rounded-pill"><img  style="height: 25px;width: 25px" src="assets/images/loader.gif"></button>
   </div>
 
 
@@ -249,9 +287,9 @@
        </div>
      </div>
      <div class="col-6">
-       <span style="font-size: 18px;">Immatriculation </span><br>
-       <span style="font-size: 13px;color: #2680EB ">Categorie   -   tonnage </span><br>
-       <span style="font-size: 13px;color: #959595">Alioune Cissé </span>
+       <span style="font-size: 18px;">{{camion?.immatriculation}} </span><br>
+       <span style="font-size: 13px;color: #2680EB "> {{camion?.typeCamion?.libelle}}    -   {{camion?.tonnes}} </span><br>
+       <span style="font-size: 13px;color: #959595">{{camion?.chauffeur?.nomComplet}} </span>
      </div>
      <div class="col-4" style="text-align: right">
        <button class="btn btn-outline-secondary rounded rounded-pill">Amener en entretien</button>
@@ -265,7 +303,7 @@
      <div class="row" style="border-top: solid 1px #DEDEDE">
        <div class="col-6 p-2" style="border-right: solid 1px  #DEDEDE">
          <p style="font-size: 13px;font-weight: bold">Statut</p>
-         <span class="badge " style="background-color: red">Dispo</span>
+         <span class="badge " [class.dispo]="camion?.etat == 'Dispo'"  [class.panne]="camion?.etat == 'En panne'"  [class.entretien]="camion?.etat == 'En entretien'"  [class.course]="camion?.etat == 'En course'">{{camion?.etat}}</span>
          <p style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce camion est dispo pourtout type de trajet</p>
          <div class="row mt-2">
            <div class="col-4"><p style="font-size: 13px;font-weight: bold">Chauffeurs</p></div>
@@ -281,21 +319,6 @@
            <div class="col-3 text-center">
              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
 
-             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-           </div>
-           <div class="col-3 text-center">
-             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-           </div>
-           <div class="col-3 text-center">
-             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-           </div>
-           <div class="col-3 text-center">
-             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
 
            </div>
@@ -330,14 +353,14 @@
        </div>
        <div class="col-6 p-2">
          <p style="font-weight: bold;font-size: 13px">Caractéristiques </p>
-         <span class="detailsCam">Marque<span style="float: right">12</span></span><br>
-         <span class="detailsCam">Type<span style="float: right">12</span></span><br>
-         <span class="detailsCam">Modele<span style="float: right">12</span></span><br>
-         <span class="detailsCam">Type carburant<span style="float: right">12</span></span><br>
-         <span class="detailsCam">Qté carburant a vide<span style="float: right">12</span></span><br>
-         <span class="detailsCam">Qté carburant au chargement<span style="float: right">12</span> </span><br>
-         <span class="detailsCam">Nbre pneus de secours<span style="float: right">12</span></span><br>
-         <span class="detailsCam">Nbre pneus de chaussés<span style="float: right">12</span></span><br>
+         <span class="detailsCam">Marque<span style="float: right">{{camion?.marque?.libelle}}</span></span><br>
+         <span class="detailsCam">Type<span style="float: right">{{camion?.typeCamion?.libelle}}</span></span><br>
+         <span class="detailsCam">Modele<span style="float: right">{{camion?.typeCamion?.modele?.libelle}}</span></span><br>
+         <span class="detailsCam">Type carburant<span style="float: right">{{camion?.typeCarburant}}</span></span><br>
+         <span class="detailsCam">Qté carburant a vide<span style="float: right">{{camion?.typeCamion?.qteCarburantVide}}</span></span><br>
+         <span class="detailsCam">Qté carburant au chargement<span style="float: right">{{camion?.typeCamion?.qteCarburantCharge}}</span> </span><br>
+         <span class="detailsCam">Nbre pneus de secours<span style="float: right">{{camion?.typeCamion?.nbrePneusSecours}}</span></span><br>
+         <span class="detailsCam">Nbre pneus de chaussés<span style="float: right">{{camion?.typeCamion?.nbrePneusChaussee}}</span></span><br>
          <div class="row mt-2">
            <div class="col-6"><p style="font-size: 13px;font-weight: bold">Entretien</p></div>
            <div class="col-6" style="text-align: right"><p style="cursor:pointer;font-size: 11px;color: blue"><u>Fiche d'entretien</u></p></div>

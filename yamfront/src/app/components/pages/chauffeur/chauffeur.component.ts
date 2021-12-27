@@ -47,7 +47,7 @@ export class ChauffeurComponent implements OnInit {
       }
       this.selectChauffeur = false;
     });
-    this.paramsService.listCamionsSelect().subscribe(
+    this.paramsService.listTypesCamions().subscribe(
     (data: any) => {
       this.listCamions=data['hydra:member'];
       console.log(data)
@@ -71,6 +71,11 @@ export class ChauffeurComponent implements OnInit {
       url: 'Pages',
     }
     ]
+    this.chauffeurService.listAllChauffeurs().subscribe(
+      data => {
+        console.log(data)
+      }
+    )
   }
   addChauffeur(){
     this.modalTitle='Ajout d\' un chauffeur';

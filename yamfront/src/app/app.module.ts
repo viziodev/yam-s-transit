@@ -11,10 +11,12 @@ import { SideMenuComponent } from './components/shared/side-menu/side-menu.compo
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {TokenInterceptorService} from "./services/api/token-interceptor.service";
 import { LoginComponent } from './components/pages/auth/login/login.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HomeComponent } from './components/pages/layout/home/home.component';
 import { CardChauffeurComponent } from './components/shared/card-chauffeur/card-chauffeur.component';
 import { ChauffeurComponent } from './components/pages/chauffeur/chauffeur.component';
+import {FilterPipe} from "./services/pipes/filter.pipe";
+import { LoaderComponent } from './components/shared/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -27,13 +29,16 @@ import { ChauffeurComponent } from './components/pages/chauffeur/chauffeur.compo
     LoginComponent,
     HomeComponent,
     CardChauffeurComponent,
-    ChauffeurComponent
+    ChauffeurComponent,
+    FilterPipe,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     {

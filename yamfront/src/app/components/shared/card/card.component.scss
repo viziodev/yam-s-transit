@@ -27,3 +27,39 @@
   text-align: left;
   color: #2c2c2c;
 }
+
+.course{
+background-color: #2680EB;
+}
+.entretien{
+background-color: #F29423;
+}
+.panne{
+background-color: #E34850;
+}
+.dispo{
+  background-color: #33ab84;
+}
+.actions{
+  width: 185px;
+  position: absolute;
+  margin-top: -50px;
+  height: 218px;
+   padding: 16px 0 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px 0 rgba(121, 121, 121, 0.16);
+  border: solid 0.5px #dedede;
+  background-color: #fff;
+}
+.action-item{
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #505050;
+}

@@ -12,11 +12,19 @@ export class CamionService{
 
   constructor(private http: HttpClient) { }
 
-  listCamion(){
-    return this.http.get(this.BASE_URL + 'listChauffeursSelect' , {headers: this.headersApplicationJson});
+  listCamion(filter = ''){
+    return this.http.get(this.BASE_URL + 'listCamions'+ filter , {headers: this.headersApplicationJson});
   }
 
   addCamion(body){
     return this.http.post(this.BASE_URL + 'camion/add' , body,{headers: this.headersFormData});
+  }
+
+  listAllCamions(filter=''){
+    return this.http.get(this.BASE_URL + 'listAllCamions'+filter ,{headers: this.headersFormData});
+  }
+
+  detailsCamion(id){
+    return this.http.get(this.BASE_URL + 'detailsCamion/'+id ,{headers: this.headersFormData});
   }
 }
