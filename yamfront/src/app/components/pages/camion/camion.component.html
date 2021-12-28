@@ -45,7 +45,7 @@
           <i class="fas fa-search"></i>
 
         </button>
-        <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 20px" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
+        <button (click)="multipleDelete()"  style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 20px" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-5  rounded rounded-circle"><i class="fas fa-bars"></i></button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-2  rounded rounded-circle"><i class="fas fa-th-large"></i></button>
 
@@ -58,10 +58,12 @@
     </div>
     <div class="col-4"></div>
   </div>
-  <div class="row">
+      <p *ngIf="deletingSelection.length > 0">{{deletingSelection.length>1?deletingSelection.length + ' camions séléctionnés' : deletingSelection.length + ' camion selectionné'}}</p>
+   <div (scroll)="scrolling()" id="scrollZone" class="row overflow-auto" style="height: 500px;">
+
    <app-loader [hidden]="loaderList"></app-loader>
     <div *ngFor="let camion of allCamions" class="col-2 mt-5" >
-      <app-card (clickActionItem)="getAction($event)" (clickedAction)="getSelectedCamion($event)" [cardId]="camion?.id" [camion]="camion"></app-card>
+      <app-card (clickedToDelete)="getDeleted($event)" (clickActionItem)="getAction($event)" (clickedAction)="getSelectedCamion($event)" [cardId]="camion?.id" [camion]="camion"></app-card>
     </div>
     <!--  -->
 <button id="detailsButton" hidden="true"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">h</button>
@@ -365,16 +367,53 @@
            <div class="col-6"><p style="font-size: 13px;font-weight: bold">Entretien</p></div>
            <div class="col-6" style="text-align: right"><p style="cursor:pointer;font-size: 11px;color: blue"><u>Fiche d'entretien</u></p></div>
            <strong>Pieces</strong><br>
-           <span class="detailsCam">Huile<span style="float: right">12</span></span><br>
-           <span class="detailsCam">Filtre gazoil<span style="float: right">12</span></span><br>
-           <span class="detailsCam">Filtre a huile<span style="float: right">12</span></span><br>
+
+           <span class="detailsCam" *ngFor="let modelePiece of camion?.modelePiece">{{modelePiece.libelle}}<span style="float: right">{{modelePiece.quantite}}</span></span><br>
+
            <strong>Entretien</strong><br>
-           <span class="detailsCam">Type de vidange<span style="float: right">Simple</span></span><br>
-           <span class="detailsCam">Prochaine vidange<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
+           <span class="detailsCam">Type de vidange<span style="float: right">{{camion?.typeDernierVidange?.libelle == 'Simple'?'Complet':'Simple'}}</span></span><br>
+           <span class="detailsCam">Prochaine vidange
+        <span *ngIf="camion?.nbreVoyageApresVidange == 0">
+            <span style="float: right;" class="progress-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+        </span>
+        <span *ngIf="camion?.nbreVoyageApresVidange == 1">
+            <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+        </span>
+        <span *ngIf="camion?.nbreVoyageApresVidange == 2">
+            <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+        </span>
+
+        <span *ngIf="camion?.nbreVoyageApresVidange == 3">
+            <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+        </span>
+
+           </span><br>
 
 
            <strong>Révision</strong><br>
-           <span class="detailsCam">Prochaine revision<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
+           <span class="detailsCam">Prochaine
+             <span *ngIf="camion?.nbreVoyageApreRevision == 0">
+               <span style="float: right;" class="progress-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+             </span>
+             <span *ngIf="camion?.nbreVoyageApreRevision == 1">
+               <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien "></span>
+             </span>
+             <span *ngIf="camion?.nbreVoyageApreRevision == 2">
+               <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             </span>
+
+           </span><br>
 
          </div>
        </div>

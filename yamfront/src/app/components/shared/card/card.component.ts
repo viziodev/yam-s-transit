@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-card',
@@ -8,8 +9,11 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class CardComponent implements OnInit {
   @Input() camion: any;
   @Input() cardId: any;
+  ENDPOINT = environment.ENDPOINT;
+  isSelected: boolean = false;
   @Output() clickedAction = new EventEmitter<any>();
   @Output() clickActionItem = new EventEmitter<any>();
+  @Output() clickedToDelete = new EventEmitter<any>();
   @Input()  isExpanded: boolean =false;
   constructor() { }
 
@@ -22,5 +26,10 @@ export class CardComponent implements OnInit {
   clickedActionItem(actionId,type) {
     this.isExpanded = false;
     this.clickActionItem.emit({id:actionId,type:type});
+  }
+  clickedCardDelete() {
+
+    this.isSelected=   !this.isSelected;
+     this.clickedToDelete.emit({id:this.cardId,type:this.isSelected == false?'let':'delete'});
   }
 }

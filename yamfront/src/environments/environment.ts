@@ -4,6 +4,7 @@
 
 export const environment = {
   BASE_URL: 'https://127.0.0.1:8000/api/',
+  ENDPOINT: 'https://127.0.0.1:8000/',
   production: false
 };
 

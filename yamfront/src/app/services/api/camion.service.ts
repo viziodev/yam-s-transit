@@ -21,10 +21,10 @@ export class CamionService{
   }
 
   listAllCamions(filter=''){
-    return this.http.get(this.BASE_URL + 'listAllCamions'+filter ,{headers: this.headersFormData});
+    return this.http.get(this.BASE_URL + 'listAllCamions?isDeleted=false'+filter ,{headers: this.headersFormData});
   }
 
   detailsCamion(id){
-    return this.http.get(this.BASE_URL + 'detailsCamion/'+id ,{headers: this.headersFormData});
+    return this.http.get(this.BASE_URL + 'fullDetailsCamion/'+id ,{headers: this.headersFormData});
   }
 }

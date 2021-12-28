@@ -5,6 +5,7 @@ import {CamionService} from "../../../services/api/camion.service";
 import {AlertService} from "../../../services/alert.service";
 import {CardComponent} from "../../shared/card/card.component";
 import Swal from "sweetalert2";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-camion',
@@ -18,8 +19,9 @@ export class CamionComponent implements OnInit {
   listTypesCamions: any[];
   listMarques: any[];
   listModeles: any[];
-  allCamions: any[];
+  allCamions: any[] = [];
   pieces: any;
+  page: number=1;
   camion: any;
   loaderList: boolean = false;
   loaderDetails: boolean = false;
@@ -27,6 +29,7 @@ export class CamionComponent implements OnInit {
   listChauffeursPrin: any[];
   listChauffeursSecon: any[];
   listChauffeursChips: any[]=[];
+  deletingSelection: any[]=[];
   modalTitle:string;
   size:string;
   selectedTypeCamion:any;
@@ -67,6 +70,7 @@ export class CamionComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.getCamions();
     this.selectChauffeur = false;
     this.menus = [  {
       title: 'Camions',
@@ -76,14 +80,7 @@ export class CamionComponent implements OnInit {
       url: 'Pages',
       }
     ]
-    this.camionService.listAllCamions().subscribe(
-      data => {
-        this.loaderList = true;
-        this.allCamions=data['hydra:member'];
-      },error => {
-        this.loaderList = true;
-      }
-    )
+
 
     this.paramsService.listTypesCamions().subscribe(
       data => {
@@ -325,5 +322,73 @@ postCamion(){
         )
       }
     })
+  }
+  getDeleted(e){
+    let pos = null;
+    if(e.type == 'delete'){
+      this.deletingSelection.push(e)
+    }else {
+      for (let i = 0; i <   this.deletingSelection.length; i++) {
+        if (  this.deletingSelection[i].id == e.id){
+          pos  = i;
+        }
+      }
+      if (pos != null){
+        this.deletingSelection.splice(pos,1);
+      }
+    }
+    console.log(  this.deletingSelection)
+  }
+  multipleDelete(){
+    Swal.fire({
+      title: 'Etes vous sure de vouloir supprimer '+this.deletingSelection.length+' camion(s)?',
+      text: "Cet action est irreversible!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Supprimé!',
+          'Suppression effectuée avec succés!',
+          'success'
+        )
+      }
+    })
+  }
+
+  getCamions(){
+    let params=`&page=${this.page};`
+    this.camionService.listAllCamions(params).subscribe(
+      (data:any) => {
+        this.loaderList = true;
+        if (data['hydra:member'].length>0){
+          for (const camionElem of data['hydra:member']) {
+            this.allCamions.push(camionElem)
+          }
+        }
+      //  this.allCamions=data['hydra:member'];
+        this.page++;
+      },error => {
+        this.loaderList = true;
+      }
+    )
+  }
+  scrolling(){
+    // @ts-ignore
+    const scrollZone = document.getElementById('scrollZone');
+    const st = scrollZone.scrollTop;
+    const sh = scrollZone.scrollHeight;
+    const ch = scrollZone.clientHeight;
+    console.log(st)
+    console.log(sh)
+    console.log(ch)
+    if (sh - st <= ch) {
+      this.getCamions();
+      //   this.currentPage++;
+     // this.paginateUser(this.currentPage);
+    }
   }
 }
