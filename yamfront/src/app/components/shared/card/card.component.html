@@ -1,4 +1,4 @@
-<div id="{{cardId}}" class="vizioCard">
+<div style="position: relative" id="{{cardId}}" class="vizioCard">
   <div class="row">
     <div  class="col-3">
       <div   style="padding-top:12px;width: 40px; height: 40px; background-color: #fff;text-align: center">
@@ -16,12 +16,6 @@
     </div>
   </div>
 </div>
-<div class="row mt-1 vizioCardFooter">
-  <div class="col-10 immat">{{camion?.immatriculation}}</div>
-  <div class="col-2" style="text-align: right;cursor: pointer"><i (click)="clickedActionner(camion?.id) "  class="fas fa-ellipsis-h"></i></div>
-  <div class="col-12" style="font-size: 16px;color: cornflowerblue">{{camion?.typeCamion?.libelle}}</div>
-  <div class="col-12" style=" font-size: 16px; color: #707070;">{{camion?.typeCamion?.tonnes}}</div>
-</div>
 <div [hidden]="!isExpanded" class="actions">
   <p (click)="clickedActionItem(camion?.id,'Entretien') "  class="action-item">Amener en entretien</p>
   <hr>
@@ -30,4 +24,11 @@
   <p (click)="clickedActionItem(camion?.id,'Archiver') " class="action-item">Archiver</p>
   <hr>
   <p (click)="clickedActionItem(camion?.id,'Details') " class="action-item">Voir details</p>
+</div>
+
+<div class="row mt-1 vizioCardFooter">
+  <div class="col-10 immat">{{camion?.immatriculation}}</div>
+  <div class="col-2" style="text-align: right;cursor: pointer"><i (click)="clickedActionner(camion?.id) "  class="fas fa-ellipsis-h"></i></div>
+  <div class="col-12" style="font-size: 16px;color: cornflowerblue">{{camion?.typeCamion?.libelle}}</div>
+  <div class="col-12" style=" font-size: 16px; color: #707070;">{{camion?.typeCamion?.tonnes}}</div>
 </div>

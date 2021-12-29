@@ -1,0 +1,81 @@
+.etatChauufeur{
+  font-size: 11px;   line-height: normal;  letter-spacing: normal; text-align: center;
+}
+.dispo{
+  color: #2d9d78 !important;
+}
+.course{
+  color: #2680EB !important;
+}
+.indispo{
+  color:#E34850 !important;
+}
+.dispo-bg{
+  background-color: #2d9d78 !important;
+}
+.course-bg{
+  background-color: #2680EB !important;
+}
+.indispo-bg{
+  background-color:#E34850 !important;
+}
+
+
+.rate{
+  display:inline-block;
+  height: 18px;width: 18px;
+  border-radius: 50%;
+  background-color: #F29423;
+  margin-right: 5px
+}
+
+.bad{
+  background-color: #F29423;
+ }
+.bad-empty{
+  background-color: #FBE2C3;
+ }
+.good{
+  background-color: #33AB84;
+ }
+
+.good-empty{
+  background-color: #33ab8470;
+ }
+
+.pin{
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+   position: absolute;
+  margin-top: -8px;
+  margin-left: 25px;
+}
+.actions{
+  width: 185px;
+  position: absolute;
+  margin-top: 25px;
+  margin-left: 70px;
+  height: 210px;
+  padding: 16px 0 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px 0 rgba(121, 121, 121, 0.16);
+  border: solid 0.5px #dedede;
+  background-color: #fff;
+}
+.action-item{
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #505050;
+}
+.null{
+  background-color: #BCBCBC;
+
+}

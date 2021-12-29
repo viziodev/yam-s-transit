@@ -1,28 +1,75 @@
-<div style="height: 200px;width: 260px;border-radius: 4px;border: solid 1px #eaeaea;padding: 15px">
+<div id="{{cardId}}" style="height: 200px;width: 260px;border-radius: 4px;border: solid 1px #eaeaea;padding: 15px">
   <div class="row" style="height: 50px;border-bottom: solid 1px #eaeaea;width: 255px">
     <div class="col-2">
       <div class=" text-center">
-        <img src="https://source.unsplash.com/random" style="height: 35px;width: 35px;border-radius: 50%;background-color: red;"/>
-
-      </div>    </div>
+        <img src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 35px;width: 35px;border-radius: 50%;background-color: red;"/>
+      <div class="pin"  [class.dispo-bg]="chauffeur?.etat == 'Disponible'" [class.course-bg]="chauffeur?.etat == 'En course'" [class.indispo-bg]="chauffeur?.etat == 'Indisponible'"  ></div>
+      </div>
+    </div>
     <div class="col-8">
-      <p style="color: #323232;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;   line-height: normal;  letter-spacing: normal; text-align: center; color: #2d9d78;">Disponble</span></p>
+      <p style="color: #323232;font-size: 13px">{{chauffeur?.nomComplet}}<br><span class="etatChauufeur" [class.dispo]="chauffeur?.etat == 'Disponible'" [class.course]="chauffeur?.etat == 'En course'" [class.indispo]="chauffeur?.etat == 'Indisponible'"  style=" ">{{chauffeur?.etat}}</span></p>
 
     </div>
     <div class="col-2" style="text-align: right">
-      <i class="fas fa-ellipsis-h"></i>
+      <i style="cursor: pointer"  (click)="clickedActionner(chauffeur?.id) "  class="fas fa-ellipsis-h"></i>
+    </div>
+    <div [hidden]="!isExpanded" class="actions">
+      <p (click)="clickedActionItem(chauffeur?.id,'Affecter à un camion') "  class="action-item">Affecter à un camion</p>
+      <hr>
+      <p (click)="clickedActionItem(chauffeur?.id,'Rendre Indisponible') "  class="action-item">Rendre indisponible</p>
+      <hr>
+      <p (click)="clickedActionItem(chauffeur?.id,'Archiver') " class="action-item">Archiver</p>
+
+      <hr>
+      <p (click)="clickedActionItem(chauffeur?.id,'Details') " class="action-item">Voir details</p>
+
     </div>
   </div>
   <div>
     <br>
-    <p style="color: #323232;font-size: 14px">Lourd- Principal - 34K56JN</p>
-      <p style="color: #323232;font-size: 14px">77 217 77 58 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 78 574 24 78</p>
-    <div>
-      <div style="display:inline-block;height: 18px;width: 18px;border-radius: 50%;background-color: orange;margin-right: 5px"></div>
-      <div style="display:inline-block;height: 18px;width: 18px;border-radius: 50%;background-color: orange;margin-right: 5px"></div>
-      <div style="display:inline-block;height: 18px;width: 18px;border-radius: 50%;background-color: orange;margin-right: 5px"></div>
-      <div style="display:inline-block;height: 18px;width: 18px;border-radius: 50%;background-color: orange;margin-right: 5px"></div>
-      <div style="display:inline-block;height: 18px;width: 18px;border-radius: 50%;background-color: orange;margin-right: 5px"></div>
+    <p style="color: #323232;font-size: 14px"> {{chauffeur?.typePermis?.libelle}} -  {{chauffeur?.type}} - {{chauffeur?.currentCamion?.immatriculation}}</p>
+      <p style="color: #323232;font-size: 14px">{{chauffeur?.tel1}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{chauffeur?.tel2}}</p>
+    <div *ngIf="chauffeur?.note == 0">
+      <div  class="rate null" > </div>
+      <div  class="rate null" > </div>
+      <div  class="rate null" > </div>
+      <div  class="rate null" > </div>
+      <div  class="rate null" > </div>
+    </div>
+    <div *ngIf="chauffeur?.note == 1">
+       <div  class="rate bad" > </div>
+       <div  class="rate bad-empty" > </div>
+       <div  class="rate bad-empty" > </div>
+       <div  class="rate bad-empty" > </div>
+       <div  class="rate bad-empty" > </div>
+    </div>
+    <div *ngIf="chauffeur?.note == 2">
+       <div  class="rate bad" > </div>
+       <div  class="rate bad" > </div>
+       <div  class="rate bad-empty" > </div>
+       <div  class="rate bad-empty" > </div>
+       <div  class="rate bad-empty" > </div>
+    </div>
+    <div *ngIf="chauffeur?.note == 3">
+       <div  class="rate good" > </div>
+       <div  class="rate good" > </div>
+       <div  class="rate good" > </div>
+       <div  class="rate good-empty" > </div>
+       <div  class="rate good-empty" > </div>
+    </div>
+    <div *ngIf="chauffeur?.note == 4">
+       <div  class="rate good" > </div>
+       <div  class="rate good" > </div>
+       <div  class="rate good" > </div>
+       <div  class="rate good" > </div>
+       <div  class="rate good-empty" > </div>
+    </div>
+    <div *ngIf="chauffeur?.note == 5">
+       <div  class="rate good" > </div>
+       <div  class="rate good" > </div>
+       <div  class="rate good" > </div>
+       <div  class="rate good" > </div>
+       <div  class="rate good" > </div>
     </div>
   </div>
 </div>

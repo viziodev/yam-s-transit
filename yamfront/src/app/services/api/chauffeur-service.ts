@@ -20,6 +20,10 @@ export class ChauffeurService{
      return this.http.get(this.BASE_URL + 'listAllChauffeurs?isDeleted=false'+filtre , {headers: this.headersApplicationJson});
   }
 
+  detailsChauffeur(id){
+     return this.http.get(this.BASE_URL + 'detailsChauffeur/'+id , {headers: this.headersApplicationJson});
+  }
+
   addChauffeurs(body){
      return this.http.post(this.BASE_URL + 'chauffeur/add' , body,{headers: this.headersFormData});
   }

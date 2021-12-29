@@ -45,17 +45,14 @@
     </div>
     <div class="col-4"></div>
   </div>
-  <div class="row">
 
-    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
-    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
-    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
-    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
-    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
-    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
-    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
-    <div class="col-3 mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"><app-card-chauffeur></app-card-chauffeur></div>
-
+  <div (scroll)="scrolling()" id="scrollZone" class="row overflow-auto" style="height: 500px;">
+    <app-loader [hidden]="loaderList"></app-loader>
+    <div style="position: relative" *ngFor="let chauf of allChauffeurs" class="col-3 mt-5"  >
+      <button data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"  id="detailsChauf" style="display:none;"></button>
+      <!--(click)="detailsChauffeur()" -->
+      <app-card-chauffeur [cardId]="chauf?.id" (clickActionItem)="getAction($event)" (clickedAction)="getSelectedChauffeur($event)" [chauffeur]="chauf"></app-card-chauffeur>
+    </div>
 
   </div>
 </div>
@@ -120,7 +117,7 @@
             <label class="mb-2" style="font-weight: bold;padding-left: 5px">Permis</label>
             <select formControlName="typePermis" class="rounded-pill rounded form-control" name="typePermis" style="outline: none;  background-color: #f4f4f4;border: none" >
               <option selected>Choisir le type de permis</option>
-              <option *ngFor="let typP of listTypePermis">{{typP?.libelle}}</option>
+              <option value="{{typP?.id}}" *ngFor="let typP of listTypePermis">{{typP?.libelle}}</option>
             </select>
           </div>
           <div class="mb-4">
@@ -177,31 +174,35 @@
               <label for="imageUpload"></label>
             </div>
             <div class="avatar-preview">
-              <div id="imagePreview" style="background-image: url(http://i.pravatar.cc/500?img=7);">
-              </div>
+              <img style="    height: 70px;width: 70px;  border-radius: 100px;" src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}" id="imagePreview"  >
+
             </div>
           </div>
         </div>
       </div>
       <div class="col-6">
-        <span style="font-size: 18px;">Immatriculation </span><br>
-        <span style="font-size: 13px;color: #2680EB ">Categorie   -   tonnage </span><br>
-        <span style="font-size: 13px;color: #959595">Alioune Cissé </span>
+        <span style="font-size: 18px;">{{chauffeur?.nomComplet}} </span><br>
+        <span style="font-size: 13px;color: #2680EB ">{{chauffeur?.typePermis?.libelle}}   -   {{chauffeur?.type}} </span><br>
+        <span style="font-size: 13px;color: #959595">{{chauffeur?.tel1}}  {{chauffeur?.tel2}}</span>
       </div>
       <div class="col-4" style="text-align: right">
-        <button class="btn btn-outline-secondary rounded rounded-pill">Amener en entretien</button>
+       <!-- <button class="btn btn-outline-secondary rounded rounded-pill">Amener en entretien</button>-->
         <br>
-        <div class="row mt-3">
+       <!-- <div class="row mt-3">
           <div class="col-1"><img src="../assets/images/good_courbe.svg"></div>
           <div class="col-10"> <p class="montant">240 000 frcfa</p></div>
-        </div>
+        </div>-->
       </div>
 
-      <div class="row" style="border-top: solid 1px #DEDEDE">
+      <div class="row mt-3" style="border-top: solid 1px #DEDEDE">
         <div class="col-6 p-2" style="border-right: solid 1px  #DEDEDE">
           <p style="font-size: 13px;font-weight: bold">Statut</p>
-          <span class="badge " style="background-color: red">Dispo</span>
-          <p style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce camion est dispo pourtout type de trajet</p>
+          <span class="badge "  [class.dispo-bg]="chauffeur?.etat == 'Disponible'" [class.course-bg]="chauffeur?.etat == 'En course'" [class.indispo-bg]="chauffeur?.etat == 'Indisponible'"  >{{chauffeur?.etat}}</span>
+          <span class="badge ml-2" style="background-color: #BCBCBC;margin-left: 20px"   >{{chauffeur?.disponibilite}}</span>
+
+          <p *ngIf="chauffeur?.etat == 'Disponible'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur est dispo pour course</p>
+          <p *ngIf="chauffeur?.etat == 'En course'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur actuellement en course</p>
+          <p *ngIf="chauffeur?.etat == 'Indisponible'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur est indisponible</p>
           <div class="row mt-2">
             <div class="col-4"><p style="font-size: 13px;font-weight: bold">Chauffeurs</p></div>
             <div class="col-8" style="text-align: right"><p style="cursor:pointer;font-size: 13px;  color: blue;"><u>Historique des chauffeurs</u></p></div>
@@ -216,21 +217,6 @@
             <div class="col-3 text-center">
               <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
 
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-            </div>
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-            </div>
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-            </div>
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
               <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
 
             </div>
@@ -262,25 +248,71 @@
               </div>
             </div>
           </div>
+          <div>
+            <br>
+             <div *ngIf="chauffeur?.note == 0">
+              <div  class="rate null" > </div>
+              <div  class="rate null" > </div>
+              <div  class="rate null" > </div>
+              <div  class="rate null" > </div>
+              <div  class="rate null" > </div>
+            </div>
+             <div *ngIf="chauffeur?.note == 1">
+              <div  class="rate bad" > </div>
+              <div  class="rate bad-empty" > </div>
+              <div  class="rate bad-empty" > </div>
+              <div  class="rate bad-empty" > </div>
+              <div  class="rate bad-empty" > </div>
+            </div>
+            <div *ngIf="chauffeur?.note == 2">
+              <div  class="rate bad" > </div>
+              <div  class="rate bad" > </div>
+              <div  class="rate bad-empty" > </div>
+              <div  class="rate bad-empty" > </div>
+              <div  class="rate bad-empty" > </div>
+            </div>
+            <div *ngIf="chauffeur?.note == 3">
+              <div  class="rate good" > </div>
+              <div  class="rate good" > </div>
+              <div  class="rate good" > </div>
+              <div  class="rate good-empty" > </div>
+              <div  class="rate good-empty" > </div>
+            </div>
+            <div *ngIf="chauffeur?.note == 4">
+              <div  class="rate good" > </div>
+              <div  class="rate good" > </div>
+              <div  class="rate good" > </div>
+              <div  class="rate good" > </div>
+              <div  class="rate good-empty" > </div>
+            </div>
+            <div *ngIf="chauffeur?.note == 5">
+              <div  class="rate good" > </div>
+              <div  class="rate good" > </div>
+              <div  class="rate good" > </div>
+              <div  class="rate good" > </div>
+              <div  class="rate good" > </div>
+            </div>
+            <p>Note</p>
+          </div>
         </div>
-        <div class="col-6 p-2">
+        <div class="col-6 p-2" *ngIf="chauffeur?.disponibilite == 'Affecté'">
           <p style="font-weight: bold;font-size: 13px">Caractéristiques </p>
-          <span class="detailsCam">Marque<span style="float: right">12</span></span><br>
-          <span class="detailsCam">Type<span style="float: right">12</span></span><br>
-          <span class="detailsCam">Modele<span style="float: right">12</span></span><br>
-          <span class="detailsCam">Type carburant<span style="float: right">12</span></span><br>
-          <span class="detailsCam">Qté carburant a vide<span style="float: right">12</span></span><br>
-          <span class="detailsCam">Qté carburant au chargement<span style="float: right">12</span> </span><br>
-          <span class="detailsCam">Nbre pneus de secours<span style="float: right">12</span></span><br>
-          <span class="detailsCam">Nbre pneus de chaussés<span style="float: right">12</span></span><br>
+          <span class="detailsCam">Marque<span style="float: right">{{chauffeur?.camion?.marque?.libelle}}</span></span><br>
+          <span class="detailsCam">Type<span style="float: right">{{chauffeur?.camion?.typeCamion?.libelle}}</span></span><br>
+          <span class="detailsCam">Modele<span style="float: right">{{chauffeur?.camion?.typeCamion?.modele?.libelle}}</span></span><br>
+          <span class="detailsCam">Type carburant<span style="float: right">{{chauffeur?.camion?.typeCarburant}}</span></span><br>
+          <span class="detailsCam">Qté carburant a vide<span style="float: right">{{chauffeur?.camion?.typeCamion?.qteCarburantVide}}</span></span><br>
+          <span class="detailsCam">Qté carburant au chargement<span style="float: right">{{chauffeur?.camion?.typeCamion?.qteCarburantCharge}}</span> </span><br>
+          <span class="detailsCam">Nbre pneus de secours<span style="float: right">{{chauffeur?.camion?.typeCamion?.nbrePneusSecours}}</span></span><br>
+          <span class="detailsCam">Nbre pneus de chaussés<span style="float: right">{{chauffeur?.camion?.typeCamion?.nbrePneusChaussee}}</span></span><br>
           <div class="row mt-2">
             <div class="col-6"><p style="font-size: 13px;font-weight: bold">Entretien</p></div>
             <div class="col-6" style="text-align: right"><p style="cursor:pointer;font-size: 11px;color: blue"><u>Fiche d'entretien</u></p></div>
-            <strong>Pieces</strong><br>
+           <!-- <strong>Pieces</strong><br>
             <span class="detailsCam">Huile<span style="float: right">12</span></span><br>
             <span class="detailsCam">Filtre gazoil<span style="float: right">12</span></span><br>
             <span class="detailsCam">Filtre a huile<span style="float: right">12</span></span><br>
-            <strong>Entretien</strong><br>
+            <strong>Entretien</strong><br>-->
             <span class="detailsCam">Type de vidange<span style="float: right">Simple</span></span><br>
             <span class="detailsCam">Prochaine vidange<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
 
@@ -290,7 +322,13 @@
 
           </div>
         </div>
+        <div class="col-6 p-2" *ngIf="chauffeur?.disponibilite == 'Non affecté'">
 
+          <div style="margin-top: 200px;text-align: center">
+            <p class="detailsCam">Illustration empty state</p>
+            <p><u>Affecter à un camion</u></p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

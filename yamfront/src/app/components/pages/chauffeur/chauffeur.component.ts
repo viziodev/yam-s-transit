@@ -1,7 +1,11 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ParamsService} from "../../../services/api/params-service";
 import {ChauffeurService} from "../../../services/api/chauffeur-service";
+import {CardComponent} from "../../shared/card/card.component";
+import {CardChauffeurComponent} from "../../shared/card-chauffeur/card-chauffeur.component";
+import Swal from "sweetalert2";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-chauffeur',
@@ -10,7 +14,13 @@ import {ChauffeurService} from "../../../services/api/chauffeur-service";
 })
 export class ChauffeurComponent implements OnInit {
   menus: any[];
+  id: any;
+  chauffeur: any;
+  page: any = 1;
   camions: any[] = [];
+  ENDPOINT = environment.ENDPOINT;
+  loaderList: boolean = false;
+  allChauffeurs: any[] = [];
   modalTitle:string;
   size:string;
   imgURL='./assets/images/avatar.jpg';
@@ -20,6 +30,7 @@ export class ChauffeurComponent implements OnInit {
   menuOpen: boolean = false;
   chauffeurForm: FormGroup ;
   @ViewChild('toggleButton') toggleButton: ElementRef;
+  @ViewChildren(CardChauffeurComponent) cards: QueryList<CardChauffeurComponent>;
   @ViewChild('chauffeursList') chauffeursList: ElementRef;
   private avatarImg: any;
 
@@ -62,6 +73,7 @@ export class ChauffeurComponent implements OnInit {
     )
   }
   ngOnInit(): void {
+    this.getChauffeurs()
     this.selectChauffeur = false;
     this.menus = [  {
       title: 'Chauffeurs',
@@ -71,11 +83,7 @@ export class ChauffeurComponent implements OnInit {
       url: 'Pages',
     }
     ]
-    this.chauffeurService.listAllChauffeurs().subscribe(
-      data => {
-        console.log(data)
-      }
-    )
+
   }
   addChauffeur(){
     this.modalTitle='Ajout d\' un chauffeur';
@@ -104,7 +112,7 @@ export class ChauffeurComponent implements OnInit {
     formdata.append('tel1',this.chauffeurForm.value.tel1)
     formdata.append('tel2',this.chauffeurForm.value.tel2)
     formdata.append('dateNaissance',this.chauffeurForm.value.dateNaissance)
-    formdata.append('typePermis',this.chauffeurForm.value.typePermis)
+    formdata.append('typePermisId',this.chauffeurForm.value.typePermis)
     formdata.append('numeroPermis',this.chauffeurForm.value.numeroPermis)
     formdata.append('dateDebutValidite',this.chauffeurForm.value.debut)
     formdata.append('dateFinValidite',this.chauffeurForm.value.fin)
@@ -155,5 +163,89 @@ export class ChauffeurComponent implements OnInit {
            console.log(this.camions)
         }
        }
+  }
+  getChauffeurs(){
+    let params=`&page=${this.page}`
+    this.chauffeurService.listAllChauffeurs(params).subscribe(
+      (data:any) => {
+        this.loaderList = true;
+        if(data['hydra:member']){
+          this.page++;
+          for (const chauf of data['hydra:member']) {
+            this.allChauffeurs.push(chauf)
+          }
+        }
+
+        console.log(data)
+      },(error)=>{
+        this.loaderList = true;
+
+        console.log(error)
+      }
+    )
+  }
+
+  getSelectedChauffeur(id){
+    this.cards.forEach((card) => {
+      if (card.cardId != id) {
+         card.isExpanded = false;
+      }
+    });
+  }
+
+  getAction(e){
+    this.id = e?.id;
+    if(e?.type == 'Details'){
+      const detailsButton = document.getElementById('detailsChauf');
+      detailsButton.click();
+      this.getDetailsChauffeur();
+    }else if (e?.type == 'Archiver'){
+      this.deleteChauffeur()
+    }
+    console.log(e)
+  }
+
+
+  deleteChauffeur(){
+    Swal.fire({
+      title: 'Etes vous sure de vouloir archiver ce chauffeur?',
+      text: "Cet action est irreversible!",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'Annuler',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, archiver!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Supprimé!',
+          'Ce chauffeur a été archivé avec succés!',
+          'success'
+        )
+      }
+    })
+  }
+  scrolling(){
+    // @ts-ignore
+    const scrollZone = document.getElementById('scrollZone');
+    const st = scrollZone.scrollTop;
+    const sh = scrollZone.scrollHeight;
+    const ch = scrollZone.clientHeight;
+    console.log(st)
+    console.log(sh)
+    console.log(ch)
+    if (sh - st <= ch) {
+      this.getChauffeurs();
+      //   this.currentPage++;
+      // this.paginateUser(this.currentPage);
+    }
+  }
+  getDetailsChauffeur(){
+    this.chauffeurService.detailsChauffeur(this.id).subscribe(
+      data => {
+        this.chauffeur = data;
+      }
+    )
   }
 }

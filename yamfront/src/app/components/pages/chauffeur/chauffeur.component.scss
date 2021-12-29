@@ -214,3 +214,39 @@ $md-chip-color: #e0e0e0;
   margin-top: 5px;
 }
 
+.dispo-bg{
+  background-color: #2d9d78 !important;
+}
+.course-bg{
+  background-color: #2680EB !important;
+}
+.indispo-bg{
+  background-color:#E34850 !important;
+}
+
+
+.rate{
+  display:inline-block;
+  height: 18px;width: 18px;
+  border-radius: 50%;
+  background-color: #F29423;
+  margin-right: 5px
+}
+
+.bad{
+  background-color: #F29423;
+}
+.bad-empty{
+  background-color: #FBE2C3;
+}
+.good{
+  background-color: #33AB84;
+}
+
+.good-empty{
+  background-color: #33ab8470;
+}
+.null{
+  background-color: #BCBCBC;
+
+}

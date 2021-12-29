@@ -62,8 +62,8 @@
    <div (scroll)="scrolling()" id="scrollZone" class="row overflow-auto" style="height: 500px;">
 
    <app-loader [hidden]="loaderList"></app-loader>
-    <div *ngFor="let camion of allCamions" class="col-2 mt-5" >
-      <app-card (clickedToDelete)="getDeleted($event)" (clickActionItem)="getAction($event)" (clickedAction)="getSelectedCamion($event)" [cardId]="camion?.id" [camion]="camion"></app-card>
+    <div style="position: relative" *ngFor="let camion of allCamions" class="col-2 mt-5" >
+      <app-card  style="position: relative" (clickedToDelete)="getDeleted($event)" (clickActionItem)="getAction($event)" (clickedAction)="getSelectedCamion($event)" [cardId]="camion?.id" [camion]="camion"></app-card>
     </div>
     <!--  -->
 <button id="detailsButton" hidden="true"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsCamion()">h</button>
