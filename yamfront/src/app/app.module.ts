@@ -17,6 +17,8 @@ import { CardChauffeurComponent } from './components/shared/card-chauffeur/card-
 import { ChauffeurComponent } from './components/pages/chauffeur/chauffeur.component';
 import {FilterPipe} from "./services/pipes/filter.pipe";
 import { LoaderComponent } from './components/shared/loader/loader.component';
+import { ClientComponent } from './components/pages/client/client.component';
+import { ClientCardComponent } from './components/shared/client-card/client-card.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { LoaderComponent } from './components/shared/loader/loader.component';
     CardChauffeurComponent,
     ChauffeurComponent,
     FilterPipe,
-    LoaderComponent
+    LoaderComponent,
+    ClientComponent,
+    ClientCardComponent
   ],
   imports: [
     BrowserModule,

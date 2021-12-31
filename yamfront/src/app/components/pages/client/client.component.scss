@@ -1,3 +1,4 @@
+//AVATAR
 body{
   background-color: #FAFAFA;
 }
@@ -5,7 +6,7 @@ body{
   width: 80px;
   height: 80px;
   margin: 0 20px 40px 0;
-   background-color: #eaeaea;
+  background-color: #eaeaea;
   border-radius: 50%;
   border: none;
   outline: none;
@@ -17,10 +18,10 @@ body{
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
- }
+}
 ::placeholder {
   color: #747474;
- }
+}
 select{
   color: #747474;
 }
@@ -32,7 +33,7 @@ select{
   font-style: italic;
   line-height: normal;
   letter-spacing: normal;
-   color: #bcbcbc;
+  color: #bcbcbc;
 }
 .detailsCam{
   font-size: 13px;
@@ -41,7 +42,7 @@ select{
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-   color: #959595;
+  color: #959595;
 }
 
 $md-chip-height: 32px;
@@ -140,7 +141,7 @@ $md-chip-color: #e0e0e0;
 .avatar-upload {
   position: relative;
   max-width: 205px;
- // margin: 50px auto;
+  // margin: 50px auto;
   .avatar-edit {
     position: absolute;
     right: 12px;
@@ -166,7 +167,7 @@ $md-chip-color: #e0e0e0;
           border-color: #d6d6d6;
         }
         &:after {
-         // content: "\f040";
+          // content: "\f040";
           font-family: 'FontAwesome';
           color: #757575;
           position: absolute;
@@ -199,14 +200,14 @@ $md-chip-color: #e0e0e0;
 
 .montant{
 
-   height: 36px;
-    font-size: 29px;
+  height: 36px;
+  font-size: 29px;
   font-weight: 300;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-   color: #33ab84;
+  color: #33ab84;
 }
 .progress-entretien{
   height: 4px;

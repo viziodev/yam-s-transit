@@ -1,19 +1,19 @@
 import {Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ParamsService} from "../../../services/api/params-service";
-import {ChauffeurService} from "../../../services/api/chauffeur-service";
-import {CardComponent} from "../../shared/card/card.component";
-import {CardChauffeurComponent} from "../../shared/card-chauffeur/card-chauffeur.component";
-import Swal from "sweetalert2";
 import {environment} from "../../../../environments/environment";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {CardChauffeurComponent} from "../../shared/card-chauffeur/card-chauffeur.component";
+import {ParamsService} from "../../../services/api/params-service";
 import {AlertService} from "../../../services/alert.service";
+import Swal from "sweetalert2";
+import {ClientService} from "../../../services/api/client-service";
 
 @Component({
-  selector: 'app-chauffeur',
-  templateUrl: './chauffeur.component.html',
-  styleUrls: ['./chauffeur.component.scss']
+  selector: 'app-client',
+  templateUrl: './client.component.html',
+  styleUrls: ['./client.component.scss']
 })
-export class ChauffeurComponent implements OnInit {
+export class ClientComponent implements OnInit {
+
   menus: any[];
   id: any;
   chauffeur: any;
@@ -38,7 +38,7 @@ export class ChauffeurComponent implements OnInit {
   @ViewChild('chauffeursList') chauffeursList: ElementRef;
   private avatarImg: any;
 
-  constructor(private renderer: Renderer2, private fb: FormBuilder,private paramsService: ParamsService,private alertService: AlertService,private chauffeurService: ChauffeurService) {
+  constructor(private renderer: Renderer2, private fb: FormBuilder,private paramsService: ParamsService,private alertService: AlertService,private clientService: ClientService) {
     this.chauffeurForm = this.fb.group({
       nom: ['', [Validators.required]],
       email: [''],
@@ -63,24 +63,24 @@ export class ChauffeurComponent implements OnInit {
       this.selectChauffeur = false;
     });
     this.paramsService.listTypesCamions().subscribe(
-    (data: any) => {
-      this.listCamions=data['hydra:member'];
-      console.log(data)
-    }
+      (data: any) => {
+        this.listCamions=data['hydra:member'];
+        console.log(data)
+      }
     )
     this.paramsService.listTypePermisSelect().subscribe(
       data =>{
         this.listTypePermis=data['hydra:member'];
 
         console.log(data)
-    }
+      }
     )
   }
   ngOnInit(): void {
     this.getChauffeurs()
     this.selectChauffeur = false;
     this.menus = [  {
-      title: 'Chauffeurs',
+      title: 'Client',
       url: 'Pages',
     },  {
       title: 'Statistiques',
@@ -90,12 +90,12 @@ export class ChauffeurComponent implements OnInit {
 
   }
   addChauffeur(){
-    this.modalTitle='Ajout d\' un chauffeur';
-    this.size="complet";
+    this.modalTitle='Ajout d\'un client';
+    this.size="moitie";
   }
 
   detailsChauffeur(){
-    this.modalTitle='Details d\' un chauffeur';
+    this.modalTitle='Details du chauffeur';
     this.size="complet";
   }
 
@@ -123,7 +123,7 @@ export class ChauffeurComponent implements OnInit {
     formdata.append('dateFinValidite',this.chauffeurForm.value.fin)
     formdata.append('type',this.chauffeurForm.value.typeChauffeur)
     formdata.append('tabTypeCamion',JSON.stringify(this.camions))
-    this.chauffeurService.addChauffeurs(formdata).subscribe(
+    this.clientService.addClient(formdata).subscribe(
       data =>{
         this.alertService.successDangerNotif('success','Chauffeur ajouté avec succés');
         this.loaderAdd = true;
@@ -165,23 +165,23 @@ export class ChauffeurComponent implements OnInit {
     this.avatarImg = e.target.files[0];
 
   }
-    checkVerif() {
+  checkVerif() {
     var cboxes = document.getElementsByName('camions[]');
     var len = cboxes.length;
-      console.log(cboxes)
+    console.log(cboxes)
 
-      for (var i=0; i<len; i++) {
-        // @ts-ignore
-         if (cboxes[i].checked){
+    for (var i=0; i<len; i++) {
+      // @ts-ignore
+      if (cboxes[i].checked){
 
-           this.camions.push({id:cboxes[i].id})
-           console.log(this.camions)
-        }
-       }
+        this.camions.push({id:cboxes[i].id})
+        console.log(this.camions)
+      }
+    }
   }
   getChauffeurs(){
     let params=`&page=${this.page}`
-    this.chauffeurService.listAllChauffeurs(params).subscribe(
+    this.clientService.listAllClient(params).subscribe(
       (data:any) => {
         this.loaderList = true;
         if(data['hydra:member']){
@@ -203,7 +203,7 @@ export class ChauffeurComponent implements OnInit {
   getSelectedChauffeur(id){
     this.cards.forEach((card) => {
       if (card.cardId != id) {
-         card.isExpanded = false;
+        card.isExpanded = false;
       }
     });
   }
@@ -235,7 +235,7 @@ export class ChauffeurComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.loaderList = false;
-        this.chauffeurService.archiverChauffeur(this.chauffeurToDelete).subscribe(
+        this.clientService.archiverClient(this.chauffeurToDelete).subscribe(
           data =>{
             this.loaderList = true;
             this.alertService.successDangerNotif('success','Suppression effectuée avec succés!')
@@ -268,11 +268,12 @@ export class ChauffeurComponent implements OnInit {
   }
   getDetailsChauffeur(){
     this.loaderDetails=false;
-    this.chauffeurService.detailsChauffeur(this.id).subscribe(
+    this.clientService.detailsClient(this.id).subscribe(
       data => {
         this.loaderDetails=true;
         this.chauffeur = data;
       }
     )
   }
+
 }

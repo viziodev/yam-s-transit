@@ -20,6 +20,10 @@ export class CamionService{
     return this.http.post(this.BASE_URL + 'camion/add' , body,{headers: this.headersFormData});
   }
 
+  archiverCamion(body){
+    return this.http.post(this.BASE_URL + 'archiverCamion' , body,{headers: this.headersFormData});
+  }
+
   listAllCamions(filter=''){
     return this.http.get(this.BASE_URL + 'listAllCamions?isDeleted=false'+filter ,{headers: this.headersFormData});
   }

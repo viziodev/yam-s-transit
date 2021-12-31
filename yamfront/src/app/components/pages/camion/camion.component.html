@@ -16,7 +16,7 @@
           <input  style="width:200px;display:inline;background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
 
         </div>
-        <select style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
+        <select [(ngModel)]="filtreMarque" style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
           <option selected>Marque</option>
           <option *ngFor="let mark of listMarques">{{mark.libelle}}</option>
         </select>
@@ -24,13 +24,13 @@
           <option selected>Catégorie</option>
 
         </select>
-        <select  style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class="form-control border border-2  border-secondary rounded rounded-pill">
+        <select [(ngModel)]="filtreModele"  style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class="form-control border border-2  border-secondary rounded rounded-pill">
           <option selected>Modele</option>
           <option *ngFor="let modele of listModeles">{{modele.libelle}}</option>
 
         </select>
-        <select  style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
-          <option selected>Etat</option>
+        <select [(ngModel)]="filtreEtat"   style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+          <option selected value="">Etat</option>
           <option value="Dispo">Dispo</option>
           <option value="En course">En course</option>
           <option value="En entretien">En entretien</option>
@@ -41,11 +41,11 @@
           <option selected>Nbre de courses</option>
 
         </select>
-        <button  style="font-size:12px;display: inline;margin-right: 20px" class="btn btn-secondary border border-2  border-secondary rounded rounded-pill">
+        <button (click)="filter()"  style="font-size:12px;display: inline;margin-right: 20px" class="btn btn-secondary border border-2  border-secondary rounded rounded-pill">
           <i class="fas fa-search"></i>
 
         </button>
-        <button (click)="multipleDelete()"  style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 20px" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
+        <button [disabled]="deletingSelection.length == 0" (click)="multipleDelete()"  style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 20px" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-5  rounded rounded-circle"><i class="fas fa-bars"></i></button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-2  rounded rounded-circle"><i class="fas fa-th-large"></i></button>
 
@@ -272,7 +272,8 @@
 
 
   <div  *ngIf="modalTitle == 'Details d\' un camion'" class="modal-body overflow-auto">
-   <div class="row">
+    <app-loader [hidden]="loaderDetails"></app-loader>
+   <div class="row"  [hidden]="!loaderDetails">
      <div class="col-2">
        <div class="container">
 
@@ -289,24 +290,29 @@
        </div>
      </div>
      <div class="col-6">
-       <span style="font-size: 18px;">{{camion?.immatriculation}} </span><br>
-       <span style="font-size: 13px;color: #2680EB "> {{camion?.typeCamion?.libelle}}    -   {{camion?.tonnes}} </span><br>
-       <span style="font-size: 13px;color: #959595">{{camion?.chauffeur?.nomComplet}} </span>
+       <span style="font-size: 15px;">{{camion?.immatriculation}} </span><br>
+       <span style="font-size: 12px;color: #2680EB "> {{camion?.typeCamion?.libelle}}    -   {{camion?.tonnes}} </span><br>
+       <span style="font-size: 12px;color: #959595">{{camion?.chauffeur?.nomComplet}} </span>
      </div>
      <div class="col-4" style="text-align: right">
-       <button class="btn btn-outline-secondary rounded rounded-pill">Amener en entretien</button>
-       <br>
+       <button *ngIf="camion?.etat == 'Dispo'" class="btn btn-outline-secondary rounded rounded-pill">Amener en entretien</button>
+       <button *ngIf="camion?.etat == 'En panne'" class="btn btn-outline-secondary rounded rounded-pill">Amener en reparation</button>
+       <p class="caracCamion" *ngIf="camion?.etat == 'En course'" >Course en cours...</p>
+       <p class="caracCamion" *ngIf="camion?.etat == 'En entretien'" >Entretien en cours...</p>
+
        <div class="row mt-3">
          <div class="col-1"><img src="../assets/images/good_courbe.svg"></div>
-         <div class="col-10"> <p class="montant">240 000 frcfa</p></div>
+         <div class="col-10"> <p style="text-align: right" class="montant">240 000 frcfa</p></div>
        </div>
      </div>
 
      <div class="row" style="border-top: solid 1px #DEDEDE">
-       <div class="col-6 p-2" style="border-right: solid 1px  #DEDEDE">
+       <div *ngIf="camion?.etat == 'Dispo' || camion?.etat == 'En panne' || camion?.etat == 'En entretien'" class="col-6 details-section" style="border-right: solid 1px  #DEDEDE">
          <p style="font-size: 13px;font-weight: bold">Statut</p>
          <span class="badge " [class.dispo]="camion?.etat == 'Dispo'"  [class.panne]="camion?.etat == 'En panne'"  [class.entretien]="camion?.etat == 'En entretien'"  [class.course]="camion?.etat == 'En course'">{{camion?.etat}}</span>
-         <p style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce camion est dispo pourtout type de trajet</p>
+         <p *ngIf="camion?.etat == 'Dispo'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce camion est dispo pourtout type de trajet</p>
+         <p  *ngIf="camion?.etat == 'En panne'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce camion est actuellement en reparation</p>
+         <p  *ngIf="camion?.etat == 'En entretien'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce camion est actuellement en entretien</p>
          <div class="row mt-2">
            <div class="col-4"><p style="font-size: 13px;font-weight: bold">Chauffeurs</p></div>
            <div class="col-8" style="text-align: right"><p style="cursor:pointer;font-size: 13px;  color: blue;"><u>Historique des chauffeurs</u></p></div>
@@ -353,7 +359,55 @@
            </div>
          </div>
        </div>
-       <div class="col-6 p-2">
+       <div *ngIf="camion?.etat == 'En course'" class="col-6 details-section" style="border-right: solid 1px  #DEDEDE;">
+         <p style="font-size: 13px;font-weight: bold">Statut</p>
+         <span class="badge " [class.dispo]="camion?.etat == 'Dispo'"  [class.panne]="camion?.etat == 'En panne'"  [class.entretien]="camion?.etat == 'En entretien'"  [class.course]="camion?.etat == 'En course'">{{camion?.etat}}</span>
+         <p style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce camion est en pleine course <span *ngFor="let trajet of camion?.trajet">{{trajet + '-'}}</span> </p>
+       <div *ngFor="let trajetCourse of camion?.trajetCourse">
+         <p class="caracCamion mt-1"> Données du trajet {{trajetCourse?.typeTrajet}}</p>
+         <span class="detailsCam">Depart<span style="float: right">{{trajetCourse?.depart}}</span></span><br>
+         <span class="detailsCam">Arrivee<span style="float: right">{{trajetCourse?.depart}}</span></span><br>
+         <span class="detailsCam">Date chargement<span style="float: right">{{trajetCourse?.dateChargement}}</span></span><br>
+         <span class="detailsCam">Date dechargement<span style="float: right">{{trajetCourse?.dateDechargement}}</span></span><br>
+         <span class="detailsCam">Marchandise<span style="float: right">{{trajetCourse?.marchandise}}</span></span><br>
+
+       </div>
+         <p class="section-title mt-2">Chauffeurs</p>
+
+         <div class="row mt-4">
+
+           <div class="col-3 text-center">
+             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+
+             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+           </div>
+           <div class="col-3 text-center">
+             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+           </div>
+
+         </div>
+         <div class="mt-2">
+           <p class="section-title">Statistiques (par mois)</p>
+           <div class="row">
+             <div class="col-3">
+               <p><span  style="font-size: 23px;  color: #505050;">24L</span><br><span style="font-size: 12px">Carburant</span></p>
+             </div>
+             <div class="col-3">
+               <p><span  style="font-size: 23px;  color: #505050;">23</span><br><span style="font-size: 12px">Pannes</span></p>
+             </div>
+             <div class="col-3">
+               <p><span  style="font-size: 23px;  color: #505050;">67K</span><br><span style="font-size: 12px">Recettes</span></p>
+             </div>
+             <div class="col-3">
+               <p><span  style="font-size: 23px;  color: #505050;">67K</span><br><span style="font-size: 12px">Depenses</span></p>
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class="col-6 details-section" >
          <p style="font-weight: bold;font-size: 13px">Caractéristiques </p>
          <span class="detailsCam">Marque<span style="float: right">{{camion?.marque?.libelle}}</span></span><br>
          <span class="detailsCam">Type<span style="float: right">{{camion?.typeCamion?.libelle}}</span></span><br>

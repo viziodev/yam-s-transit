@@ -1,7 +1,7 @@
-<app-content-menu [title]="'Chauffeurs'" [menus]="menus">
-  <div class="col-5"><h2>Chauffeur</h2></div>
+<app-content-menu [title]="'Client'" [menus]="menus">
+  <div class="col-5"><h2>Client</h2></div>
   <div class="col-7" style="text-align: right">
-    <button (click)="addChauffeur()" class="btn btn-secondary rounded rounded-pill mt-3 "  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus"></i>Ajouter un chauffeur</button>
+    <button (click)="addChauffeur()" class="btn btn-secondary rounded rounded-pill mt-3 "  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus"></i>Ajouter un client</button>
   </div>
 </app-content-menu>
 <div  >
@@ -13,25 +13,13 @@
       <div style="display: inline" class="co">
         <div  style="display: inline;width: 100px;margin-right: 20px" class="form-group has-search col-12">
           <span class="fa fa-search form-control-feedback"></span>
-          <input  style="width:200px;display:inline;background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
+          <input  style="width:320px;display:inline;background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Quel type de client recherchez-vous ?">
 
         </div>
         <select style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
-          <option selected>Type permis</option>
+          <option selected>Localité</option>
         </select>
 
-        <select  style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
-          <option selected>Disponible</option>
-
-        </select>
-        <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
-          <option selected>Nbre de courses</option>
-
-        </select>
-        <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
-          <option selected>Affectation</option>
-
-        </select>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 20px" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-5  rounded rounded-circle"><i class="fas fa-bars"></i></button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-2  rounded rounded-circle"><i class="fas fa-th-large"></i></button>
@@ -47,8 +35,16 @@
   </div>
 
   <div (scroll)="scrolling()" id="scrollZone" class="row overflow-auto" style="height: 500px;">
-    <app-loader [hidden]="loaderList"></app-loader>
-    <div style="position: relative" *ngFor="let chauf of allChauffeurs" class="col-3 mt-3"  >
+    <!--<app-loader [hidden]="loaderList"></app-loader>-->
+    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
+    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
+    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
+    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
+    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
+    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
+    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
+    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
+    <div style="position: relative" *ngFor="let chauf of allChauffeurs" class="col-3 mt-5"  >
       <button data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"  id="detailsChauf" style="display:none;"></button>
       <!--(click)="detailsChauffeur()" -->
       <app-card-chauffeur [cardId]="chauf?.id" (clickActionItem)="getAction($event)" (clickedAction)="getSelectedChauffeur($event)" [chauffeur]="chauf"></app-card-chauffeur>
@@ -58,148 +54,79 @@
 </div>
 <app-modal [modalTitle]="modalTitle" [size]="size">
 
-  <div *ngIf="modalTitle == 'Ajout d\' un chauffeur'" class="modal-body overflow-auto">
-    <form [formGroup]="chauffeurForm">
+  <div *ngIf="modalTitle == 'Ajout d\'un client'" class="modal-body overflow-auto">
+    <form  >
       <div class="row">
-        <div class="col-6">
-
-          <div class="row">
-            <div class="col-4">
-              <img (click)="clickUpload()" style="cursor:pointer" [src]="imgURL" class="imgBg">
-              <input  #file  accept='image/*' (change)="preview(file.files, $event)" type="file" id="avatar" hidden>
-
-            </div>
-            <div class="col-8" style="margin-left: -40px;  margin-top: 10px;">
-              <span class="txtImg">Image du chauffeur</span><br>
-              <span style="font-size: 11px;color: #959595">Veuillez importer une photo de l’ordinateur</span>
-            </div>
-          </div>
-          <div class="mb-4">
-            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Nom et prénom(s)
-              <span style="font-size: 11px !important;" *ngIf="chauffeurForm.controls['nom'].invalid &&( chauffeurForm.controls['nom'].dirty ||chauffeurForm.controls['nom'].touched) " class="alert">
-                    <small class="text-danger" *ngIf="chauffeurForm.controls['nom'].errors.required">
-                      Veuillez saisir le nom
-                    </small>
-                </span>
-            </label>
-            <input formControlName="nom" type="text" class="rounded-pill rounded form-control" name="nom" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le nom ">
-          </div>
-          <div class="mb-4">
-            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Téléphone
-              <span style="font-size: 11px !important;" *ngIf="chauffeurForm.controls['tel1'].invalid &&( chauffeurForm.controls['tel1'].dirty ||chauffeurForm.controls['tel1'].touched) " class="alert">
-                    <small class="text-danger" *ngIf="chauffeurForm.controls['tel1'].errors.required">
-                      Veuillez saisir le telephone
-                    </small>
-                </span>
-            </label>
-           <div class="row">
-             <div class="col-6">
-               <input  formControlName="tel1"  type="text" class="rounded-pill rounded form-control" name="tel1" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le téléphone 1">
-
-             </div>
-             <div class="col-6">
-               <input  formControlName="tel2"  type="text" class="rounded-pill rounded form-control" name="tel2" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le téléphone 2">
-             </div>
-           </div>
-
-          </div>
-          <div class="mb-4">
-            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Adresse
-              <span style="font-size: 11px !important;" *ngIf="chauffeurForm.controls['adresse'].invalid &&( chauffeurForm.controls['adresse'].dirty ||chauffeurForm.controls['adresse'].touched) " class="alert">
-                    <small class="text-danger" *ngIf="chauffeurForm.controls['adresse'].errors.required">
-                      Veuillez saisir l'adresse
-                    </small>
-                </span>
-            </label>
-            <input formControlName="adresse" type="text" class="rounded-pill rounded form-control" name="adresse" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir l'adresse ">
-          </div>
-          <div class="mb-4">
-            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Date de naissance
-              <span style="font-size: 11px !important;" *ngIf="chauffeurForm.controls['dateNaissance'].invalid &&( chauffeurForm.controls['dateNaissance'].dirty ||chauffeurForm.controls['dateNaissance'].touched) " class="alert">
-                    <small class="text-danger" *ngIf="chauffeurForm.controls['dateNaissance'].errors.required">
-                      Veuillez saisir la date de naissance
-                    </small>
-                </span>
-            </label>
-            <input formControlName="dateNaissance" type="date" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir la date de naissance ">
-          </div>
-          <div class="mb-4">
-            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Description
-              <span style="font-size: 11px !important;" *ngIf="chauffeurForm.controls['description'].invalid &&( chauffeurForm.controls['description'].dirty ||chauffeurForm.controls['description'].touched) " class="alert">
-                    <small class="text-danger" *ngIf="chauffeurForm.controls['description'].errors.required">
-                      Veuillez saisir la description
-                    </small>
-                </span>
-            </label>
-            <textarea formControlName="description"  rows="4" class="form-control" name="description" style="border-radius:4px;outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir la description "></textarea>
-          </div>
-
+        <div class="col-4">
+          <img  style="cursor:pointer" [src]="imgURL" class="imgBg">
+          <input  #file  accept='image/*' (change)="preview(file.files, $event)" type="file" id="avatar" hidden>
         </div>
-        <div class="col-6">
+        <div class="col-8" style="margin-left: -40px;  margin-top: 10px;">
+          <span class="txtImg">Image du client</span><br>
+          <span style="font-size: 11px;color: #959595">Veuillez importer une photo de l’ordinateur</span>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="mb-2" style="font-weight: bold;padding-left: 5px">Prénon et nom</label>
 
-          <div class="mb-2">
-            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Permis
-              <span style="font-size: 11px !important;" *ngIf="chauffeurForm.controls['typePermis'].invalid &&( chauffeurForm.controls['typePermis'].dirty ||chauffeurForm.controls['typePermis'].touched) " class="alert">
-                    <small class="text-danger" *ngIf="chauffeurForm.controls['typePermis'].errors.required">
-                      Veuillez saisir le type de permis
-                    </small>
-                </span>
-            </label>
-            <select formControlName="typePermis" class="rounded-pill rounded form-control" name="typePermis" style="outline: none;  background-color: #f4f4f4;border: none" >
-              <option selected>Choisir le type de permis</option>
-              <option value="{{typP?.id}}" *ngFor="let typP of listTypePermis">{{typP?.libelle}}</option>
-            </select>
-          </div>
-          <div class="mb-4">
-            <input formControlName="numeroPermis" type="text" class="rounded-pill rounded form-control" name="" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
-          </div>
-          <div class="mb-4 ">
-            <p>Periode de validité
-              <span style="font-size: 11px !important;" *ngIf="chauffeurForm.controls['debut'].invalid &&( chauffeurForm.controls['debut'].dirty ||chauffeurForm.controls['debut'].touched) " class="alert">
-                    <small class="text-danger" *ngIf="chauffeurForm.controls['debut'].errors.required">
-                      Veuillez saisir la periode de validite
-                    </small>
-                </span>
-            </p>
-            <div class="row">
-              <div class="col-6">
+        <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le prénom et nom">
+      </div>
+      <div class="mb-4">
+        <label class="mb-2" style="font-weight: bold;padding-left: 5px">Numero de telephone</label>
 
-                <input formControlName="debut" type="date" class="rounded-pill rounded form-control" name="debut" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
-
-              </div>
-              <div class="col-6">
-                <input formControlName="fin" type="date" class="rounded-pill rounded form-control" name="fin" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numero de permis">
-
-              </div>
-            </div>
+        <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+      </div>
+      <div class="mb-4">
+        <label class="mb-2" style="font-weight: bold;padding-left: 5px">Trajet</label>
+        <div class="row">
+          <div class="col-6">
+            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
           </div>
-          <div class="mb-4">
-            <label class="mb-2" style="font-weight: bold;padding-left: 5px">Type de chauffeur
-              <span style="font-size: 11px !important;" *ngIf="chauffeurForm.controls['typeChauffeur'].invalid &&( chauffeurForm.controls['typeChauffeur'].dirty ||chauffeurForm.controls['typeChauffeur'].touched) " class="alert">
-                    <small class="text-danger" *ngIf="chauffeurForm.controls['typeChauffeur'].errors.required">
-                      Veuillez saisir le type de chauffeurs
-                    </small>
-                </span>
-            </label>
-            <select formControlName="typeChauffeur" class="rounded-pill rounded form-control" name="typeChauffeur" style="outline: none;  background-color: #f4f4f4;border: none" >
-              <option selected>Choisir le type de chauffeur</option>
-              <option value="Principal">Principal</option>
-              <option value="Secondaire">Secondaire</option>
-            </select>
-          </div>
-          <div>
-            <p class="detailsCam">Liste des types de camions</p>
-            <div class="row" *ngFor="let cam of listCamions">
-              <div class="col-10"><p>{{cam.libelle}}</p></div>
-              <div class="col-1"><input name="camions[]" id="{{cam.id}}" type="checkbox"></div>
-            </div>
+          <div class="col-6">
+            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
           </div>
         </div>
       </div>
+
+
+      <div class="mb-4">
+        <label class="mb-2" style="font-weight: bold;padding-left: 5px">Marchandise</label>
+        <p>Nom</p>
+        <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+     <p>Quantité</p>
+        <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+      </div>
+
+      <div class="mb-4">
+        <label class="mb-2" style="font-weight: bold;padding-left: 5px">Contrat</label>
+        <p>Durée contrat</p>
+
+        <div class="row">
+          <div class="col-6">
+            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+          </div>
+          <div class="col-6">
+            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+          </div>
+        </div>
+        <p>Période</p>
+
+        <div class="row">
+          <div class="col-6">
+            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+          </div>
+          <div class="col-6">
+            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+          </div>
+        </div>
+
+        <p><u>Téléverser contrat</u></p>
+      </div>
+
     </form>
 
   </div>
-  <div  *ngIf="modalTitle == 'Ajout d\' un chauffeur'" class="modal-footer">
+  <div  *ngIf="modalTitle == 'Ajout d\'un client'" class="modal-footer">
     <button type="button" class="btn btn-outline-secondary rounded rounded-pill" data-bs-dismiss="modal">Annuler</button>
     <button [hidden]="!loaderAdd" (click)="createChauffeur()" type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
     <button [hidden]="loaderAdd" type="button" class="btn btn-secondary rounded rounded-pill"><img  style="height: 25px;width: 25px" src="assets/images/loader.gif"></button>
@@ -207,7 +134,7 @@
   </div>
 
 
-  <div  *ngIf="modalTitle == 'Details d\' un chauffeur'" class="modal-body overflow-auto">
+  <div  *ngIf="modalTitle == 'Details du client'" class="modal-body overflow-auto">
     <app-loader [hidden]="loaderDetails"></app-loader>
     <div class="row"  [hidden]="!loaderDetails">
 
@@ -232,12 +159,12 @@
         <span style="font-size: 12px;color: #959595">{{chauffeur?.tel1}}  {{chauffeur?.tel2}}</span>
       </div>
       <div class="col-4" style="text-align: right">
-       <!-- <button class="btn btn-outline-secondary rounded rounded-pill">Amener en entretien</button>-->
+        <!-- <button class="btn btn-outline-secondary rounded rounded-pill">Amener en entretien</button>-->
         <br>
-       <!-- <div class="row mt-3">
-          <div class="col-1"><img src="../assets/images/good_courbe.svg"></div>
-          <div class="col-10"> <p class="montant">240 000 frcfa</p></div>
-        </div>-->
+        <!-- <div class="row mt-3">
+           <div class="col-1"><img src="../assets/images/good_courbe.svg"></div>
+           <div class="col-10"> <p class="montant">240 000 frcfa</p></div>
+         </div>-->
       </div>
 
       <div class="row mt-3" style="border-top: solid 1px #DEDEDE">
@@ -296,14 +223,14 @@
           </div>
           <div>
             <br>
-             <div *ngIf="chauffeur?.note == 0">
+            <div *ngIf="chauffeur?.note == 0">
               <div  class="rate null" > </div>
               <div  class="rate null" > </div>
               <div  class="rate null" > </div>
               <div  class="rate null" > </div>
               <div  class="rate null" > </div>
             </div>
-             <div *ngIf="chauffeur?.note == 1">
+            <div *ngIf="chauffeur?.note == 1">
               <div  class="rate bad" > </div>
               <div  class="rate bad-empty" > </div>
               <div  class="rate bad-empty" > </div>
@@ -354,11 +281,11 @@
           <div class="row mt-2">
             <div class="col-6"><p style="font-size: 13px;font-weight: bold">Entretien</p></div>
             <div class="col-6" style="text-align: right"><p style="cursor:pointer;font-size: 11px;color: blue"><u>Fiche d'entretien</u></p></div>
-           <!-- <strong>Pieces</strong><br>
-            <span class="detailsCam">Huile<span style="float: right">12</span></span><br>
-            <span class="detailsCam">Filtre gazoil<span style="float: right">12</span></span><br>
-            <span class="detailsCam">Filtre a huile<span style="float: right">12</span></span><br>
-            <strong>Entretien</strong><br>-->
+            <!-- <strong>Pieces</strong><br>
+             <span class="detailsCam">Huile<span style="float: right">12</span></span><br>
+             <span class="detailsCam">Filtre gazoil<span style="float: right">12</span></span><br>
+             <span class="detailsCam">Filtre a huile<span style="float: right">12</span></span><br>
+             <strong>Entretien</strong><br>-->
             <span class="detailsCam">Type de vidange<span style="float: right">Simple</span></span><br>
             <span class="detailsCam">Prochaine vidange<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
 

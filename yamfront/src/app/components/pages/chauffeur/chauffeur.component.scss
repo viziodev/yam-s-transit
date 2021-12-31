@@ -177,8 +177,8 @@ $md-chip-color: #e0e0e0;
     }
   }
   .avatar-preview {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     position: relative;
     border-radius: 100%;
     border: 6px solid #F8F8F8;
@@ -249,4 +249,7 @@ $md-chip-color: #e0e0e0;
 .null{
   background-color: #BCBCBC;
 
+}
+.details-section{
+  padding-left: 30px;padding-top: 30px;padding-right: 15px
 }

@@ -1,0 +1,38 @@
+<div id=" " style="height: 220px;width: 260px;border-radius: 4px;border: solid 1px #eaeaea;padding: 15px">
+  <div class="row" style="height: 50px;border-bottom: solid 1px #eaeaea;width: 255px">
+    <div class="col-2">
+      <div class=" text-center">
+        <img src="assets/images/avatar.jpg" style="height: 35px;width: 35px;border-radius: 50%;background-color: red;"/>
+       </div>
+    </div>
+    <div class="col-8">
+      <p style="color: #323232;font-size: 13px">GR RDDE<br><span class="etatChauufeur"    style=" ">77 888 88 88</span></p>
+
+    </div>
+    <div class="col-2" style="text-align: right">
+      <i style="cursor: pointer"  (click)="clickedActionner(client?.id) "  class="fas fa-ellipsis-h"></i>
+    </div>
+    <div>
+      <p>Yaounde - Dakar <br>
+        <span class="detailsCam">3 tonnes </span><br>
+    <span class="detailsCam">Jeudi/ Chaque mois</span></p>
+    </div>
+
+    <div class="col-12" style="border-top: solid 1px #eaeaea;height: 50px !important;">
+      <p style="color: #323232;font-size: 13px" class="mt-2">
+        <span style="color: #BCBCBC;font-size: 13px">Montant à payer</span><br>
+        <span class="etatChauufeur"    style="color: #D60B52;font-size: 15px ">230.000F</span></p>
+
+    </div>
+
+    <div [hidden]="!isExpanded" class="actions">
+      <p (click)="clickedActionItem(client?.id,'Affecter à un camion') "  class="action-item">Lancer une course</p>
+      <hr>
+      <p (click)="clickedActionItem(client?.id,'Rendre Indisponible') "  class="action-item">Archiver</p>
+      <hr>
+      <p (click)="clickedActionItem(client?.id,'Archiver') " class="action-item">Voir details</p>
+
+    </div>
+  </div>
+
+</div>

@@ -20,8 +20,11 @@ export class CamionComponent implements OnInit {
   listMarques: any[];
   listModeles: any[];
   allCamions: any[] = [];
-  pieces: any;
-  page: number=1;
+   pieces: any;
+   filtreMarque: any;
+   filtreModele: any;
+   filtreEtat: any;
+   page: number=1;
   camion: any;
   loaderList: boolean = false;
   loaderDetails: boolean = false;
@@ -292,13 +295,17 @@ postCamion(){
       detailsButton.click();
       this.getDetailsCamion()
     }else if (e?.type == 'Archiver'){
-      this.deleteCamion()
+       this.deleteCamion()
     }
+    this.deletingSelection=[];
+    this.deletingSelection.push(e)
     console.log(e)
   }
   getDetailsCamion(){
+    this.loaderDetails=false;
     this.camionService.detailsCamion(this.id).subscribe(
       data => {
+        this.loaderDetails=true;
         this.camion = data;
         console.log(data)
       }
@@ -312,14 +319,26 @@ postCamion(){
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
+      cancelButtonText: 'Annuler',
       confirmButtonText: 'Oui, supprimer!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Supprimé!',
-          'Le camion a été supprimé avec succés!',
-          'success'
+        this.loaderList = false;
+        this.camionService.archiverCamion(this.deletingSelection).subscribe(
+          data =>{
+            this.loaderList = true;
+            this.alertService.successDangerNotif('success','Suppression effectuée avec succés!')
+            setTimeout(function () {
+              window.location.reload();
+            },3500)
+            console.log(data)
+          }, error =>{
+            this.loaderList = true;
+          }
         )
+
+      }else {
+        this.deletingSelection = [];
       }
     })
   }
@@ -347,20 +366,30 @@ postCamion(){
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
+      cancelButtonText: 'Annuler',
       confirmButtonText: 'Oui, supprimer!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Supprimé!',
-          'Suppression effectuée avec succés!',
-          'success'
+        this.loaderList = false;
+        this.camionService.archiverCamion(this.deletingSelection).subscribe(
+          data =>{
+            this.loaderList = true;
+            this.alertService.successDangerNotif('success','Suppression effectuée avec succés!')
+            setTimeout(function () {
+                window.location.reload();
+            },3500)
+            console.log(data)
+          }, error =>{
+            this.loaderList = true;
+          }
         )
+
       }
     })
   }
 
-  getCamions(){
-    let params=`&page=${this.page};`
+  getCamions(filtre = ''){
+    let params=`&page=${this.page}${filtre};`
     this.camionService.listAllCamions(params).subscribe(
       (data:any) => {
         this.loaderList = true;
@@ -390,5 +419,14 @@ postCamion(){
       //   this.currentPage++;
      // this.paginateUser(this.currentPage);
     }
+  }
+  filter(){
+    let filtre = '';
+    this.filtreEtat != ''? filtre += '&etat=' + this.filtreEtat:''
+    this.filtreMarque != ''? filtre +=  '&marque=' + this.filtreMarque:''
+    this.filtreModele != ''? filtre +=  '&modele=' + this.filtreModele:''
+    this.allCamions = [];
+    this.page = 1;
+    this.getCamions(filtre);
   }
 }
