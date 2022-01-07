@@ -21,6 +21,9 @@ export class ParamsService{
   listTypesCamions(){
     return this.http.get(this.BASE_URL + 'listTypesCamions' , {headers: this.headersApplicationJson});
   }
+  listTypeCamionTonne(){
+    return this.http.get(this.BASE_URL + 'listTypeCamionTonne' , {headers: this.headersApplicationJson});
+  }
   listMarques(){
     return this.http.get(this.BASE_URL + 'listMarques' , {headers: this.headersApplicationJson});
   }

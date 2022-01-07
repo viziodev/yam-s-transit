@@ -1,7 +1,7 @@
 <app-content-menu [title]="'Client'" [menus]="menus">
   <div class="col-5"><h2>Client</h2></div>
   <div class="col-7" style="text-align: right">
-    <button (click)="addChauffeur()" class="btn btn-secondary rounded rounded-pill mt-3 "  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus"></i>Ajouter un client</button>
+    <button (click)="addClient()" class="btn btn-secondary rounded rounded-pill mt-3 "  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus"></i>Ajouter un client</button>
   </div>
 </app-content-menu>
 <div  >
@@ -33,31 +33,23 @@
     </div>
     <div class="col-4"></div>
   </div>
-
+  <app-loader [hidden]="loaderList"></app-loader>
   <div (scroll)="scrolling()" id="scrollZone" class="row overflow-auto" style="height: 500px;">
-    <!--<app-loader [hidden]="loaderList"></app-loader>-->
-    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
-    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
-    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
-    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
-    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
-    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
-    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
-    <div class="col-3 mt-3">    <app-client-card></app-client-card>  </div>
-    <div style="position: relative" *ngFor="let chauf of allChauffeurs" class="col-3 mt-5"  >
-      <button data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"  id="detailsChauf" style="display:none;"></button>
-      <!--(click)="detailsChauffeur()" -->
-      <app-card-chauffeur [cardId]="chauf?.id" (clickActionItem)="getAction($event)" (clickedAction)="getSelectedChauffeur($event)" [chauffeur]="chauf"></app-card-chauffeur>
-    </div>
+
+    <button data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsClient()"  id="detailsClient" style="display:none;"></button>
+
+    <div class="col-3 mt-3" *ngFor="let client of clients">    <app-client-card [cardId]="client?.id" (clickedAction)=" getSelectedClient($event)" (clickActionItem)="getAction ($event)" [client]="client"></app-client-card>  </div>
+
+
 
   </div>
 </div>
 <app-modal [modalTitle]="modalTitle" [size]="size">
 
   <div *ngIf="modalTitle == 'Ajout d\'un client'" class="modal-body overflow-auto">
-    <form  >
+    <form [formGroup]="clientForm" >
       <div class="row">
-        <div class="col-4">
+        <div (click)="clickUpload()" class="col-4">
           <img  style="cursor:pointer" [src]="imgURL" class="imgBg">
           <input  #file  accept='image/*' (change)="preview(file.files, $event)" type="file" id="avatar" hidden>
         </div>
@@ -67,59 +59,92 @@
         </div>
       </div>
       <div class="mb-4">
-        <label class="mb-2" style="font-weight: bold;padding-left: 5px">Prénon et nom</label>
+        <label class="mb-2" style="font-weight: bold;padding-left: 5px">Prénom et nom</label>
 
-        <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le prénom et nom">
+        <input formControlName="nomComplet"   type="text" class="rounded-pill rounded form-control" name="nomComplet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le prénom et nom">
       </div>
       <div class="mb-4">
         <label class="mb-2" style="font-weight: bold;padding-left: 5px">Numero de telephone</label>
 
-        <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+        <input formControlName="tel"  type="text" class="rounded-pill rounded form-control" name="tel" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
       </div>
-      <div class="mb-4">
-        <label class="mb-2" style="font-weight: bold;padding-left: 5px">Trajet</label>
-        <div class="row">
-          <div class="col-6">
-            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
-          </div>
-          <div class="col-6">
-            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
-          </div>
-        </div>
-      </div>
-
-
-      <div class="mb-4">
-        <label class="mb-2" style="font-weight: bold;padding-left: 5px">Marchandise</label>
-        <p>Nom</p>
-        <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
-     <p>Quantité</p>
-        <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
-      </div>
-
       <div class="mb-4">
         <label class="mb-2" style="font-weight: bold;padding-left: 5px">Contrat</label>
-        <p>Durée contrat</p>
-
+        <br><span class="detailsCam">Trajet</span>
         <div class="row">
           <div class="col-6">
-            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+            <select formControlName="typeTrajet"  type="text" class="rounded-pill rounded form-control" name="typeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+            <option selected>Type trajet</option>
+            <option value="Aller - retour">Aller - retour</option>
+            <option value="Retour">Retour</option>
+            </select>
           </div>
           <div class="col-6">
-            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+            <input formControlName="dureeTrajet"   type="text" class="rounded-pill rounded form-control" name="dureeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Durée trajet">
           </div>
         </div>
-        <p>Période</p>
-
-        <div class="row">
+        <div class="row mt-2">
           <div class="col-6">
-            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+            <input  formControlName="lieuChargement" type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
           </div>
           <div class="col-6">
-            <input   type="text" class="rounded-pill rounded form-control" name="immatriculation" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+            <input  formControlName="lieuDechargement" type="text" class="rounded-pill rounded form-control" name="lieuDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement">
           </div>
         </div>
+        <br><span class="detailsCam">Durée contrat</span>
+        <div class="row mt-2">
+          <div class="col-6">
+            <input formControlName="debut"  type="date" class="rounded-pill rounded form-control" name="debut" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
+          </div>
+          <div class="col-6">
+            <input  formControlName="fin" type="date" class="rounded-pill rounded form-control" name="fin" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement">
+          </div>
+        </div>
+        <br><span class="detailsCam">Période </span>
+        <div class="row mt-2">
+          <div class="col-6">
+            <select formControlName="jourChargement"  class="rounded-pill rounded form-control" name="jourChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+              <option selected value="Lundi">Lundi</option>
+              <option value="Mardi">Mardi</option>
+              <option value="Mercredi">Mercredi</option>
+              <option value="Jeudi">Jeudi</option>
+              <option value="Vendredi">Vendredi</option>
+              <option value="Samedi">Samedi</option>
+              <option value="Dimanche">Dimanche</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <select    formControlName="jourDechargement" class="rounded-pill rounded form-control" name="jourDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+              <option selected value="Lundi">Lundi</option>
+              <option value="Mardi">Mardi</option>
+              <option value="Mercredi">Mercredi</option>
+              <option value="Jeudi">Jeudi</option>
+              <option value="Vendredi">Vendredi</option>
+              <option value="Samedi">Samedi</option>
+              <option value="Dimanche">Dimanche</option>
+            </select>
+          </div>
+          <div class="col-12 mt-3">
+            <select formControlName="frequenceChargement"  class="rounded-pill rounded form-control" name="frequenceChargement" style="outline: none;  background-color: #f4f4f4;border: none" >
+              <option selected value="weekly">Chaque semaine</option>
+              <option selected value="weekly">Chaque mois</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
+
+      <div class="mb-4">
+         <p class="detailsCam">Nom de la marchandise</p>
+        <input formControlName="marchandise"  type="text" class="rounded-pill rounded form-control" name="marchandise" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir la marchandise">
+     <p class="detailsCam">Tonnage</p>
+        <select formControlName="tonnage"  type="text" class="rounded-pill rounded form-control" name="tonnage" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+          <option selected value="weekly">Choisir le tonnage</option>
+          <option *ngFor="let tc of listTypeCamionTonne" value="{{tc?.tonnes}}">{{tc?.tonnes}} tonnes</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
         <p><u>Téléverser contrat</u></p>
       </div>
 
@@ -128,7 +153,7 @@
   </div>
   <div  *ngIf="modalTitle == 'Ajout d\'un client'" class="modal-footer">
     <button type="button" class="btn btn-outline-secondary rounded rounded-pill" data-bs-dismiss="modal">Annuler</button>
-    <button [hidden]="!loaderAdd" (click)="createChauffeur()" type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
+    <button [hidden]="!loaderAdd" (click)="createClient()" type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
     <button [hidden]="loaderAdd" type="button" class="btn btn-secondary rounded rounded-pill"><img  style="height: 25px;width: 25px" src="assets/images/loader.gif"></button>
 
   </div>
@@ -169,131 +194,105 @@
 
       <div class="row mt-3" style="border-top: solid 1px #DEDEDE">
         <div class="col-6 details-section" style="border-right: solid 1px  #DEDEDE">
-          <p style="font-size: 13px;font-weight: bold">Statut</p>
-          <span class="badge "  [class.dispo-bg]="chauffeur?.etat == 'Disponible'" [class.course-bg]="chauffeur?.etat == 'En course'" [class.indispo-bg]="chauffeur?.etat == 'Indisponible'"  >{{chauffeur?.etat}}</span>
-          <span class="badge ml-2" style="background-color: #BCBCBC;margin-left: 20px"   >{{chauffeur?.disponibilite}}</span>
+          <span class="detailsCam">Lieu chargement<span style="float: right">{{chauffeur?.camion?.marque?.libelle}}</span></span><br>
+          <span class="detailsCam">Lieu dechargement<span style="float: right">{{chauffeur?.camion?.typeCamion?.libelle}}</span></span><br>
+          <span class="detailsCam">Durée<span style="float: right">{{chauffeur?.camion?.typeCamion?.modele?.libelle}}</span></span><br>
+          <span class="detailsCam">Jour chargement<span style="float: right">{{chauffeur?.camion?.marque?.libelle}}</span></span><br>
+          <span class="detailsCam">Jour dechargement<span style="float: right">{{chauffeur?.camion?.typeCamion?.libelle}}</span></span><br>
+          <span class="detailsCam">Fréquence de chargement<span style="float: right">{{chauffeur?.camion?.typeCamion?.libelle}}</span></span><br>
 
-          <p *ngIf="chauffeur?.etat == 'Disponible'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur est dispo pour course</p>
-          <p *ngIf="chauffeur?.etat == 'En course'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur actuellement en course</p>
-          <p *ngIf="chauffeur?.etat == 'Indisponible'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur est indisponible</p>
-          <div class="row mt-2">
-            <div class="col-4"><p style="font-size: 13px;font-weight: bold">Chauffeurs</p></div>
-            <div class="col-8" style="text-align: right"><p style="cursor:pointer;font-size: 13px;  color: blue;"><u>Historique des chauffeurs</u></p></div>
+          <span class="detailsCam">Nom de la marchandise<span style="float: right">{{chauffeur?.camion?.typeCarburant}}</span></span><br>
+          <span class="detailsCam">Tonnage<span style="float: right">{{chauffeur?.camion?.typeCamion?.qteCarburantVide}}</span></span><br>
+          <span class="detailsCam">Montant<span style="float: right">{{chauffeur?.camion?.typeCamion?.qteCarburantCharge}}</span> </span><br>
+          <div class=" mt-5">
+            <span class="detailsCam">Voir le contrat<span style="float: right">{{chauffeur?.camion?.typeCamion?.qteCarburantCharge}}</span> </span><br>
+
           </div>
-          <div class="row mt-4">
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
 
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-            </div>
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-            </div>
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-            </div>
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-            </div>
-          </div>
-          <div>
-            <p style="font-size: 13px;font-weight: bold">Statistiques(par mois)</p>
-            <div class="row">
-              <div class="col-3">
-                <p><span  style="font-size: 23px;  color: #505050;">24L</span><br><span style="font-size: 12px">Carburant</span></p>
-              </div>
-              <div class="col-3">
-                <p><span  style="font-size: 23px;  color: #505050;">23</span><br><span style="font-size: 12px">Pannes</span></p>
-              </div>
-              <div class="col-3">
-                <p><span  style="font-size: 23px;  color: #505050;">67K</span><br><span style="font-size: 12px">Recettes</span></p>
-              </div>
-              <div class="col-3">
-                <p><span  style="font-size: 23px;  color: #505050;">67K</span><br><span style="font-size: 12px">Depenses</span></p>
-              </div>
-            </div>
-          </div>
-          <div>
-            <br>
-            <div *ngIf="chauffeur?.note == 0">
-              <div  class="rate null" > </div>
-              <div  class="rate null" > </div>
-              <div  class="rate null" > </div>
-              <div  class="rate null" > </div>
-              <div  class="rate null" > </div>
-            </div>
-            <div *ngIf="chauffeur?.note == 1">
-              <div  class="rate bad" > </div>
-              <div  class="rate bad-empty" > </div>
-              <div  class="rate bad-empty" > </div>
-              <div  class="rate bad-empty" > </div>
-              <div  class="rate bad-empty" > </div>
-            </div>
-            <div *ngIf="chauffeur?.note == 2">
-              <div  class="rate bad" > </div>
-              <div  class="rate bad" > </div>
-              <div  class="rate bad-empty" > </div>
-              <div  class="rate bad-empty" > </div>
-              <div  class="rate bad-empty" > </div>
-            </div>
-            <div *ngIf="chauffeur?.note == 3">
-              <div  class="rate good" > </div>
-              <div  class="rate good" > </div>
-              <div  class="rate good" > </div>
-              <div  class="rate good-empty" > </div>
-              <div  class="rate good-empty" > </div>
-            </div>
-            <div *ngIf="chauffeur?.note == 4">
-              <div  class="rate good" > </div>
-              <div  class="rate good" > </div>
-              <div  class="rate good" > </div>
-              <div  class="rate good" > </div>
-              <div  class="rate good-empty" > </div>
-            </div>
-            <div *ngIf="chauffeur?.note == 5">
-              <div  class="rate good" > </div>
-              <div  class="rate good" > </div>
-              <div  class="rate good" > </div>
-              <div  class="rate good" > </div>
-              <div  class="rate good" > </div>
-            </div>
-            <p>Note</p>
-          </div>
         </div>
-        <div class="col-6 details-section" *ngIf="chauffeur?.disponibilite == 'Affecté'">
-          <p style="font-weight: bold;font-size: 13px">Caractéristiques </p>
-          <span class="detailsCam">Marque<span style="float: right">{{chauffeur?.camion?.marque?.libelle}}</span></span><br>
-          <span class="detailsCam">Type<span style="float: right">{{chauffeur?.camion?.typeCamion?.libelle}}</span></span><br>
-          <span class="detailsCam">Modele<span style="float: right">{{chauffeur?.camion?.typeCamion?.modele?.libelle}}</span></span><br>
-          <span class="detailsCam">Type carburant<span style="float: right">{{chauffeur?.camion?.typeCarburant}}</span></span><br>
-          <span class="detailsCam">Qté carburant a vide<span style="float: right">{{chauffeur?.camion?.typeCamion?.qteCarburantVide}}</span></span><br>
-          <span class="detailsCam">Qté carburant au chargement<span style="float: right">{{chauffeur?.camion?.typeCamion?.qteCarburantCharge}}</span> </span><br>
-          <span class="detailsCam">Nbre pneus de secours<span style="float: right">{{chauffeur?.camion?.typeCamion?.nbrePneusSecours}}</span></span><br>
-          <span class="detailsCam">Nbre pneus de chaussés<span style="float: right">{{chauffeur?.camion?.typeCamion?.nbrePneusChaussee}}</span></span><br>
-          <div class="row mt-2">
-            <div class="col-6"><p style="font-size: 13px;font-weight: bold">Entretien</p></div>
-            <div class="col-6" style="text-align: right"><p style="cursor:pointer;font-size: 11px;color: blue"><u>Fiche d'entretien</u></p></div>
-            <!-- <strong>Pieces</strong><br>
-             <span class="detailsCam">Huile<span style="float: right">12</span></span><br>
-             <span class="detailsCam">Filtre gazoil<span style="float: right">12</span></span><br>
-             <span class="detailsCam">Filtre a huile<span style="float: right">12</span></span><br>
-             <strong>Entretien</strong><br>-->
-            <span class="detailsCam">Type de vidange<span style="float: right">Simple</span></span><br>
-            <span class="detailsCam">Prochaine vidange<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
+        <div class="col-6 details-section"  >
+          <form [formGroup]="clientForm" >
+            <div class="mb-4">
+              <label class="mb-2" style="font-weight: bold;padding-left: 5px">Ajout contrat</label>
+              <br><span class="detailsCam">Trajet</span>
+              <div class="row">
+                <div class="col-6">
+                  <select formControlName="typeTrajet"  type="text" class="rounded-pill rounded form-control" name="typeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+                    <option selected>Type trajet</option>
+                    <option value="Aller - retour">Aller - retour</option>
+                    <option value="Retour">Retour</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <input formControlName="dureeTrajet"   type="text" class="rounded-pill rounded form-control" name="dureeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Durée trajet">
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-6">
+                  <input  formControlName="lieuChargement" type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
+                </div>
+                <div class="col-6">
+                  <input  formControlName="lieuDechargement" type="text" class="rounded-pill rounded form-control" name="lieuDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement">
+                </div>
+              </div>
+              <br><span class="detailsCam">Durée contrat</span>
+              <div class="row mt-2">
+                <div class="col-6">
+                  <input formControlName="debut"  type="date" class="rounded-pill rounded form-control" name="debut" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
+                </div>
+                <div class="col-6">
+                  <input  formControlName="fin" type="date" class="rounded-pill rounded form-control" name="fin" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement">
+                </div>
+              </div>
+              <br><span class="detailsCam">Période </span>
+              <div class="row mt-2">
+                <div class="col-6">
+                  <select formControlName="jourChargement"  class="rounded-pill rounded form-control" name="jourChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+                    <option selected value="Lundi">Lundi</option>
+                    <option value="Mardi">Mardi</option>
+                    <option value="Mercredi">Mercredi</option>
+                    <option value="Jeudi">Jeudi</option>
+                    <option value="Vendredi">Vendredi</option>
+                    <option value="Samedi">Samedi</option>
+                    <option value="Dimanche">Dimanche</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <select    formControlName="jourDechargement" class="rounded-pill rounded form-control" name="jourDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+                    <option selected value="Lundi">Lundi</option>
+                    <option value="Mardi">Mardi</option>
+                    <option value="Mercredi">Mercredi</option>
+                    <option value="Jeudi">Jeudi</option>
+                    <option value="Vendredi">Vendredi</option>
+                    <option value="Samedi">Samedi</option>
+                    <option value="Dimanche">Dimanche</option>
+                  </select>
+                </div>
+                <div class="col-12 mt-3">
+                  <select formControlName="frequenceChargement"  class="rounded-pill rounded form-control" name="frequenceChargement" style="outline: none;  background-color: #f4f4f4;border: none" >
+                    <option selected value="weekly">Chaque semaine</option>
+                    <option selected value="weekly">Chaque mois</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
 
-            <strong>Révision</strong><br>
-            <span class="detailsCam">Prochaine revision<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
+            <div class="mb-4">
+              <p class="detailsCam">Nom de la marchandise</p>
+              <input formControlName="marchandise"  type="text" class="rounded-pill rounded form-control" name="marchandise" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir la marchandise">
+              <p class="detailsCam">Tonnage</p>
+              <select formControlName="tonnage"  type="text" class="rounded-pill rounded form-control" name="tonnage" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+                <option selected value="weekly">Choisir le tonnage</option>
+                <option *ngFor="let tc of listTypeCamionTonne" value="{{tc?.tonnes}}">{{tc?.tonnes}} tonnes</option>
+              </select>
+            </div>
 
-          </div>
+            <div class="mb-4">
+              <p><u>Téléverser contrat</u></p>
+            </div>
+
+          </form>
         </div>
         <div class="col-6 p-2" *ngIf="chauffeur?.disponibilite == 'Non affecté'">
 
@@ -304,6 +303,12 @@
         </div>
       </div>
     </div>
+  </div>
+  <div  *ngIf="modalTitle == 'Details du client'" class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary rounded rounded-pill" data-bs-dismiss="modal">Annuler</button>
+    <button [hidden]="!loaderAdd" (click)="createClient()" type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
+    <button [hidden]="loaderAdd" type="button" class="btn btn-secondary rounded rounded-pill"><img  style="height: 25px;width: 25px" src="assets/images/loader.gif"></button>
+
   </div>
 </app-modal>
 

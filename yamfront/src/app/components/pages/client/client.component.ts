@@ -6,6 +6,7 @@ import {ParamsService} from "../../../services/api/params-service";
 import {AlertService} from "../../../services/alert.service";
 import Swal from "sweetalert2";
 import {ClientService} from "../../../services/api/client-service";
+import {ClientCardComponent} from "../../shared/client-card/client-card.component";
 
 @Component({
   selector: 'app-client',
@@ -17,9 +18,11 @@ export class ClientComponent implements OnInit {
   menus: any[];
   id: any;
   chauffeur: any;
+  listTypeCamionTonne: any;
   page: any = 1;
   camions: any[] = [];
-  chauffeurToDelete: any[] = [];
+  clients: any[] = [];
+  clientToDelete: any[] = [];
   ENDPOINT = environment.ENDPOINT;
   loaderList: boolean = false;
   loaderAdd: boolean = true;
@@ -32,29 +35,27 @@ export class ClientComponent implements OnInit {
   listTypePermis:any;
   selectChauffeur:boolean;
   menuOpen: boolean = false;
-  chauffeurForm: FormGroup ;
+  clientForm: FormGroup ;
   @ViewChild('toggleButton') toggleButton: ElementRef;
-  @ViewChildren(CardChauffeurComponent) cards: QueryList<CardChauffeurComponent>;
+  @ViewChildren(ClientCardComponent) cards: QueryList<ClientCardComponent>;
   @ViewChild('chauffeursList') chauffeursList: ElementRef;
   private avatarImg: any;
 
   constructor(private renderer: Renderer2, private fb: FormBuilder,private paramsService: ParamsService,private alertService: AlertService,private clientService: ClientService) {
-    this.chauffeurForm = this.fb.group({
-      nom: ['', [Validators.required]],
-      email: [''],
-      adresse: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      tel1: ['', [Validators.required]],
-      tel2: ['', [Validators.required]],
-      dateNaissance: ['', [Validators.required]],
-      typePermis: ['', [Validators.required]],
-      numeroPermis: ['', [Validators.required]],
+    this.clientForm = this.fb.group({
+      nomComplet: ['', [Validators.required]],
+      tel: ['', [Validators.required]],
+      typeTrajet: ['', [Validators.required]],
+      dureeTrajet: ['', [Validators.required]],
+      frequenceChargement: ['', [Validators.required]],
+      lieuChargement: ['', [Validators.required]],
+      lieuDechargement: ['', [Validators.required]],
+      jourChargement: ['', [Validators.required]],
+      jourDechargement: ['', [Validators.required]],
       debut: ['', [Validators.required]],
       fin: ['', [Validators.required]],
-      typeChauffeur: ['', [Validators.required]],
-      camions: this.fb.array([
-
-      ]),
+      tonnage: ['', [Validators.required]],
+      marchandise:['', [Validators.required]],
     });
     this.renderer.listen('window', 'click', (e: Event) => {
       if (!this.selectChauffeur) {
@@ -62,6 +63,7 @@ export class ClientComponent implements OnInit {
       }
       this.selectChauffeur = false;
     });
+   this.getClients();
     this.paramsService.listTypesCamions().subscribe(
       (data: any) => {
         this.listCamions=data['hydra:member'];
@@ -77,7 +79,7 @@ export class ClientComponent implements OnInit {
     )
   }
   ngOnInit(): void {
-    this.getChauffeurs()
+   // this.getChauffeurs()
     this.selectChauffeur = false;
     this.menus = [  {
       title: 'Client',
@@ -87,45 +89,48 @@ export class ClientComponent implements OnInit {
       url: 'Pages',
     }
     ]
-
+  this.paramsService.listTypeCamionTonne().subscribe(
+    (data:any) => {
+      this.listTypeCamionTonne=data['hydra:member']
+    }
+  )
   }
-  addChauffeur(){
+  addClient(){
     this.modalTitle='Ajout d\'un client';
     this.size="moitie";
   }
 
-  detailsChauffeur(){
-    this.modalTitle='Details du chauffeur';
+  detailsClient(){
+    this.modalTitle='Details du client';
     this.size="complet";
-  }
-
-
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
   }
   preventCloseOnClick() {
     this.selectChauffeur = true;
   }
-  createChauffeur(){
-    this.loaderAdd = false;
+  createClient(){
+    console.log(this.clientForm.value)
+     this.loaderAdd = false;
     const formdata = new FormData();
     this.checkVerif();
-    formdata.append('filePhoto',this.avatarImg)
-    formdata.append('nomComplet',this.chauffeurForm.value.nom)
-    formdata.append('adresse',this.chauffeurForm.value.adresse)
-    formdata.append('description',this.chauffeurForm.value.description)
-    formdata.append('tel1',this.chauffeurForm.value.tel1)
-    formdata.append('tel2',this.chauffeurForm.value.tel2)
-    formdata.append('dateNaissance',this.chauffeurForm.value.dateNaissance)
-    formdata.append('typePermisId',this.chauffeurForm.value.typePermis)
-    formdata.append('numeroPermis',this.chauffeurForm.value.numeroPermis)
-    formdata.append('dateDebutValidite',this.chauffeurForm.value.debut)
-    formdata.append('dateFinValidite',this.chauffeurForm.value.fin)
-    formdata.append('type',this.chauffeurForm.value.typeChauffeur)
-    formdata.append('tabTypeCamion',JSON.stringify(this.camions))
-    this.clientService.addClient(formdata).subscribe(
+     formdata.append('filePhoto',this.avatarImg)
+    formdata.append('nomComplet',this.clientForm.value.nom)
+    formdata.append('tel',this.clientForm.value.tel)
+    formdata.append('typeTrajet',this.clientForm.value.typeTrajet)
+    formdata.append('dureeTrajet',this.clientForm.value.dureeTrajet)
+    formdata.append('typePermisId',this.clientForm.value.typePermis)
+    formdata.append('frequenceChargement',this.clientForm.value.frequenceChargement)
+    formdata.append('dateDebutValidite',this.clientForm.value.debut)
+    formdata.append('dateFinValidite',this.clientForm.value.fin)
+    formdata.append('lieuChargement',this.clientForm.value.lieuChargement)
+    formdata.append('lieuDechargement',this.clientForm.value.lieuDechargement)
+    formdata.append('jourChargement',this.clientForm.value.jourChargement)
+    formdata.append('debut',this.clientForm.value.debut)
+    formdata.append('fin',this.clientForm.value.fin)
+    formdata.append('tonnage',this.clientForm.value.tonnage)
+    formdata.append('marchandise',this.clientForm.value.marchandise)
+     this.clientService.addClient(formdata).subscribe(
       data =>{
-        this.alertService.successDangerNotif('success','Chauffeur ajouté avec succés');
+        this.alertService.successDangerNotif('success','Client ajouté avec succés');
         this.loaderAdd = true;
         setInterval(function () {
           window.location.reload()
@@ -133,7 +138,7 @@ export class ClientComponent implements OnInit {
 
         console.log(data)
       },error => {
-        this.alertService.successDangerNotif('danger','Erreur lors de la création du chauffeur !');
+        this.alertService.successDangerNotif('danger','Erreur lors de la création du client !');
         this.loaderAdd = true;
 
       }
@@ -143,7 +148,15 @@ export class ClientComponent implements OnInit {
     const input = document.getElementById("avatar");
     input.click();
   }
-
+getClients(){
+  this.loaderList = false;
+  this.clientService.listClients().subscribe((data: any) =>{
+    this.loaderList = true;
+    for (let i = 0; i <data?.data.length ; i++) {
+      this.clients.push(data.data[i])
+    }
+  })
+}
   preview(files, e) {
     if (files.length === 0) {
       return;
@@ -179,7 +192,7 @@ export class ClientComponent implements OnInit {
       }
     }
   }
-  getChauffeurs(){
+  /*getChauffeurs(){
     let params=`&page=${this.page}`
     this.clientService.listAllClient(params).subscribe(
       (data:any) => {
@@ -198,9 +211,10 @@ export class ClientComponent implements OnInit {
         console.log(error)
       }
     )
-  }
+  }*/
 
-  getSelectedChauffeur(id){
+  getSelectedClient(id){
+    console.log(id)
     this.cards.forEach((card) => {
       if (card.cardId != id) {
         card.isExpanded = false;
@@ -209,22 +223,23 @@ export class ClientComponent implements OnInit {
   }
 
   getAction(e){
+    console.log(e,'""""""""""""""""""""""""')
     this.id = e?.id;
     if(e?.type == 'Details'){
-      const detailsButton = document.getElementById('detailsChauf');
+      const detailsButton = document.getElementById('detailsClient');
       detailsButton.click();
-      this.getDetailsChauffeur();
+      this.getDetailsClient();
     }else if (e?.type == 'Archiver'){
-      this.deleteChauffeur()
+      this.deleteClient()
     }
-    this.chauffeurToDelete = [];
-    this.chauffeurToDelete.push(e);
+    this.clientToDelete = [];
+    this.clientToDelete.push(e);
   }
 
 
-  deleteChauffeur(){
+  deleteClient(){
     Swal.fire({
-      title: 'Etes vous sure de vouloir archiver ce chauffeur?',
+      title: 'Etes vous sure de vouloir archiver ce client?',
       text: "Cet action est irreversible!",
       icon: 'warning',
       showCancelButton: true,
@@ -235,7 +250,7 @@ export class ClientComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.loaderList = false;
-        this.clientService.archiverClient(this.chauffeurToDelete).subscribe(
+        this.clientService.archiverClient(this.clientToDelete).subscribe(
           data =>{
             this.loaderList = true;
             this.alertService.successDangerNotif('success','Suppression effectuée avec succés!')
@@ -261,17 +276,21 @@ export class ClientComponent implements OnInit {
     console.log(sh)
     console.log(ch)
     if (sh - st <= ch) {
-      this.getChauffeurs();
+    //  this.getChauffeurs();
       //   this.currentPage++;
       // this.paginateUser(this.currentPage);
     }
   }
-  getDetailsChauffeur(){
+  getDetailsClient(){
     this.loaderDetails=false;
     this.clientService.detailsClient(this.id).subscribe(
       data => {
         this.loaderDetails=true;
         this.chauffeur = data;
+      },(error)=>{
+        this.loaderDetails = true;
+
+        console.log(error)
       }
     )
   }

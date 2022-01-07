@@ -20,6 +20,10 @@ export class ClientService{
     return this.http.get(this.BASE_URL + 'listAllClient?isDeleted=false'+filtre , {headers: this.headersApplicationJson});
   }
 
+  listClients(filtre=''){
+    return this.http.get(this.BASE_URL + 'listClients'+filtre , {headers: this.headersApplicationJson});
+  }
+
   detailsClient(id){
     return this.http.get(this.BASE_URL + 'detailsClient/'+id , {headers: this.headersApplicationJson});
   }
