@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren} from '@angular/core';
 import {environment} from "../../../../environments/environment";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CardChauffeurComponent} from "../../shared/card-chauffeur/card-chauffeur.component";
 import {ParamsService} from "../../../services/api/params-service";
 import {AlertService} from "../../../services/alert.service";
@@ -17,6 +17,8 @@ export class ClientComponent implements OnInit {
 
   menus: any[];
   id: any;
+  step: number = 1;
+  fileContrat: any;
   chauffeur: any;
   listTypeCamionTonne: any;
   page: any = 1;
@@ -47,11 +49,15 @@ export class ClientComponent implements OnInit {
       tel: ['', [Validators.required]],
       typeTrajet: ['', [Validators.required]],
       dureeTrajet: ['', [Validators.required]],
-      frequenceChargement: ['', [Validators.required]],
+      periode:this.fb.array([
+      this.fb.group({
+          jourChargement: ['', [Validators.required]],
+          jourDechargement: ['', [Validators.required]],
+          frequenceChargement: ['', [Validators.required]],
+        })
+      ]),
       lieuChargement: ['', [Validators.required]],
       lieuDechargement: ['', [Validators.required]],
-      jourChargement: ['', [Validators.required]],
-      jourDechargement: ['', [Validators.required]],
       debut: ['', [Validators.required]],
       fin: ['', [Validators.required]],
       tonnage: ['', [Validators.required]],
@@ -99,6 +105,10 @@ export class ClientComponent implements OnInit {
     this.modalTitle='Ajout d\'un client';
     this.size="moitie";
   }
+  lancerCourse(){
+    this.modalTitle='Lancer une nouvelle course';
+    this.size="moitie";
+  }
 
   detailsClient(){
     this.modalTitle='Details du client';
@@ -111,20 +121,21 @@ export class ClientComponent implements OnInit {
     console.log(this.clientForm.value)
      this.loaderAdd = false;
     const formdata = new FormData();
-    this.checkVerif();
-     formdata.append('filePhoto',this.avatarImg)
+      formdata.append('filePhoto',this.avatarImg)
+     formdata.append('fileContrat',this.fileContrat)
     formdata.append('nomComplet',this.clientForm.value.nom)
     formdata.append('tel',this.clientForm.value.tel)
     formdata.append('typeTrajet',this.clientForm.value.typeTrajet)
     formdata.append('dureeTrajet',this.clientForm.value.dureeTrajet)
     formdata.append('typePermisId',this.clientForm.value.typePermis)
-    formdata.append('frequenceChargement',this.clientForm.value.frequenceChargement)
+  //  formdata.append('frequenceChargement',this.clientForm.value.frequenceChargement)
     formdata.append('dateDebutValidite',this.clientForm.value.debut)
     formdata.append('dateFinValidite',this.clientForm.value.fin)
     formdata.append('lieuChargement',this.clientForm.value.lieuChargement)
     formdata.append('lieuDechargement',this.clientForm.value.lieuDechargement)
-    formdata.append('jourChargement',this.clientForm.value.jourChargement)
+   // formdata.append('jourChargement',this.clientForm.value.jourChargement)
     formdata.append('debut',this.clientForm.value.debut)
+    formdata.append('periode',JSON.stringify(this.clientForm.value.periode))
     formdata.append('fin',this.clientForm.value.fin)
     formdata.append('tonnage',this.clientForm.value.tonnage)
     formdata.append('marchandise',this.clientForm.value.marchandise)
@@ -138,14 +149,14 @@ export class ClientComponent implements OnInit {
 
         console.log(data)
       },error => {
-        this.alertService.successDangerNotif('danger','Erreur lors de la création du client !');
+        this.alertService.successDangerNotif('warning','Erreur lors de la création du client !');
         this.loaderAdd = true;
 
       }
     )
   }
-  clickUpload(){
-    const input = document.getElementById("avatar");
+  clickUpload(id){
+    const input = document.getElementById(id);
     input.click();
   }
 getClients(){
@@ -155,6 +166,8 @@ getClients(){
     for (let i = 0; i <data?.data.length ; i++) {
       this.clients.push(data.data[i])
     }
+  },(error:any)=>{
+    this.loaderList = false;
   })
 }
   preview(files, e) {
@@ -178,40 +191,40 @@ getClients(){
     this.avatarImg = e.target.files[0];
 
   }
-  checkVerif() {
-    var cboxes = document.getElementsByName('camions[]');
-    var len = cboxes.length;
-    console.log(cboxes)
+  /* checkVerif() {
+     var cboxes = document.getElementsByName('camions[]');
+     var len = cboxes.length;
+     console.log(cboxes)
 
-    for (var i=0; i<len; i++) {
-      // @ts-ignore
-      if (cboxes[i].checked){
+     for (var i=0; i<len; i++) {
+       // @ts-ignore
+       if (cboxes[i].checked){
 
-        this.camions.push({id:cboxes[i].id})
-        console.log(this.camions)
-      }
-    }
-  }
-  /*getChauffeurs(){
-    let params=`&page=${this.page}`
-    this.clientService.listAllClient(params).subscribe(
-      (data:any) => {
-        this.loaderList = true;
-        if(data['hydra:member']){
-          this.page++;
-          for (const chauf of data['hydra:member']) {
-            this.allChauffeurs.push(chauf)
-          }
-        }
+         this.camions.push({id:cboxes[i].id})
+         console.log(this.camions)
+       }
+     }
+   }
+   getChauffeurs(){
+     let params=`&page=${this.page}`
+     this.clientService.listAllClient(params).subscribe(
+       (data:any) => {
+         this.loaderList = true;
+         if(data['hydra:member']){
+           this.page++;
+           for (const chauf of data['hydra:member']) {
+             this.allChauffeurs.push(chauf)
+           }
+         }
 
-        console.log(data)
-      },(error)=>{
-        this.loaderList = true;
+         console.log(data)
+       },(error)=>{
+         this.loaderList = true;
 
-        console.log(error)
-      }
-    )
-  }*/
+         console.log(error)
+       }
+     )
+   }*/
 
   getSelectedClient(id){
     console.log(id)
@@ -295,4 +308,31 @@ getClients(){
     )
   }
 
+  get periode() {
+    return this.clientForm.get('periode') as FormArray;
+  }
+
+  removePeriode(index) {
+    return this.periode.removeAt(index);
+  }
+
+   addPeriode() {
+    this.periode.push(
+      this.fb.group({
+        jourChargement: ['', [Validators.required]],
+        jourDechargement: ['', [Validators.required]],
+        frequenceChargement: ['', [Validators.required]],
+      })
+     )
+    return this.clientForm.get('periode') as FormArray;
+  }
+
+  onFileSelect=(type,e)=>{
+    const elem=document.getElementById(type);
+    elem.innerText=e.target.files[0].name;
+    console.log(e.target.files[0].name)
+  //  this.camionForm.delete('type');
+   this.fileContrat=  e.target.files[0]
+   // console.log( this.camionForm)
+  }
 }
