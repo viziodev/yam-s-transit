@@ -117,14 +117,14 @@
 
   </div>
   <div  *ngIf="modalTitle == 'Lancer une nouvelle course'" class="modal-footer">
-    <div class="row">
-      <div class="col-2 bg-primary">
+    <div class="row col-12">
+      <div class="col-3  ">
         <div [class.step-active]="step == 1" class="step"></div>
         <div  [class.step-active]="step == 2" class="step"></div>
       </div>
-      <div class="col-10 bg-danger">
-        <button type="button" class="btn btn-outline-secondary rounded rounded-pill" data-bs-dismiss="modal">Annuler</button>
-        <button [hidden]="!loaderAdd" (click)="createClient()" type="button" class="btn btn-secondary rounded rounded-pill">Enregistrer</button>
+      <div class="col-9  " style="text-align: right">
+        <button type="button" class="btn btn-outline-secondary rounded rounded-pill" data-bs-dismiss="modal" style="margin-right: 15px">Annuler</button>
+        <button [hidden]="!loaderAdd" (click)="createClient()" type="button" class="btn btn-secondary rounded rounded-pill" style="margin-right: 15px">Enregistrer</button>
         <button [hidden]="loaderAdd" type="button" class="btn btn-secondary rounded rounded-pill"><img  style="height: 25px;width: 25px" src="assets/images/loader.gif"></button>
 
       </div>
