@@ -29,10 +29,11 @@ export class ClientService{
   }
 
   addClient(body){
-    return this.http.post(this.BASE_URL + 'client/add' , body,{headers: this.headersFormData});
+    return this.http.post(this.BASE_URL + 'addClient' , body,{headers: this.headersFormData});
   }
 
   archiverClient(body){
     return this.http.post(this.BASE_URL + 'archiverClient' , body,{headers: this.headersFormData});
   }
 }
+

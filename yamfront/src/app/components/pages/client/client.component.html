@@ -232,7 +232,7 @@
      <p class="detailsCam">Tonnage</p>
         <select formControlName="tonnage"  type="text" class="rounded-pill rounded form-control" name="tonnage" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
           <option selected value="weekly">Choisir le tonnage</option>
-          <option *ngFor="let tc of listTypeCamionTonne" value="{{tc?.tonnes}}">{{tc?.tonnes}} tonnes</option>
+          <option *ngFor="let tc of listTypeCamionTonne" value="{{tc?.id}}">{{tc?.tonnes}} tonnes</option>
         </select>
       </div>
 
@@ -341,24 +341,24 @@
               <div class="row mt-2">
                 <div class="col-6">
                   <select formControlName="jourChargement"  class="rounded-pill rounded form-control" name="jourChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
-                    <option selected value="Lundi">Lundi</option>
-                    <option value="Mardi">Mardi</option>
-                    <option value="Mercredi">Mercredi</option>
-                    <option value="Jeudi">Jeudi</option>
-                    <option value="Vendredi">Vendredi</option>
-                    <option value="Samedi">Samedi</option>
-                    <option value="Dimanche">Dimanche</option>
+                    <option selected value="1">Lundi</option>
+                    <option value="2">Mardi</option>
+                    <option value="3">Mercredi</option>
+                    <option value="4">Jeudi</option>
+                    <option value="5">Vendredi</option>
+                    <option value="6">Samedi</option>
+                    <option value="7">Dimanche</option>
                   </select>
                 </div>
                 <div class="col-6">
                   <select    formControlName="jourDechargement" class="rounded-pill rounded form-control" name="jourDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
-                    <option selected value="Lundi">Lundi</option>
-                    <option value="Mardi">Mardi</option>
-                    <option value="Mercredi">Mercredi</option>
-                    <option value="Jeudi">Jeudi</option>
-                    <option value="Vendredi">Vendredi</option>
-                    <option value="Samedi">Samedi</option>
-                    <option value="Dimanche">Dimanche</option>
+                    <option selected value="1">Lundi</option>
+                    <option value="2">Mardi</option>
+                    <option value="3">Mercredi</option>
+                    <option value="4">Jeudi</option>
+                    <option value="5">Vendredi</option>
+                    <option value="6">Samedi</option>
+                    <option value="7">Dimanche</option>
                   </select>
                 </div>
                 <div class="col-12 mt-3">
