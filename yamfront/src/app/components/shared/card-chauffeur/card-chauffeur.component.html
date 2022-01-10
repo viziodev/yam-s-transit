@@ -2,7 +2,7 @@
   <div class="row" style="height: 50px;border-bottom: solid 1px #eaeaea;width: 255px">
     <div class="col-2">
       <div class=" text-center">
-        <img src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 35px;width: 35px;border-radius: 50%;background-color: red;"/>
+        <img src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 35px;width: 35px;border-radius: 50%"/>
       <div class="pin"  [class.dispo-bg]="chauffeur?.etat == 'Disponible'" [class.course-bg]="chauffeur?.etat == 'En course'" [class.indispo-bg]="chauffeur?.etat == 'Indisponible'"  ></div>
       </div>
     </div>

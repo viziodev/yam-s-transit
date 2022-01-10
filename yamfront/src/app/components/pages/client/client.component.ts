@@ -7,6 +7,7 @@ import {AlertService} from "../../../services/alert.service";
 import Swal from "sweetalert2";
 import {ClientService} from "../../../services/api/client-service";
 import {ClientCardComponent} from "../../shared/client-card/client-card.component";
+import {CourseService} from "../../../services/api/course.service";
 
 @Component({
   selector: 'app-client',
@@ -17,9 +18,11 @@ export class ClientComponent implements OnInit {
 
   menus: any[];
   id: any;
+  contratId: any;
   step: number = 1;
   fileContrat: any;
-  chauffeur: any;
+  client: any;
+  selectedContrat: any;
   listTypeCamionTonne: any;
   page: any = 1;
   camions: any[] = [];
@@ -38,12 +41,13 @@ export class ClientComponent implements OnInit {
   selectChauffeur:boolean;
   menuOpen: boolean = false;
   clientForm: FormGroup ;
+  courseForm: FormGroup ;
   @ViewChild('toggleButton') toggleButton: ElementRef;
   @ViewChildren(ClientCardComponent) cards: QueryList<ClientCardComponent>;
   @ViewChild('chauffeursList') chauffeursList: ElementRef;
   private avatarImg: any;
 
-  constructor(private renderer: Renderer2, private fb: FormBuilder,private paramsService: ParamsService,private alertService: AlertService,private clientService: ClientService) {
+  constructor(private renderer: Renderer2, private fb: FormBuilder,private paramsService: ParamsService,private courseService: CourseService,private alertService: AlertService,private clientService: ClientService) {
     this.clientForm = this.fb.group({
       nomComplet: ['', [Validators.required]],
       tel: ['', [Validators.required]],
@@ -60,6 +64,19 @@ export class ClientComponent implements OnInit {
       lieuDechargement: ['', [Validators.required]],
       debut: ['', [Validators.required]],
       fin: ['', [Validators.required]],
+      tonnage: ['', [Validators.required]],
+      marchandise:['', [Validators.required]],
+    });
+    this.courseForm = this.fb.group({
+      nomComplet: ['', [Validators.required]],
+      tel: ['', [Validators.required]],
+      typeTrajet: ['', [Validators.required]],
+      dureeTrajet: ['', [Validators.required]],
+
+      lieuChargement: ['', [Validators.required]],
+      lieuDechargement: ['', [Validators.required]],
+      dateChargement: ['', [Validators.required]],
+      dateDechargement: ['', [Validators.required]],
       tonnage: ['', [Validators.required]],
       marchandise:['', [Validators.required]],
     });
@@ -238,11 +255,17 @@ getClients(){
     console.log(e,'""""""""""""""""""""""""')
     this.id = e?.id;
     if(e?.type == 'Details'){
+      this.detailsClient()
       const detailsButton = document.getElementById('detailsClient');
       detailsButton.click();
       this.getDetailsClient();
+
     }else if (e?.type == 'Archiver'){
       this.deleteClient()
+    }else if (e?.type == 'Lancer course'){
+     this.lancerCourse()
+      const lancerCourse = document.getElementById('lancerCourse');
+      lancerCourse.click();
     }
     this.clientToDelete = [];
     this.clientToDelete.push(e);
@@ -296,9 +319,11 @@ getClients(){
   getDetailsClient(){
     this.loaderDetails=false;
     this.clientService.detailsClient(this.id).subscribe(
-      data => {
+      (data:any) => {
         this.loaderDetails=true;
-        this.chauffeur = data;
+        this.client = data;
+        this.selectedContrat =data?.contrats[0]
+        console.log( data,this.selectedContrat )
       },(error)=>{
         this.loaderDetails = true;
 
@@ -333,5 +358,30 @@ getClients(){
   //  this.camionForm.delete('type');
    this.fileContrat=  e.target.files[0]
    // console.log( this.camionForm)
+  }
+
+  setStep(step){
+    this.step = step;
+  }
+
+  createCourse(){
+    this.loaderAdd = false;
+    this.courseService.addCourse(this.courseForm.value).subscribe(
+      (data: any) =>{
+        this.loaderAdd = true;
+        console.log(data)
+      },(error: any) => {
+        this.loaderAdd = true;
+        console.log(error)
+      }
+    )
+  }
+  setSelectedContrat(){
+    for (const e of  this.client?.contrats) {
+      if (  e.id == this.contratId){
+        this.selectedContrat=e;
+      }
+    }
+
   }
 }

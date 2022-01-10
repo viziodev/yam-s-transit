@@ -2,7 +2,7 @@
   <div class="row" style="height: 50px;border-bottom: solid 1px #eaeaea;width: 255px">
     <div class="col-2">
       <div class=" text-center">
-        <img src="assets/images/avatar.jpg" style="height: 35px;width: 35px;border-radius: 50%;background-color: red;"/>
+        <img  src="{{client?.photo != null?ENDPOINT+'uploads/images/'+client?.photo:'assets/images/avatar.jpg'}}"  style="height: 35px;width: 35px;border-radius: 50%; "/>
        </div>
     </div>
     <div class="col-8">
@@ -22,7 +22,7 @@
     <div class="col-12" style="border-top: solid 1px #eaeaea;height: 50px !important;">
       <p style="color: #323232;font-size: 13px" class="mt-2">
         <span style="color: #BCBCBC;font-size: 13px">Montant à payer</span><br>
-        <span class="etatChauufeur"    style="color: #D60B52;font-size: 15px ">230.000F</span></p>
+        <span class="etatChauufeur"    style="color: #D60B52;font-size: 15px ">{{client?.montantRestant}}F</span></p>
 
     </div>
 
