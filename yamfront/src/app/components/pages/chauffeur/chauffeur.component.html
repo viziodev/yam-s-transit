@@ -24,10 +24,8 @@
           <option selected>Disponible</option>
 
         </select>
-        <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
-          <option selected>Nbre de courses</option>
+        <button style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="btn btn-outline-secondary rounded rounded-pill" data-bs-toggle="modal" data-bs-target="#modalFiltre">Nbre de courses</button>
 
-        </select>
         <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
           <option selected>Affectation</option>
 
@@ -46,7 +44,7 @@
     <div class="col-4"></div>
   </div>
 
-  <div (scroll)="scrolling()" id="scrollZone" class="row overflow-auto" style="height: 500px;">
+  <div (scroll)="scrolling()" id="scrollZone" class="row overflow-auto" style="height: 420px;">
     <app-loader [hidden]="loaderList"></app-loader>
     <div style="position: relative" *ngFor="let chauf of allChauffeurs" class="col-3 mt-3"  >
       <button data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"  id="detailsChauf" style="display:none;"></button>
@@ -213,17 +211,16 @@
 
       <div class="col-2">
         <div class="container">
-
           <div class="avatar-upload">
             <div class="avatar-edit">
-              <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
-              <label for="imageUpload"></label>
+              <img style="height: 20px;width: 20px;border-radius: 50%" src="{{imgChauffeurSecon}}">
             </div>
             <div class="avatar-preview">
-              <img style="    height: 60px;width: 60px;  border-radius: 100px;" src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}" id="imagePreview"  >
+              <img style="height: 60px;width: 60px;border-radius: 50%"id="imagePreview" src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}"  >
 
             </div>
           </div>
+
         </div>
       </div>
       <div class="col-6">
@@ -254,26 +251,10 @@
             <div class="col-8" style="text-align: right"><p style="cursor:pointer;font-size: 13px;  color: blue;"><u>Historique des chauffeurs</u></p></div>
           </div>
           <div class="row mt-4">
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+            <div (click)="changeChauffeur(chauffeur)" style="cursor: pointer" class="col-3 text-center" *ngFor="let chauffeur of listChauffeursSecon">
+              <img  src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 55px;width: 55px;border-radius: 50%;margin: auto"/>
 
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-            </div>
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-            </div>
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-            </div>
-            <div class="col-3 text-center">
-              <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-              <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+              <p style="  color: #505050;font-size: 13px">{{chauffeur?.nomComplet}}<br><span style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Secondaire</span></p>
 
             </div>
           </div>
@@ -351,22 +332,64 @@
           <span class="detailsCam">Qté carburant au chargement<span style="float: right">{{chauffeur?.camion?.typeCamion?.qteCarburantCharge}}</span> </span><br>
           <span class="detailsCam">Nbre pneus de secours<span style="float: right">{{chauffeur?.camion?.typeCamion?.nbrePneusSecours}}</span></span><br>
           <span class="detailsCam">Nbre pneus de chaussés<span style="float: right">{{chauffeur?.camion?.typeCamion?.nbrePneusChaussee}}</span></span><br>
-          <div class="row mt-2">
-            <div class="col-6"><p style="font-size: 13px;font-weight: bold">Entretien</p></div>
-            <div class="col-6" style="text-align: right"><p style="cursor:pointer;font-size: 11px;color: blue"><u>Fiche d'entretien</u></p></div>
-           <!-- <strong>Pieces</strong><br>
-            <span class="detailsCam">Huile<span style="float: right">12</span></span><br>
-            <span class="detailsCam">Filtre gazoil<span style="float: right">12</span></span><br>
-            <span class="detailsCam">Filtre a huile<span style="float: right">12</span></span><br>
-            <strong>Entretien</strong><br>-->
-            <span class="detailsCam">Type de vidange<span style="float: right">Simple</span></span><br>
-            <span class="detailsCam">Prochaine vidange<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
+
+            <div class="row mt-2">
+              <div class="col-6"><p style="font-size: 13px;font-weight: bold">Entretien</p></div>
+              <div class="col-6" style="text-align: right"><p style="cursor:pointer;font-size: 11px;color: blue"><u>Fiche d'entretien</u></p></div>
+              <strong>Pieces</strong><br>
+
+              <span class="detailsCam" *ngFor="let modelePiece of chauffeur?.modelePiece">{{modelePiece.libelle}}<span style="float: right">{{modelePiece.quantite}}</span></span><br>
+
+              <strong>Entretien</strong><br>
+              <span class="detailsCam">Type de vidange<span style="float: right">{{chauffeur?.camion?.typeDernierVidange?.libelle == 'Simple'?'Complet':'Simple'}}</span></span><br>
+              <span class="detailsCam">Prochaine vidange
+        <span *ngIf="chauffeur?.camion?.nbreVoyageApresVidange == 0">
+            <span style="float: right;" class="progress-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+        </span>
+        <span *ngIf="chauffeur?.camion?.nbreVoyageApresVidange == 1">
+            <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+        </span>
+        <span *ngIf="chauffeur?.camion?.nbreVoyageApresVidange == 2">
+            <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+        </span>
+
+        <span *ngIf="chauffeur?.camion?.nbreVoyageApresVidange == 3">
+            <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+        </span>
+
+           </span><br>
 
 
-            <strong>Révision</strong><br>
-            <span class="detailsCam">Prochaine revision<span style="float: right;" class="progress-entretien"></span><span style="float: right;" class="progress-entretien"></span></span><br>
+              <strong>Révision</strong><br>
+              <span class="detailsCam">Prochaine
+             <span *ngIf="chauffeur?.camion?.nbreVoyageApreRevision == 0">
+               <span style="float: right;" class="progress-entretien"></span>
+             <span style="float: right;" class="progress-entretien"></span>
+             </span>
+             <span *ngIf="chauffeur?.camion?.nbreVoyageApreRevision == 1">
+               <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien "></span>
+             </span>
+             <span *ngIf="chauffeur?.camion?.nbreVoyageApreRevision == 2">
+               <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             <span style="float: right;" class="progress-entretien disabled-entretien"></span>
+             </span>
 
-          </div>
+           </span><br>
+
+            </div>
+
+
+
+
         </div>
         <div class="col-6 p-2" *ngIf="chauffeur?.disponibilite == 'Non affecté'">
 
@@ -380,3 +403,29 @@
   </div>
 </app-modal>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalFiltre" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Filtrer par nombre de courses</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="detailsCam">Période</p>
+        <div class="row mb-2">
+          <div class="col-6"><input type="date" class="form-date"></div>
+          <div class="col-6"><input type="date" class="form-date"></div>
+        </div>
+        <p class="detailsCam">Nombre de courses</p>
+        <input type="range">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary">Filtrer</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -143,9 +143,9 @@ $md-chip-color: #e0e0e0;
  // margin: 50px auto;
   .avatar-edit {
     position: absolute;
-    right: 12px;
+    right: -13px;
     z-index: 1;
-    top: 10px;
+    top: 50px;
     input {
       display: none;
       + label {

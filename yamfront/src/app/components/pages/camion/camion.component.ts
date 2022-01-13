@@ -21,12 +21,14 @@ export class CamionComponent implements OnInit {
   listModeles: any[];
   allCamions: any[] = [];
    pieces: any;
-   filtreMarque: any;
-   filtreModele: any;
-   filtreEtat: any;
+   filtreMarque: any = '';
+  filtreCategorie: any = '';
+   filtreModele: any= '';
+   filtreEtat: any= '';
    page: number=1;
   camion: any;
   loaderList: boolean = false;
+  stopScroll: boolean = false;
   loaderDetails: boolean = false;
   loaderAdd: boolean = true;
   listChauffeursPrin: any[];
@@ -44,6 +46,8 @@ export class CamionComponent implements OnInit {
   camionForm:FormData;
   camionDetailsForm:FormGroup;
   imgURL='./assets/images/placeholder.png';
+  imgChauffeurSecon='./assets/images/placeholder.png';
+  ENDPOINT = environment.ENDPOINT;
   private camionImg: any;
   menuOpen: boolean = false;
   @ViewChild('toggleButton') toggleButton: ElementRef;
@@ -389,6 +393,10 @@ postCamion(){
   }
 
   getCamions(filtre = ''){
+    if (this.stopScroll == true){
+      return;
+    }
+    this.loaderList = false;
     let params=`&page=${this.page}${filtre};`
     this.camionService.listAllCamions(params).subscribe(
       (data:any) => {
@@ -397,6 +405,8 @@ postCamion(){
           for (const camionElem of data['hydra:member']) {
             this.allCamions.push(camionElem)
           }
+        }else {
+          this.stopScroll = true;
         }
       //  this.allCamions=data['hydra:member'];
         this.page++;
@@ -425,8 +435,18 @@ postCamion(){
     this.filtreEtat != ''? filtre += '&etat=' + this.filtreEtat:''
     this.filtreMarque != ''? filtre +=  '&marque=' + this.filtreMarque:''
     this.filtreModele != ''? filtre +=  '&modele=' + this.filtreModele:''
+    this.filtreCategorie != ''? filtre +=  '&typeCamion.id=' + this.filtreCategorie:''
     this.allCamions = [];
     this.page = 1;
+    this.stopScroll=false;
     this.getCamions(filtre);
+  }
+  changeChauffeur(chauffeur){
+   chauffeur?.photo != null? this.imgChauffeurSecon =   this.ENDPOINT+'uploads/images/'+chauffeur?.photo:''
+    this.camionService.changeChauffeur({idCamion :this.id,newChauffeur: chauffeur?.id,oldChauffeur: this.camion?.chauffeur?.id}).subscribe(
+      (data) =>{
+        console.log(data)
+      }
+    )
   }
 }

@@ -31,4 +31,8 @@ export class CamionService{
   detailsCamion(id){
     return this.http.get(this.BASE_URL + 'fullDetailsCamion/'+id ,{headers: this.headersFormData});
   }
+
+  changeChauffeur(body){
+    return this.http.post(this.BASE_URL + 'changeChauffeur' ,body,{headers: this.headersFormData});
+  }
 }

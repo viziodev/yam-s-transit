@@ -7,6 +7,7 @@ import {CardChauffeurComponent} from "../../shared/card-chauffeur/card-chauffeur
 import Swal from "sweetalert2";
 import {environment} from "../../../../environments/environment";
 import {AlertService} from "../../../services/alert.service";
+import {CamionService} from "../../../services/api/camion.service";
 
 @Component({
   selector: 'app-chauffeur',
@@ -17,6 +18,7 @@ export class ChauffeurComponent implements OnInit {
   menus: any[];
   id: any;
   chauffeur: any;
+  listChauffeursSecon: any[];
   page: any = 1;
   camions: any[] = [];
   chauffeurToDelete: any[] = [];
@@ -28,6 +30,9 @@ export class ChauffeurComponent implements OnInit {
   modalTitle:string;
   size:string;
   imgURL='./assets/images/avatar.jpg';
+  imgChauffeurSecon='./assets/images/placeholder.png';
+  stopScroll: boolean = false;
+
   listCamions:any;
   listTypePermis:any;
   selectChauffeur:boolean;
@@ -38,7 +43,7 @@ export class ChauffeurComponent implements OnInit {
   @ViewChild('chauffeursList') chauffeursList: ElementRef;
   private avatarImg: any;
 
-  constructor(private renderer: Renderer2, private fb: FormBuilder,private paramsService: ParamsService,private alertService: AlertService,private chauffeurService: ChauffeurService) {
+  constructor(private renderer: Renderer2, private fb: FormBuilder, private camionService: CamionService,private paramsService: ParamsService,private alertService: AlertService,private chauffeurService: ChauffeurService) {
     this.chauffeurForm = this.fb.group({
       nom: ['', [Validators.required]],
       email: [''],
@@ -67,6 +72,11 @@ export class ChauffeurComponent implements OnInit {
       this.listCamions=data['hydra:member'];
       console.log(data)
     }
+    )
+    this.paramsService.listChauffeursSelect('?etat=Disponible&type=Secondaire').subscribe(
+      data => {
+        this.listChauffeursSecon=data['hydra:member'];
+      }
     )
     this.paramsService.listTypePermisSelect().subscribe(
       data =>{
@@ -180,16 +190,22 @@ export class ChauffeurComponent implements OnInit {
        }
   }
   getChauffeurs(){
+    this.loaderList = false;
     let params=`&page=${this.page}`
     this.chauffeurService.listAllChauffeurs(params).subscribe(
       (data:any) => {
         this.loaderList = true;
         if(data['hydra:member']){
-          this.page++;
+          if (data['hydra:member'].length>0){
+
           for (const chauf of data['hydra:member']) {
             this.allChauffeurs.push(chauf)
           }
+          }else {
+            this.stopScroll = true;
+          }
         }
+        this.page++;
 
         console.log(data)
       },(error)=>{
@@ -252,6 +268,9 @@ export class ChauffeurComponent implements OnInit {
     })
   }
   scrolling(){
+    if (this.stopScroll == true){
+      return;
+    }
     // @ts-ignore
     const scrollZone = document.getElementById('scrollZone');
     const st = scrollZone.scrollTop;
@@ -272,6 +291,14 @@ export class ChauffeurComponent implements OnInit {
       data => {
         this.loaderDetails=true;
         this.chauffeur = data;
+      }
+    )
+  }
+  changeChauffeur(chauffeur){
+    chauffeur?.photo != null? this.imgChauffeurSecon =   this.ENDPOINT+'uploads/images/'+chauffeur?.photo:''
+    this.camionService.changeChauffeur({idCamion :this.id,newChauffeur: chauffeur?.id,oldChauffeur: this.chauffeur?.id}).subscribe(
+      (data) =>{
+        console.log(data)
       }
     )
   }

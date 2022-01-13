@@ -20,10 +20,11 @@
           <option selected>Marque</option>
           <option *ngFor="let mark of listMarques">{{mark.libelle}}</option>
         </select>
-        <select  style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class="form-control border border-2  border-secondary rounded rounded-pill">
+        <select  [(ngModel)]="filtreCategorie" style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class="form-control border border-2  border-secondary rounded rounded-pill">
           <option selected>Catégorie</option>
+          <option value="{{tc.id}}" *ngFor="let tc of listTypesCamions">{{tc.libelle}}</option>
 
-        </select>
+         </select>
         <select [(ngModel)]="filtreModele"  style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class="form-control border border-2  border-secondary rounded rounded-pill">
           <option selected>Modele</option>
           <option *ngFor="let modele of listModeles">{{modele.libelle}}</option>
@@ -37,10 +38,10 @@
           <option value="En panne">En panne</option>
 
         </select>
-        <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+       <!-- <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
           <option selected>Nbre de courses</option>
 
-        </select>
+        </select>-->
         <button (click)="filter()"  style="font-size:12px;display: inline;margin-right: 20px" class="btn btn-secondary border border-2  border-secondary rounded rounded-pill">
           <i class="fas fa-search"></i>
 
@@ -58,7 +59,7 @@
     </div>
     <div class="col-4"></div>
   </div>
-      <p *ngIf="deletingSelection.length > 0">{{deletingSelection.length>1?deletingSelection.length + ' camions séléctionnés' : deletingSelection.length + ' camion selectionné'}}</p>
+     <!-- <p *ngIf="deletingSelection.length > 0">{{deletingSelection.length>1?deletingSelection.length + ' camions séléctionnés' : deletingSelection.length + ' camion selectionné'}}</p>-->
    <div (scroll)="scrolling()" id="scrollZone" class="row overflow-auto" style="height: 500px;">
 
    <app-loader [hidden]="loaderList"></app-loader>
@@ -222,7 +223,7 @@
     <div *ngIf="selectedCP" class="md-chips">
 
       <div style="border-radius: 50px;    height: 40px;   padding-top: 3px;   padding-left: 17px;" class="md-chip  md-chip-hover">
-        <img class="md-chip-icon"src="https://source.unsplash.com/random">
+        <img class="md-chip-icon" src="{{selectedCP?.photo != null?ENDPOINT+'uploads/images/'+selectedCP?.photo:'assets/images/avatar.jpg'}}">
         <span>{{selectedCP?.nomComplet}}</span>
         <button type="button" (click)="selectedCP=null" class="md-chip-remove">
         </button>
@@ -243,7 +244,7 @@
       <span style="color: #bcbcbc;">Liste chauffeur</span>
       <div class="row mt-2" *ngFor="let chauf of listChauffeursSecon | filter  :search:'nomComplet'">
         <div class="col-2">
-          <img style="margin: 0px !important;" class="md-chip-icon"src="https://source.unsplash.com/random">
+          <img style="margin: 0px !important;" class="md-chip-icon" src="{{chauf?.photo != null?ENDPOINT+'uploads/images/'+chauf?.photo:'assets/images/avatar.jpg'}}">
         </div>
         <div class="col-8" style="padding-top: 3px">{{chauf?.nomComplet}}</div>
         <div class="col-2" style="text-align: right;padding-top: 6px"><input (click)="handle()" value="{{chauf?.id}}" name="chauffeurs[]" type="checkbox"></div>
@@ -253,7 +254,7 @@
         <div  *ngFor="let cs of listChauffeursChips "  class="md-chips col-6">
 
           <div style="border-radius: 50px;    height: 40px;   padding-top: 3px;   padding-left: 17px;" class="md-chip  md-chip-hover">
-            <img class="md-chip-icon" src="https://source.unsplash.com/random">
+            <img class="md-chip-icon"  src="{{cs?.photo != null?ENDPOINT+'uploads/images/'+cs?.photo:'assets/images/avatar.jpg'}}">
             <span>{{cs?.nomComplet | slice :0:15}}</span>
             <button (click)="delChaufSec(cs?.id)" type="button" class="md-chip-remove">
             </button>
@@ -279,12 +280,11 @@
 
          <div class="avatar-upload">
            <div class="avatar-edit">
-             <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
-             <label for="imageUpload"></label>
-           </div>
+              <img style="height: 20px;width: 20px;border-radius: 50%" src="{{imgChauffeurSecon}}">
+            </div>
            <div class="avatar-preview">
-             <div id="imagePreview" style="background-image: url(http://i.pravatar.cc/500?img=7);">
-             </div>
+             <img style="height: 60px;width: 60px;border-radius: 50%"id="imagePreview" src="{{camion?.chauffeur?.photo != null?ENDPOINT+'uploads/images/'+camion?.chauffeur?.photo:'assets/images/avatar.jpg'}}" >
+
            </div>
          </div>
        </div>
@@ -318,28 +318,13 @@
            <div class="col-8" style="text-align: right"><p style="cursor:pointer;font-size: 13px;  color: blue;"><u>Historique des chauffeurs</u></p></div>
          </div>
          <div class="row mt-4">
-           <div class="col-3 text-center">
-             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+           <div (click)="changeChauffeur(chauffeur)" style="cursor: pointer" class="col-3 text-center" *ngFor="let chauffeur of listChauffeursSecon">
+             <img  src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 55px;width: 55px;border-radius: 50%;margin: auto"/>
 
-             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-           </div>
-           <div class="col-3 text-center">
-             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-
-             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+             <p style="  color: #505050;font-size: 13px">{{chauffeur?.nomComplet}}<br><span style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Secondaire</span></p>
 
            </div>
-           <div class="col-3 text-center">
-             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
 
-           </div>
-           <div class="col-3 text-center">
-             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-           </div>
          </div>
          <div>
            <p style="font-size: 13px;font-weight: bold">Statistiques(par mois)</p>
