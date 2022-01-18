@@ -16,20 +16,27 @@
           <input  style="width:200px;display:inline;background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
 
         </div>
-        <select style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
+        <select [(ngModel)]="filtreTypePermis" style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
           <option selected>Type permis</option>
+          <option *ngFor="let tp of listTypePermis" value="{{tp.id}}">{{tp.libelle}}</option>
         </select>
 
-        <select  style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
-          <option selected>Disponible</option>
+        <select [(ngModel)]="filtreEtat"  style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+          <option value="Disponible" selected>Disponible</option>
+          <option value="Indisponible" >Indisponible</option>
+          <option value="En course" >En course</option>
 
         </select>
         <button style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="btn btn-outline-secondary rounded rounded-pill" data-bs-toggle="modal" data-bs-target="#modalFiltre">Nbre de courses</button>
 
-        <select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+        <!--<select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
           <option selected>Affectation</option>
 
-        </select>
+        </select>-->
+        <button (click)="filter()"  style="font-size:12px;display: inline;margin-right: 20px" class="btn btn-secondary border border-2  border-secondary rounded rounded-pill">
+          <i class="fas fa-search"></i>
+
+        </button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 20px" class="btn   rounded rounded-circle"><i class="fa  fa-trash" ></i></button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-5  rounded rounded-circle"><i class="fas fa-bars"></i></button>
         <button style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-2  rounded rounded-circle"><i class="fas fa-th-large"></i></button>
@@ -46,10 +53,10 @@
 
   <div (scroll)="scrolling()" id="scrollZone" class="row overflow-auto" style="height: 420px;">
     <app-loader [hidden]="loaderList"></app-loader>
-    <div style="position: relative" *ngFor="let chauf of allChauffeurs" class="col-3 mt-3"  >
+    <div style="position: relative" *ngFor="let chauf of allChauffeurs" class="col-3 mt-5"  >
       <button data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="detailsChauffeur()"  id="detailsChauf" style="display:none;"></button>
       <!--(click)="detailsChauffeur()" -->
-      <app-card-chauffeur [cardId]="chauf?.id" (clickActionItem)="getAction($event)" (clickedAction)="getSelectedChauffeur($event)" [chauffeur]="chauf"></app-card-chauffeur>
+      <app-card-chauffeur style="position: relative" [cardId]="chauf?.id" (clickActionItem)="getAction($event)" (clickedAction)="getSelectedChauffeur($event)" [chauffeur]="chauf"></app-card-chauffeur>
     </div>
 
   </div>
@@ -395,7 +402,7 @@
 
           <div style="margin-top: 200px;text-align: center">
             <p class="detailsCam">Illustration empty state</p>
-            <p><u>Affecter à un camion</u></p>
+            <p><u>Ce chauffeur n'a pas de camion</u></p>
           </div>
         </div>
       </div>
@@ -414,17 +421,20 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p class="detailsCam">Période</p>
-        <div class="row mb-2">
-          <div class="col-6"><input type="date" class="form-date"></div>
-          <div class="col-6"><input type="date" class="form-date"></div>
-        </div>
-        <p class="detailsCam">Nombre de courses</p>
-        <input type="range">
+
+       <form [formGroup]="filtreChauffeurForm">
+         <p class="detailsCam">Période</p>
+         <div class="row mb-2">
+           <div class="col-6"><input formControlName="debut" type="date" class="form-date"></div>
+           <div class="col-6"><input formControlName="fin" type="date" class="form-date"></div>
+         </div>
+         <p class="detailsCam">Nombre de courses</p>
+         <input formControlName="total" type="range">
+       </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary">Filtrer</button>
+        <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button [disabled]="!filtreChauffeurForm.valid" (click)="filtreChauffeurs()" type="button" class="btn btn-primary">Filtrer</button>
       </div>
     </div>
   </div>

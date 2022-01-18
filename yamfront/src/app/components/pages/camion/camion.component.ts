@@ -397,7 +397,7 @@ postCamion(){
       return;
     }
     this.loaderList = false;
-    let params=`&page=${this.page}${filtre};`
+    let params=`&page=${this.page}${filtre}`
     this.camionService.listAllCamions(params).subscribe(
       (data:any) => {
         this.loaderList = true;
@@ -433,7 +433,7 @@ postCamion(){
   filter(){
     let filtre = '';
     this.filtreEtat != ''? filtre += '&etat=' + this.filtreEtat:''
-    this.filtreMarque != ''? filtre +=  '&marque=' + this.filtreMarque:''
+    this.filtreMarque != ''? filtre +=  '&marque.id=' + this.filtreMarque:''
     this.filtreModele != ''? filtre +=  '&modele=' + this.filtreModele:''
     this.filtreCategorie != ''? filtre +=  '&typeCamion.id=' + this.filtreCategorie:''
     this.allCamions = [];

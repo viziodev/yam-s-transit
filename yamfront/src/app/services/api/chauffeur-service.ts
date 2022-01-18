@@ -27,6 +27,9 @@ export class ChauffeurService{
   addChauffeurs(body){
      return this.http.post(this.BASE_URL + 'chauffeur/add' , body,{headers: this.headersFormData});
   }
+  filtreChauffeurs(body){
+     return this.http.post(this.BASE_URL + 'filtreChauffeurs' , body,{headers: this.headersFormData});
+  }
 
   archiverChauffeur(body){
      return this.http.post(this.BASE_URL + 'archiverChauffeur' , body,{headers: this.headersFormData});

@@ -18,7 +18,7 @@
         </div>
         <select [(ngModel)]="filtreMarque" style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
           <option selected>Marque</option>
-          <option *ngFor="let mark of listMarques">{{mark.libelle}}</option>
+          <option value="{{mark.id}}" *ngFor="let mark of listMarques">{{mark.libelle}}</option>
         </select>
         <select  [(ngModel)]="filtreCategorie" style="font-size:12px;display: inline;width: 90px;margin-right: 20px" class="form-control border border-2  border-secondary rounded rounded-pill">
           <option selected>Catégorie</option>

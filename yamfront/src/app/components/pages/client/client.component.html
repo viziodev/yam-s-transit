@@ -180,22 +180,37 @@
         <br><span class="detailsCam">Trajet</span>
         <div class="row">
           <div class="col-6">
-            <select formControlName="typeTrajet"  type="text" class="rounded-pill rounded form-control" name="typeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
-            <option selected>Type trajet</option>
-            <option value="Aller - retour">Aller - retour</option>
-            <option value="Retour">Retour</option>
+            <select (change)="getTypeContrat()" formControlName="typeTrajet"   class="rounded-pill rounded form-control" name="typeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+            <option value="" selected>Type trajet</option>
+            <option value="Aller">Aller</option>
+              <option value="Retour">Retour</option>
+              <option value="Aller - Retour">Aller - retour</option>
             </select>
           </div>
           <div class="col-6">
             <input formControlName="dureeTrajet"   type="text" class="rounded-pill rounded form-control" name="dureeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Durée trajet">
           </div>
         </div>
-        <div class="row mt-2">
+        <div class="row mt-2" *ngIf="typeContrat !='Aller - Retour'">
           <div class="col-6">
             <input  formControlName="lieuChargement" type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
           </div>
           <div class="col-6">
             <input  formControlName="lieuDechargement" type="text" class="rounded-pill rounded form-control" name="lieuDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement">
+          </div>
+        </div>
+        <div class="row mt-2" *ngIf="typeContrat =='Aller - Retour'">
+          <div class="col-6">
+            <input  formControlName="lieuChargement" type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement aller">
+          </div>
+          <div class="col-6">
+            <input  formControlName="lieuDechargement" type="text" class="rounded-pill rounded form-control" name="lieuDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement aller">
+          </div>
+          <div class="col-6 mt-2">
+            <input  formControlName="lieuChargementRetour" type="text" class="rounded-pill rounded form-control" name="lieuChargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement retour">
+          </div>
+          <div class="col-6 mt-2">
+            <input  formControlName="lieuDechargementRetour" type="text" class="rounded-pill rounded form-control" name="lieuDechargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement retour">
           </div>
         </div>
         <br><span class="detailsCam">Durée contrat</span>
@@ -214,6 +229,7 @@
               <button (click)="removePeriode(pointIndex)" style="  background-color: #f4f4f4;padding: 10px;border-radius: 50%" type="button" class="btn-close" ></button>
             </div>
             <div class="col-6">
+              <label class="detailsCam">Jour de chargement {{typeContrat != 'Aller - Retour' ?( typeContrat | lowercase):'aller'}}</label>
               <select formControlName="jourChargement"  class="rounded-pill rounded form-control" name="jourChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
                 <option selected value="1">Lundi</option>
                 <option value="2">Mardi</option>
@@ -225,6 +241,7 @@
               </select>
             </div>
             <div class="col-6">
+              <label class="detailsCam">Jour de dechargement {{typeContrat != 'Aller - Retour' ?( typeContrat | lowercase):'aller'}}</label>
               <select    formControlName="jourDechargement" class="rounded-pill rounded form-control" name="jourDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
                 <option selected value="1">Lundi</option>
                 <option value="2">Mardi</option>
@@ -235,10 +252,38 @@
                 <option value="7">Dimanche</option>
               </select>
             </div>
+            <div class="row col-12" *ngIf="typeContrat == 'Aller - Retour'">
+
+              <div class="col-6">
+                <label class="detailsCam">Jour de chargement retour </label>
+                <select formControlName="jourChargementRetour"  class="rounded-pill rounded form-control" name="jourChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+                  <option selected value="1">Lundi</option>
+                  <option value="2">Mardi</option>
+                  <option value="3">Mercredi</option>
+                  <option value="4">Jeudi</option>
+                  <option value="5">Vendredi</option>
+                  <option value="6">Samedi</option>
+                  <option value="7">Dimanche</option>
+                </select>
+              </div>
+              <div class="col-6">
+                <label class="detailsCam">Jour de dechargement retour</label>
+                <select    formControlName="jourDechargementRetour" class="rounded-pill rounded form-control" name="jourDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
+                  <option selected value="1">Lundi</option>
+                  <option value="2">Mardi</option>
+                  <option value="3">Mercredi</option>
+                  <option value="4">Jeudi</option>
+                  <option value="5">Vendredi</option>
+                  <option value="6">Samedi</option>
+                  <option value="7">Dimanche</option>
+                </select>
+              </div>
+            </div>
             <div class="col-12 mt-3">
               <select formControlName="frequenceChargement"  class="rounded-pill rounded form-control" name="frequenceChargement" style="outline: none;  background-color: #f4f4f4;border: none" >
-                <option selected value="weekly">Chaque semaine</option>
-                <option selected value="weekly">Chaque mois</option>
+                <option selected value="Chaque semaine">Chaque semaine</option>
+                <option value="Chaque mois">Chaque mois</option>
+                <option value="Chaque 2 semaines">Chaque 2 semaines</option>
               </select>
             </div>
           </div>

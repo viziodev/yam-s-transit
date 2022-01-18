@@ -18,6 +18,8 @@ export class ChauffeurComponent implements OnInit {
   menus: any[];
   id: any;
   chauffeur: any;
+  filtreTypePermis: string='';
+  filtreEtat: string='';
   listChauffeursSecon: any[];
   page: any = 1;
   camions: any[] = [];
@@ -38,6 +40,7 @@ export class ChauffeurComponent implements OnInit {
   selectChauffeur:boolean;
   menuOpen: boolean = false;
   chauffeurForm: FormGroup ;
+  filtreChauffeurForm: FormGroup ;
   @ViewChild('toggleButton') toggleButton: ElementRef;
   @ViewChildren(CardChauffeurComponent) cards: QueryList<CardChauffeurComponent>;
   @ViewChild('chauffeursList') chauffeursList: ElementRef;
@@ -61,6 +64,12 @@ export class ChauffeurComponent implements OnInit {
 
       ]),
     });
+    this.filtreChauffeurForm=this.fb.group({
+      debut: ['', [Validators.required]],
+      fin: ['', [Validators.required]],
+      total: ['', [Validators.required]],
+
+    })
     this.renderer.listen('window', 'click', (e: Event) => {
       if (!this.selectChauffeur) {
         this.menuOpen = false;
@@ -87,6 +96,7 @@ export class ChauffeurComponent implements OnInit {
     )
   }
   ngOnInit(): void {
+
     this.getChauffeurs()
     this.selectChauffeur = false;
     this.menus = [  {
@@ -189,9 +199,9 @@ export class ChauffeurComponent implements OnInit {
         }
        }
   }
-  getChauffeurs(){
+  getChauffeurs(filtre=''){
     this.loaderList = false;
-    let params=`&page=${this.page}`
+    let params=`&page=${this.page}${filtre}`
     this.chauffeurService.listAllChauffeurs(params).subscribe(
       (data:any) => {
         this.loaderList = true;
@@ -299,6 +309,35 @@ export class ChauffeurComponent implements OnInit {
     this.camionService.changeChauffeur({idCamion :this.id,newChauffeur: chauffeur?.id,oldChauffeur: this.chauffeur?.id}).subscribe(
       (data) =>{
         console.log(data)
+      }
+    )
+  }
+  filter(){
+    let filtre = '';
+    this.filtreEtat != ''? filtre += '&etat=' + this.filtreEtat:''
+    this.filtreTypePermis != ''? filtre +=  '&typePermis=' + this.filtreTypePermis:''
+     this.allChauffeurs = [];
+    this.page = 1;
+    this.stopScroll=false;
+    this.getChauffeurs(filtre);
+  }
+
+  filtreChauffeurs(){
+    const closeModal=document.getElementById('closeModal')
+    closeModal.click()
+
+    this.loaderList = false
+    this.chauffeurService.filtreChauffeurs(this.filtreChauffeurForm.value).subscribe(
+      (data: any) =>{
+        for (let i = 0; i <data.length ; i++) {
+          this.allChauffeurs=[];
+          this.allChauffeurs.push(data[i])
+          this.loaderList = true
+
+        }
+      },error=>{
+
+        this.loaderList = true
       }
     )
   }

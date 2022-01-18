@@ -19,6 +19,7 @@ export class ClientComponent implements OnInit {
   menus: any[];
   id: any;
   contratId: any;
+  typeContrat: string = 'Retour';
   step: number = 1;
   fileContrat: any;
   client: any;
@@ -57,11 +58,15 @@ export class ClientComponent implements OnInit {
       this.fb.group({
           jourChargement: ['', [Validators.required]],
           jourDechargement: ['', [Validators.required]],
+          jourChargementRetour: ['', [Validators.required]],
+          jourDechargementRetour: ['', [Validators.required]],
           frequenceChargement: ['', [Validators.required]],
         })
       ]),
       lieuChargement: ['', [Validators.required]],
       lieuDechargement: ['', [Validators.required]],
+      lieuChargementRetour: ['', [Validators.required]],
+      lieuDechargementRetour: ['', [Validators.required]],
       debut: ['', [Validators.required]],
       fin: ['', [Validators.required]],
       tonnage: ['', [Validators.required]],
@@ -148,6 +153,8 @@ export class ClientComponent implements OnInit {
 
     formdata.append('lieuChargement',this.clientForm.value.lieuChargement)
     formdata.append('lieuDechargement',this.clientForm.value.lieuDechargement)
+    formdata.append('lieuChargementRetour',this.clientForm.value.lieuChargementRetour)
+    formdata.append('lieuDechargementRetour',this.clientForm.value.lieuDechargementRetour)
    // formdata.append('jourChargement',this.clientForm.value.jourChargement)
     formdata.append('debut',this.clientForm.value.debut)
     formdata.append('periode',JSON.stringify(this.clientForm.value.periode))
@@ -345,6 +352,8 @@ getClients(){
       this.fb.group({
         jourChargement: ['', [Validators.required]],
         jourDechargement: ['', [Validators.required]],
+        jourChargementRetour: ['', [Validators.required]],
+        jourDechargementRetour: ['', [Validators.required]],
         frequenceChargement: ['', [Validators.required]],
       })
      )
@@ -384,4 +393,12 @@ getClients(){
     }
 
   }
+
+  getTypeContrat(){
+    this.typeContrat = this.clientForm.value.typeTrajet;
+    if (this.typeContrat != 'Aller - Retour'){
+      this.clientForm.value.lieuChargementRetour = '';
+      this.clientForm.value.lieuDechargementRetour = '';
+    }
+   }
 }
