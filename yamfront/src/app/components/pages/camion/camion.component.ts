@@ -393,6 +393,13 @@ postCamion(){
   }
 
   getCamions(filtre = ''){
+    if (filtre==''){
+
+      this.filtreEtat != ''? filtre += '&etat=' + this.filtreEtat:''
+      this.filtreMarque != ''? filtre +=  '&marque.id=' + this.filtreMarque:''
+      this.filtreModele != ''? filtre +=  '&modele=' + this.filtreModele:''
+      this.filtreCategorie != ''? filtre +=  '&typeCamion.id=' + this.filtreCategorie:''
+    }
     if (this.stopScroll == true){
       return;
     }

@@ -21,19 +21,33 @@ export class ClientService{
   }
 
   listClients(filtre=''){
-    return this.http.get(this.BASE_URL + 'listClients'+filtre , {headers: this.headersApplicationJson});
+    return this.http.get(this.BASE_URL + 'listClients?isDeleted=false'+filtre , {headers: this.headersApplicationJson});
   }
 
   detailsClient(id){
     return this.http.get(this.BASE_URL + 'detailsClient/'+id , {headers: this.headersApplicationJson});
   }
 
+
+  getClientFilter(filter){
+    return this.http.get(this.BASE_URL + 'clients/'+filter , {headers: this.headersApplicationJson});
+  }
+
   addClient(body){
     return this.http.post(this.BASE_URL + 'addClient' , body,{headers: this.headersFormData});
   }
 
+
+  addContrat(body){
+    return this.http.post(this.BASE_URL + 'addContrat' , body,{headers: this.headersFormData});
+  }
+
   archiverClient(body){
     return this.http.post(this.BASE_URL + 'archiverClient' , body,{headers: this.headersFormData});
+  }
+
+  addPayment(body){
+    return this.http.post(this.BASE_URL + 'addPaiement' , body,{headers: this.headersFormData});
   }
 }
 

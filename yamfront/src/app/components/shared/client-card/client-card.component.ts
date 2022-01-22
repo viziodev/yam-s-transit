@@ -21,7 +21,7 @@ export class ClientCardComponent implements OnInit {
   }
   clickedActionItem(actionId,type) {
     this.isExpanded = false;
-    this.clickActionItem.emit({id:actionId,type:type});
+    this.clickActionItem.emit({id:actionId,type:type,client: this.client});
   }
 
   clickedActionner(actionId) {
