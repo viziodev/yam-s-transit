@@ -1,0 +1,163 @@
+<app-content-menu [title]="'Courses'" [menus]="menus">
+  <div class="col-5"><h2>Course</h2></div>
+  <div class="col-7" style="text-align: right">
+  <!--  <button   class="btn btn-secondary rounded rounded-pill mt-3 "  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus"></i>Ajouter un chauffeur</button>-->
+  </div>
+</app-content-menu>
+
+<div class="row mb-4">
+  <div class="col-12 row mt-3">
+    <div class="col-2">
+
+    </div>
+    <div style="display: inline" class="co">
+      <div  style="display: inline;width: 100px;margin-right: 20px" class="form-group has-search col-12">
+        <span class="fa fa-search form-control-feedback"></span>
+        <input  style="width:200px;display:inline;background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
+
+      </div>
+      <select   style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
+        <option selected>Type permis</option>
+        <option  > libelle </option>
+      </select>
+
+      <select style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+        <option value="Disponible" selected>Disponible</option>
+        <option value="Indisponible" >Indisponible</option>
+        <option value="En course" >En course</option>
+
+      </select>
+      <button style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="btn btn-outline-secondary rounded rounded-pill" data-bs-toggle="modal" data-bs-target="#modalFiltre">Nbre de courses</button>
+
+      <!--<select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+        <option selected>Affectation</option>
+
+      </select>-->
+      <button style="font-size:12px;display: inline;margin-right: 20px" class="btn btn-secondary border border-2  border-secondary rounded rounded-pill">
+        <i class="fas fa-search"></i>
+
+      </button>
+      <select   style="float:right;font-size:12px;display: inline;width: 80px;margin-left: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
+      <option value="" selected>Semaine</option>
+      <option value="1"  >1</option>
+      <option value="2"  >2</option>
+      <option value="3"  >3</option>
+      <option value="4"  >4</option>
+      </select>
+      <input type="month" style="background-color: #F2F2F2;height:35px; padding-left:9px;float: right;margin-left: 20px;width: 180px" class="btn   rounded rounded-pill">
+
+      <button (click)="scrollRight()" style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-5  rounded rounded-circle"><i class="fas fa-arrow-right"></i></button>
+      <button (click)="scrollLeft()" style="background-color: #F2F2F2;height:35px;width:35px;padding-left:9px;float: right;margin-left: 10px" class="btn ml-5  rounded rounded-circle"><i class="fas fa-arrow-left"></i></button>
+
+    </div>
+    <div class="col-2" style="text-align: right">
+    </div>
+  </div>
+  <div class="col-2">
+
+  </div>
+  <div class="col-4"></div>
+</div>
+
+
+
+
+<div #widgetsContent class="middle">
+  <div class="content-course">
+    <div class="course-date">
+      <span class="dateTxt"> 5 decembre 2021 - 6 courses</span>
+    </div>
+    <div class="item-course" >
+
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+
+    </div>
+  </div>
+  <div class="content-course">
+    <div class="course-date">
+      <span class="dateTxt"> 5 decembre 2021 - 6 courses</span>
+    </div>
+    <div class="item-course" >
+
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+
+    </div>
+  </div>
+  <div class="content-course">
+    <div class="course-date">
+      <span class="dateTxt"> 5 decembre 2021 - 6 courses</span>
+    </div>
+    <div class="item-course" >
+
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+
+    </div>
+  </div>
+  <div class="content-course">
+    <div class="course-date">
+      <span class="dateTxt"> 5 decembre 2021 - 6 courses</span>
+    </div>
+    <div class="item-course" >
+
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+
+    </div>
+  </div>
+  <div class="content-course">
+    <div class="course-date">
+      <span class="dateTxt"> 5 decembre 2021 - 6 courses</span>
+    </div>
+    <div class="item-course" >
+
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+
+    </div>
+  </div>
+  <div class="content-course">
+    <div class="course-date">
+      <span class="dateTxt"> 5 decembre 2021 - 6 courses</span>
+    </div>
+    <div class="item-course" >
+
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+
+    </div>
+  </div>
+  <div class="content-course">
+    <div class="course-date">
+      <span class="dateTxt"> 5 decembre 2021 - 6 courses</span>
+    </div>
+    <div class="item-course" >
+
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+
+    </div>
+  </div>
+  <div class="content-course">
+    <div class="course-date">
+      <span class="dateTxt"> 5 decembre 2021 - 6 courses</span>
+    </div>
+    <div class="item-course" >
+
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+      <app-card-course></app-card-course>
+
+    </div>
+  </div>
+
+ </div>

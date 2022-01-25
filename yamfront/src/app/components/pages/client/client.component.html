@@ -415,10 +415,13 @@
 
       <div class="row mt-3" style="border-top: solid 1px #DEDEDE">
         <div class="col-6 details-section" style="border-right: solid 1px  #DEDEDE">
-          <div class="col-12 mx-auto" *ngIf="client?.typeClient == 'Contractuel'">
-            <select [(ngModel)]="contratId" (change)="setSelectedContrat()" class="rounded rounded-pill">
+          <div class="col-12 row mx-auto" *ngIf="client?.typeClient == 'Contractuel'">
+            <div class="col-10">
+              <select [(ngModel)]="contratId" (change)="setSelectedContrat()" class="rounded rounded-pill">
               <option *ngFor="let contrat of client?.contrats">{{contrat?.id}}</option>
             </select>
+            </div>
+            <div class="col-2"><span>{{selectedContrat}}</span></div>
           </div>
           <span class="detailsCam">Lieu chargement<span style="float: right">{{selectedContrat?.lieuChargement}}</span></span><br>
           <span class="detailsCam">Lieu dechargement<span style="float: right">{{selectedContrat?.lieuDechargement}}</span></span><br>

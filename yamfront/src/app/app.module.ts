@@ -19,6 +19,8 @@ import {FilterPipe} from "./services/pipes/filter.pipe";
 import { LoaderComponent } from './components/shared/loader/loader.component';
 import { ClientComponent } from './components/pages/client/client.component';
 import { ClientCardComponent } from './components/shared/client-card/client-card.component';
+import { CourseComponent } from './components/pages/course/course.component';
+import { CardCourseComponent } from './components/shared/card-course/card-course.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { ClientCardComponent } from './components/shared/client-card/client-card
     FilterPipe,
     LoaderComponent,
     ClientComponent,
-    ClientCardComponent
+    ClientCardComponent,
+    CourseComponent,
+    CardCourseComponent
   ],
   imports: [
     BrowserModule,

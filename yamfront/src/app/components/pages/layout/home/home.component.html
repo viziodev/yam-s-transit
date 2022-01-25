@@ -105,26 +105,26 @@
             </a>
             <br>
             <p  class="showing"><span [hidden]="!expanded" >Courses</span></p>
-            <a href="#" class="nav-link active">
+            <a [routerLink]="'course'" routerLinkActive="nav-link-active" class="nav-link active">
               <i    class="fas fa-random yam-menu-icon"></i>
 
               <span class="link-text">Courses</span>
             </a>
 
 
-            <a [routerLink]="'client'" class="nav-link active">
+            <a [routerLink]="'client'"  routerLinkActive="nav-link-active" class="nav-link active">
               <i  class="fa fa-user yam-menu-icon"></i>
               <span class="link-text">Clients</span>
             </a>
             <p class="showing"><span [hidden]="!expanded" >Parc</span></p>
 
 
-            <a  [routerLink]="'/camion'" class="nav-link active">
+            <a  [routerLink]="'/camion'"  routerLinkActive="nav-link-active"class="nav-link active">
               <i    class="yam-menu-icon fas fa-truck-moving"></i>
               <span class="link-text">Camion</span>
             </a>
 
-            <a   [routerLink]="'/chauffeur'" class="nav-link active">
+            <a   [routerLink]="'/chauffeur'"  routerLinkActive="nav-link-active" class="nav-link active">
               <i    class="fa fa-users yam-menu-icon"></i>
               <span class="link-text">Chauffeur</span>
             </a>
