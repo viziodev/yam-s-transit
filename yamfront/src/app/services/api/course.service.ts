@@ -16,6 +16,9 @@ export class CourseService{
   addCourse(body){
     return this.http.post(this.BASE_URL + 'addCourse' , body,{headers: this.headersFormData});
   }
+  listCourse(filter= ''){
+    return this.http.get(this.BASE_URL + 'lc' + filter,{headers: this.headersFormData});
+  }
 
 }
 

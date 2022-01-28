@@ -10,3 +10,28 @@
 
 
 
+.c-attente{
+  background-color: grey;
+
+}
+.c-valide{
+  background-color: purple;
+
+}
+.c-cours{
+  background-color: deepskyblue;
+
+}
+.c-termine{
+  background-color: green;
+
+}
+.c-annule{
+  background-color: red;
+}
+.c{
+  height: 10px;
+  width: 60px;
+  border-radius: 10px;
+  margin-top: 5px
+}
