@@ -20,5 +20,9 @@ export class CourseService{
     return this.http.get(this.BASE_URL + 'lc' + filter,{headers: this.headersFormData});
   }
 
+  getCamionsDispo(body){
+    return this.http.post(this.BASE_URL + 'getCamionsDispo', body, {headers: this.headersFormData});
+  }
+
 }
 

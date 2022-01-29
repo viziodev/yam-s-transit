@@ -28,4 +28,5 @@ export class ClientCardComponent implements OnInit {
     this.isExpanded = !this.isExpanded;
     this.clickedAction.emit(actionId);
   }
+
 }

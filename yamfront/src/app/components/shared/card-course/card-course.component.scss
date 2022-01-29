@@ -35,3 +35,30 @@
   border-radius: 10px;
   margin-top: 5px
 }
+
+
+.actions{
+  width: 185px;
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 70px;
+  height: 215px;
+  padding: 16px 0 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px 0 rgba(121, 121, 121, 0.16);
+  border: solid 0.5px #dedede;
+  background-color: #fff;
+  overflow-y: scroll;
+}
+.action-item{
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #505050;
+}

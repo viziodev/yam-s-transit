@@ -16,24 +16,30 @@
         <input  style="width:200px;display:inline;background-color: #f4f4f4;border: none;color: #747474" type="text" class="form-control rounded vsearch rounded-pill"  placeholder="Que recherchez-vous ?">
 
       </div>
-      <select   style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
-        <option selected>Type permis</option>
-        <option  > libelle </option>
+      <select [(ngModel)]="filterEtat"  style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class=" form-control border  border-2 border-secondary rounded rounded-pill" >
+        <option value="En attente" selected>En attente</option>
+        <option value="Validé" >Validé</option>
+        <option value="En cours" >En cours</option>
+        <option value="Terminé" >Terminé</option>
+        <option value="Annulé" >Annulé</option>
+       </select>
+
+      <select [(ngModel)]="filterType" style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+        <option value="Contractuel" selected>Sous - contrat</option>
+        <option value="Occasionnel" >Occasionnel</option>
       </select>
 
-      <select style="font-size:12px;display: inline;width: 100px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
-        <option value="Disponible" selected>Disponible</option>
-        <option value="Indisponible" >Indisponible</option>
-        <option value="En course" >En course</option>
-
+      <select [(ngModel)]="filtreCourse" style="font-size:12px;display: inline;width: 110px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
+        <option value="Aller - Retour" selected>Aller - Retour</option>
+        <option value="Aller" >Aller </option>
+        <option value="Retour" > Retour</option>
       </select>
-      <button style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="btn btn-outline-secondary rounded rounded-pill" data-bs-toggle="modal" data-bs-target="#modalFiltre">Nbre de courses</button>
 
       <!--<select  style="font-size:12px;display: inline;width: 130px;margin-right: 20px" class="form-control   border border-2  border-secondary rounded rounded-pill">
         <option selected>Affectation</option>
 
       </select>-->
-      <button style="font-size:12px;display: inline;margin-right: 20px" class="btn btn-secondary border border-2  border-secondary rounded rounded-pill">
+      <button (click)="filterCourseSearch()" style="font-size:12px;display: inline;margin-right: 20px" class="btn btn-secondary border border-2  border-secondary rounded rounded-pill">
         <i class="fas fa-search"></i>
 
       </button>
@@ -67,11 +73,88 @@
     <div class="course-date">
       <span class="dateTxt">{{course?.date}}</span>
     </div>
-    <div class="item-course" >
+    <div class="item-course" style="position: relative"  >
 
-      <app-card-course  *ngFor="let detailCourse of course?.courses" [course]="detailCourse"></app-card-course>
+      <app-card-course   *ngFor="let detailCourse of course?.courses" [course]="detailCourse"(clickedAction)=" getSelectedCourse($event)" (clickActionItem)="getAction ($event)"></app-card-course>
 
     </div>
   </div>
 
  </div>
+
+
+
+
+
+<!-- Button trigger modal -->
+<button [hidden]="true" id="traitement" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{traitement?.type}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" *ngIf="traitement?.type == 'Validation de la course'">
+        <span class="txt text-dark fw-bold" *ngIf="traitement?.course?.chauffeur">Chauffeur</span>
+
+        <span class="txt text-dark fw-bold">Client</span>
+
+        <div class="row" style="">
+          <div class="col-8 row">
+            <div class="col-4"><img src="{{traitement?.course?.client?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.client?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
+            <div class="col-8"><span  class="txt  text-dark fw-bold">{{traitement?.course?.client?.nomComplet}}</span><br><span  class="txt">{{traitement?.course?.marchandise}}</span></div>
+          </div>
+          <div class="col-4"><span  class="txt">{{traitement?.course?.lieuChargement | slice:0 : 6}} - {{traitement?.course?.lieuDechargement | slice:0 : 6}}</span><br><span  class="txt">{{traitement?.course?.client?.tel}}</span>
+            <br><span  class="txt" *ngIf="traitement?.course?.client?.typeClient =='Occasionnel'">Occasionnel</span></div>
+        </div>
+        <div class="row  mt-5" style="" *ngIf="traitement?.course?.chauffeur">
+          <div class="col-8 row">
+            <div class="col-4"><img src="{{traitement?.course?.chauffeur?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
+            <div class="col-8"><span  class="txt  text-dark fw-bold">{{traitement?.course?.chauffeur.camion?.immatriculation}}</span><br><span  class="txt">{{traitement?.course?.typeTrajet}}</span></div>
+          </div>
+          <div class="col-4 " style="text-align: right;float: right"><span  class="txt ">{{traitement?.course?.chauffeur?.nomComplet| slice:0 : 15}}</span><br><span  class="txt">{{traitement?.course?.chauffeur?.tel1}}</span></div>
+        </div>
+        <div class="row  mt-5" style="" *ngIf="!traitement?.course?.chauffeur">
+        <select class="form-control">
+          <option value="{{camion?.id}}" *ngFor="let camion of camionsDispo">{{camion?.chauffeur?.nomComplet}} - {{camion?.immatriculation}}</option>
+        </select>
+          <div class="row  mt-4">
+            <div class="col-3" >
+              <span class="courseTxt" >Prix course</span>
+              <input class="inputCourse" disabled type="text" value="{{traitement?.course?.montant}}">
+            </div>
+            <div class="col-1"> </div>
+            <div class="col-3 " >
+              <span class="courseTxt" >  Depense</span>
+
+              <input class="inputCourse" type="text" >
+            </div>
+            <div class="col-1"> </div>
+
+            <div class="col-3 " >
+              <span class="courseTxt" > Montant versé</span>
+              <input class="inputCourse" type="text" >
+            </div>
+          </div>
+           </div>
+        <div style=" border-bottom: solid 1px #EAEAEA;margin-top: 5px"></div>
+      </div>
+      <div class="modal-body" *ngIf="traitement?.type == 'Annuler'">
+        ann
+      </div>
+      <div class="modal-footer" *ngIf="traitement?.type == 'Validation de la course'">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+      <div class="modal-footer"*ngIf="traitement?.type == 'Annuler'">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Oui, annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
