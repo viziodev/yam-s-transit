@@ -34,4 +34,5 @@ export class ChauffeurService{
   archiverChauffeur(body){
      return this.http.post(this.BASE_URL + 'archiverChauffeur' , body,{headers: this.headersFormData});
   }
+
 }

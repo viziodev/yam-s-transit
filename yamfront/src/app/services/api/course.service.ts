@@ -23,6 +23,16 @@ export class CourseService{
   getCamionsDispo(body){
     return this.http.post(this.BASE_URL + 'getCamionsDispo', body, {headers: this.headersFormData});
   }
+  validerCourse(body){
+    return this.http.post(this.BASE_URL + 'validerCourse' , body,{headers: this.headersApplicationJson});
+  }
+
+  annulerCourse(id){
+    return this.http.get(this.BASE_URL + 'annulerCourse/' + id ,{headers: this.headersFormData});
+  }
+  terminerCourse(body){
+    return this.http.post(this.BASE_URL + 'terminerCourse'  , body, {headers: this.headersFormData});
+  }
 
 }
 

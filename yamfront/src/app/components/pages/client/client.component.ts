@@ -48,6 +48,7 @@ export class ClientComponent implements OnInit {
   imgURL='./assets/images/avatar.jpg';
   listCamions:any;
   listTypePermis:any;
+  listItins:any;
   selectChauffeur:boolean;
   menuOpen: boolean = false;
   clientForm: FormGroup ;
@@ -65,7 +66,10 @@ export class ClientComponent implements OnInit {
       tel: ['', [Validators.required]],
       typeTrajet: ['', [Validators.required]],
       dureeTrajet: ['', [Validators.required]],
-      periode:this.fb.array([
+      dureeTrajetRetour: ['', [Validators.required]],
+      itineraireAller: [''],
+      itineraireRetour: [''],
+      periode: this.fb.array([
       this.fb.group({
           jourChargement: ['', [Validators.required]],
           jourDechargement: ['', [Validators.required]],
@@ -89,6 +93,9 @@ export class ClientComponent implements OnInit {
     this.contratForm = this.fb.group({
       typeTrajet: ['', [Validators.required]],
       dureeTrajet: ['', [Validators.required]],
+      dureeTrajetRetour: ['', [Validators.required]],
+      itineraireRetour: [''],
+      itineraireAller: [''],
       periode:this.fb.array([
       this.fb.group({
           jourChargement: ['', [Validators.required]],
@@ -114,7 +121,9 @@ export class ClientComponent implements OnInit {
       tel: ['', [Validators.required]],
       typeTrajet: ['', [Validators.required]],
       dureeTrajet: ['', [Validators.required]],
-
+      dureeTrajetRetour: ['', [Validators.required]],
+      itineraireRetour: ['' ],
+      itineraireAller: ['', [Validators.required]],
       lieuChargement: ['', [Validators.required]],
       lieuDechargement: ['', [Validators.required]],
       lieuChargementRetour: ['', [Validators.required]],
@@ -150,6 +159,13 @@ export class ClientComponent implements OnInit {
     this.paramsService.listTypePermisSelect().subscribe(
       data =>{
         this.listTypePermis=data['hydra:member'];
+
+        console.log(data)
+      }
+    )
+    this.paramsService.listItins().subscribe(
+      data =>{
+        this.listItins =data['hydra:member'];
 
         console.log(data)
       }
@@ -200,6 +216,7 @@ export class ClientComponent implements OnInit {
     formdata.append('tel',this.clientForm.value.tel)
     formdata.append('typeTrajet',this.clientForm.value.typeTrajet)
     formdata.append('dureeTrajet',this.clientForm.value.dureeTrajet)
+    formdata.append('dureeTrajetRetour',this.clientForm.value.dureeTrajetRetour)
    //  formdata.append('frequenceChargement',this.clientForm.value.frequenceChargement)
 
     formdata.append('lieuChargement',this.clientForm.value.lieuChargement)
@@ -240,6 +257,7 @@ export class ClientComponent implements OnInit {
      formdata.append('idClient',this.id)
      formdata.append('typeTrajet',this.contratForm.value.typeTrajet)
     formdata.append('dureeTrajet',this.contratForm.value.dureeTrajet)
+    formdata.append('dureeTrajetRetour',this.contratForm.value.dureeTrajetRetour)
     //  formdata.append('frequenceChargement',this.clientForm.value.frequenceChargement)
 
     formdata.append('lieuChargement',this.contratForm.value.lieuChargement)
@@ -533,6 +551,7 @@ this.selectedContrat=null
     formdata.append('tel',this.courseForm.value.tel)
     formdata.append('typeTrajet',this.courseForm.value.typeTrajet)
     formdata.append('dureeTrajet',this.courseForm.value.dureeTrajet)
+    formdata.append('dureeTrajetRetour',this.courseForm.value.dureeTrajetRetour)
     //  formdata.append('frequenceChargement',this.clientForm.value.frequenceChargement)
 
     formdata.append('lieuChargement',this.courseForm.value.lieuChargement)
@@ -556,6 +575,9 @@ this.selectedContrat=null
     this.courseService.addCourse(formdata).subscribe(
       (data: any) =>{
         this.loaderAdd = true;
+        setInterval(function () {
+          window.location.reload()
+        },3000)
         console.log(data)
       },(error: any) => {
         this.loaderAdd = true;
@@ -572,6 +594,64 @@ this.selectedContrat=null
       }
     }
 
+  }
+  setTypeTra(type){
+    if(type=='Aller2'){
+      for (const e of  this.listItins) {
+        if (  e.id == this.clientForm.value.itineraireAller){
+          this.clientForm.patchValue({lieuChargement: e?.depart}) //value.lieuChargement = e?.depart;
+          this.clientForm.patchValue({lieuDechargement: e?.arrivee})//value.lieuDechargement = e?.arrivee;
+          this.clientForm.patchValue({dureeTrajet: e?.duree})//value.lieuDechargement = e?.arrivee;
+        }
+      }
+    }else if(type=='Retour2'){
+      for (const e of  this.listItins) {
+        if (  e.id == this.clientForm.value.itineraireRetour){
+          this.clientForm.patchValue({lieuChargementRetour: e?.depart})
+          this.clientForm.patchValue({lieuDechargementRetour: e?.arrivee}) //value.lieuDechargementRetour = e?.arrivee;
+          this.clientForm.patchValue({dureeTrajetRetour: e?.duree})//value.lieuDechargement = e?.arrivee;
+
+        }
+      }
+    }else if(type=='AllerCourse'){
+      for (const e of  this.listItins) {
+        if (  e.id == this.courseForm.value.itineraireAller){
+          this.courseForm.patchValue({lieuChargement: e?.depart})
+          this.courseForm.patchValue({lieuDechargement: e?.arrivee}) //value.lieuDechargementRetour = e?.arrivee;
+          this.courseForm.patchValue({dureeTrajet: e?.duree})//value.lieuDechargement = e?.arrivee;
+
+        }
+      }
+    }else if(type=='RetourCourse'){
+      for (const e of  this.listItins) {
+        if (  e.id == this.courseForm.value.itineraireRetour){
+          this.courseForm.patchValue({lieuChargementRetour: e?.depart});
+          this.courseForm.patchValue({lieuDechargementRetour: e?.arrivee}) //value.lieuDechargementRetour = e?.arrivee;
+          this.courseForm.patchValue({dureeTrajetRetour: e?.duree})//value.lieuDechargement = e?.arrivee;
+
+        }
+      }
+    }else if(type=='AllerContrat'){
+      for (const e of  this.listItins) {
+        if (  e.id == this.contratForm.value.itineraireAller){
+          this.contratForm.patchValue({lieuChargement: e?.depart})
+          this.contratForm.patchValue({lieuDechargement: e?.arrivee}) //value.lieuDechargementRetour = e?.arrivee;
+          this.contratForm.patchValue({dureeTrajet: e?.duree})//value.lieuDechargement = e?.arrivee;
+
+        }
+      }
+    }else if(type=='RetourContrat'){
+      for (const e of  this.listItins) {
+        if (  e.id == this.contratForm.value.itineraireRetour){
+          this.contratForm.patchValue({lieuChargementRetour: e?.depart});
+          this.contratForm.patchValue({lieuDechargementRetour: e?.arrivee}) //value.lieuDechargementRetour = e?.arrivee;
+          this.contratForm.patchValue({dureeTrajetRetour: e?.duree})//value.lieuDechargement = e?.arrivee;
+
+        }
+      }
+    }
+
+    console.log(  this.contratForm.value);
   }
 
   getTypeContrat(type){
@@ -659,13 +739,15 @@ this.selectedContrat=null
         this.loaderPay = false
         this.montantRestant = ''
         this.alertService.successDangerNotif('success','Paiement effectué avec succés')
-        console.log(data)
-      },(error)=>{
-        this.loaderPay = false
-        this.alertService.successDangerNotif('success','Erreur lors du paiement')
+        console.log(data);
+      },(error) =>{
+        this.loaderPay = false;
+        this.alertService.successDangerNotif('success', 'Erreur lors du paiement')
 
-        console.log(error)
+        console.log(error);
     }
-    )
+    );
   }
+
+
 }

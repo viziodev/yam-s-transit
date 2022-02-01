@@ -36,4 +36,7 @@ export class ParamsService{
   detailsModelePiece(id){
     return this.http.get(this.BASE_URL + 'detailsModele/'+id , {headers: this.headersApplicationJson});
   }
+  listItins(){
+    return this.http.get(this.BASE_URL + 'itineraires' ,{headers: this.headersApplicationJson});
+  }
  }

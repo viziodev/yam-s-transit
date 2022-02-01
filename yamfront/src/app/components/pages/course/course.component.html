@@ -100,60 +100,128 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" *ngIf="traitement?.type == 'Validation de la course'">
-        <span class="txt text-dark fw-bold" *ngIf="traitement?.course?.chauffeur">Chauffeur</span>
 
         <span class="txt text-dark fw-bold">Client</span>
 
         <div class="row" style="">
           <div class="col-8 row">
-            <div class="col-4"><img src="{{traitement?.course?.client?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.client?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
-            <div class="col-8"><span  class="txt  text-dark fw-bold">{{traitement?.course?.client?.nomComplet}}</span><br><span  class="txt">{{traitement?.course?.marchandise}}</span></div>
+            <div class="col-2"><img src="{{traitement?.course?.client?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.client?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
+            <div class="col-10"><span  class="txt  text-dark fw-bold">{{traitement?.course?.client?.nomComplet}}</span><br><span  class="txt">{{traitement?.course?.client?.typeClient}}</span></div>
           </div>
-          <div class="col-4"><span  class="txt">{{traitement?.course?.lieuChargement | slice:0 : 6}} - {{traitement?.course?.lieuDechargement | slice:0 : 6}}</span><br><span  class="txt">{{traitement?.course?.client?.tel}}</span>
-            <br><span  class="txt" *ngIf="traitement?.course?.client?.typeClient =='Occasionnel'">Occasionnel</span></div>
+          <div class="col-4"><span  class="txt">{{traitement?.course?.lieuChargement | slice:0 : 6}} - {{traitement?.course?.lieuDechargement | slice:0 : 6}}</span><br><span  class="txt">{{traitement?.course?.marchandise}}</span>
+            <br><span  class="txt">Date depart : {{traitement?.course?.dateDepart}}</span>
+           </div>
         </div>
         <div class="row  mt-5" style="" *ngIf="traitement?.course?.chauffeur">
+          <span class="txt text-dark fw-bold" *ngIf="traitement?.course?.chauffeur">Chauffeur</span>
+
           <div class="col-8 row">
-            <div class="col-4"><img src="{{traitement?.course?.chauffeur?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
-            <div class="col-8"><span  class="txt  text-dark fw-bold">{{traitement?.course?.chauffeur.camion?.immatriculation}}</span><br><span  class="txt">{{traitement?.course?.typeTrajet}}</span></div>
+            <div class="col-2"><img src="{{traitement?.course?.chauffeur?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
+            <div class="col-10"><span  class="txt  text-dark fw-bold">{{traitement?.course?.chauffeur.camion?.immatriculation}}</span><br><span  class="txt">{{traitement?.course?.typeTrajet}}</span></div>
           </div>
           <div class="col-4 " style="text-align: right;float: right"><span  class="txt ">{{traitement?.course?.chauffeur?.nomComplet| slice:0 : 15}}</span><br><span  class="txt">{{traitement?.course?.chauffeur?.tel1}}</span></div>
         </div>
         <div class="row  mt-5" style="" *ngIf="!traitement?.course?.chauffeur">
-        <select class="form-control">
+          <span class="txt text-dark fw-bold">Chauffeur</span>
+
+          <select  [(ngModel)]="camion" class="form-control">
           <option value="{{camion?.id}}" *ngFor="let camion of camionsDispo">{{camion?.chauffeur?.nomComplet}} - {{camion?.immatriculation}}</option>
         </select>
-          <div class="row  mt-4">
-            <div class="col-3" >
-              <span class="courseTxt" >Prix course</span>
-              <input class="inputCourse" disabled type="text" value="{{traitement?.course?.montant}}">
-            </div>
-            <div class="col-1"> </div>
-            <div class="col-3 " >
-              <span class="courseTxt" >  Depense</span>
 
-              <input class="inputCourse" type="text" >
-            </div>
-            <div class="col-1"> </div>
-
-            <div class="col-3 " >
-              <span class="courseTxt" > Montant versé</span>
-              <input class="inputCourse" type="text" >
-            </div>
-          </div>
            </div>
+        <div class="row  mt-4">
+          <div class="col-3" >
+            <span class="courseTxt" >Prix course</span>
+            <input class="inputCourse" disabled type="text" value="{{traitement?.course?.montant}}">
+          </div>
+          <div class="col-1"> </div>
+          <div class="col-3 " >
+            <span class="courseTxt" >  Depense</span>
+
+            <input class="inputCourse" type="number" [(ngModel)]="depense">
+          </div>
+          <div class="col-1"> </div>
+
+          <div class="col-3 " >
+            <span class="courseTxt" > Montant versé</span>
+            <input class="inputCourse" [(ngModel)]="montantVerse" type="number" >
+          </div>
+        </div>
         <div style=" border-bottom: solid 1px #EAEAEA;margin-top: 5px"></div>
       </div>
-      <div class="modal-body" *ngIf="traitement?.type == 'Annuler'">
-        ann
+      <div class="modal-body" *ngIf="traitement?.type == 'Annulation de la course'">
+        <span class="txt text-dark fw-bold">Client</span>
+
+        <div class="row" style="">
+          <div class="col-8 row">
+            <div class="col-2"><img src="{{traitement?.course?.client?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.client?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
+            <div class="col-10"><span  class="txt  text-dark fw-bold">{{traitement?.course?.client?.nomComplet}}</span><br><span  class="txt">{{traitement?.course?.client?.typeClient}}</span></div>
+          </div>
+          <div class="col-4"><span  class="txt">{{traitement?.course?.lieuChargement | slice:0 : 6}} - {{traitement?.course?.lieuDechargement | slice:0 : 6}}</span><br><span  class="txt">{{traitement?.course?.marchandise}}</span>
+            <br><span  class="txt">Date depart : {{traitement?.course?.dateDepart}}</span>
+           </div>
+        </div>
+      </div>
+      <div class="modal-body p-4"  *ngIf="traitement?.type == 'Terminer la course'">
+        <span class="txt text-dark fw-bold">Client</span>
+         <div class="row" style="">
+          <div class="col-8 row">
+            <div class="col-2"><img src="{{traitement?.course?.client?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.client?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
+            <div class="col-10"><span  class="txt  text-dark fw-bold">{{traitement?.course?.client?.nomComplet}}</span><br><span  class="txt">{{traitement?.course?.client?.typeClient}}</span></div>
+          </div>
+          <div class="col-4"><span  class="txt">{{traitement?.course?.lieuChargement | slice:0 : 6}} - {{traitement?.course?.lieuDechargement | slice:0 : 6}}</span><br><span  class="txt">{{traitement?.course?.marchandise}}</span>
+            <br><span  class="txt">Date depart : {{traitement?.course?.dateDepart}}</span>
+           </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6"><span style="font-size: 13px !important;" class="txt">Date de chargement</span></div>
+          <div class="col-6"><input class="inputCourse txt" disabled type="text" value="{{traitement?.course?.dateChargement}}"> </div>
+          <div class="col-6"><span style="font-size: 13px !important;" class="txt">Date de dechargement</span></div>
+          <div class="col-6"><input class="inputCourse txt" disabled type="text" value="{{traitement?.course?.dateDechargement}}"> </div>
+        </div>
+
+        <div class="row  mt-5" style="" *ngIf="traitement?.course?.chauffeur">
+          <span class="txt text-dark fw-bold" >Camion</span>
+
+          <div class="col-8 row">
+            <div class="col-2"><img src="{{traitement?.course?.chauffeur?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
+            <div class="col-10"><span  class="txt  text-dark fw-bold">{{traitement?.course?.chauffeur.camion?.immatriculation}}</span><br><span  class="txt">{{traitement?.course?.typeTrajet}}</span></div>
+          </div>
+          <div class="col-4 " style="text-align: right;float: right"><span  class="txt ">{{traitement?.course?.chauffeur?.nomComplet| slice:0 : 15}}</span><br><span  class="txt">{{traitement?.course?.chauffeur?.tel1}}</span></div>
+        </div>
+        <div class="mt-3">
+          <select [(ngModel)]="appreciationChauffeur" class="inputCourse txt"  >
+            <option value="Appreciation chauffeur">Appreciation chauffeur</option>
+            <option value="1">1</option>
+            <option value="2">2 </option>
+            <option value="3">3 </option>
+            <option value="4">4 </option>
+            <option value="5">5 </option>
+          </select><br><br>
+          <span>Prix course</span><br>
+          <span class="txt">{{traitement?.course?.cout}} F.CFA</span><br><br>
+          <span>Montant restant</span><br>
+          <span class="txt">{{traitement?.course?.montantRestant}} F.CFA</span><br><br>
+          <span>Paiement</span><br>
+          <input [(ngModel)]="paiementCourse" class="inputCourse txt" style="font-size: 14px !important;"  type="number" placeholder="Paiement" value="">
+          <br><br>
+          <span >Bordereau de retour</span><br>
+          <span (click)="uploadFileBorderau()" class="txt" style="color: blue;cursor: pointer"><u>Televerser le bordereau</u></span><br><br>
+          <input id="fileBorderau" type="file" hidden (change)="uploadedFile($event)">
+        </div>
       </div>
       <div class="modal-footer" *ngIf="traitement?.type == 'Validation de la course'">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
+        <button type="button" (click)="validerCourse()" class="btn btn-light">Oui, je valide </button>
       </div>
-      <div class="modal-footer"*ngIf="traitement?.type == 'Annuler'">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Oui, annuler</button>
+      <div class="modal-footer"*ngIf="traitement?.type == 'Annulation de la course'">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
+        <button (click)="annulerCourse()" type="button"  class="btn btn-light">Oui, je l'annule </button>
+      </div>
+
+      <div class="modal-footer" *ngIf="traitement?.type == 'Terminer la course'">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
+        <button type="button"  (click)="terminerCourse()" class="btn btn-light">Oui, je valide </button>
       </div>
     </div>
   </div>

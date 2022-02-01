@@ -75,37 +75,33 @@
               <option value="Aller - Retour">Aller - Retour</option>
             </select>
 
-            <p class="detailsCam">Duree trajet</p>
+          <!--  <p class="detailsCam">Duree trajet</p>
 
             <input formControlName="dureeTrajet"  type="text" class="rounded-pill rounded form-control" name="dureeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Duree trajet">
-
+-->
           </div>
 
           <div class="col-6 mt-2 mb-2">
-
-            <p class="detailsCam">Lieu de chargement</p>
+            <select  (change)="setTypeTra('AllerCourse')" formControlName="itineraireAller"  type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
+              <option value="{{itin.id}}" *ngFor="let itin of listItins">{{itin?.depart }} -> {{ itin?.arrivee}} ( {{itin?.duree}} jours)</option>
+            </select>
+       <!--     <p class="detailsCam">Lieu de chargement</p>
 
             <input formControlName="lieuChargement"  type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
-
+-->
           </div>
 
-          <div class="col-6 mt-2 mb-2">
-
+          <div class="col-6 mt-2 mb-2" *ngIf="typeContrat =='Aller - Retour'">
+            <select  (change)="setTypeTra('RetourCourse')" formControlName="itineraireRetour" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" >
+              <option value="{{itin.id}}" *ngFor="let itin of listItins">{{itin?.depart }} -> {{ itin?.arrivee}} ( {{itin?.duree}} jours)</option>
+            </select>
+<!--
             <p class="detailsCam">Lieu de déchargement</p>
 
             <input formControlName="lieuDechargement"  type="text" class="rounded-pill rounded form-control" name="lieuDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu déchargement">
+-->
+          </div>
 
-          </div>
-          <div class="row mt-2" *ngIf="typeContrat =='Aller - Retour'">
-            <div class="col-6">
-              <p class="detailsCam">Lieu de chargement retour</p>
-              <input  formControlName="lieuChargementRetour" type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
-            </div>
-            <div class="col-6">
-              <p class="detailsCam">Lieu de dechargement retour</p>
-              <input  formControlName="lieuDechargementRetour" type="text" class="rounded-pill rounded form-control" name="lieuDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement">
-            </div>
-          </div>
         </div>
         <div class="row mt-2">
           <div class="col-12">
@@ -122,13 +118,13 @@
       <div class="col-12" *ngIf="typeContrat =='Aller - Retour'">
         <div class="row mt-2">
           <div class="col-12">
-            <label class="custom-label">Date de chargement</label><br>
+            <label class="custom-label">Date de chargement retour</label><br>
             <input formControlName="dateChargementRetour"  type="date" class="rounded-pill rounded form-control" name="dateChargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
           </div>
         </div>
         <div class="row mt-2">
           <div class="col-12">
-            <label class="custom-label">Date de déchargement</label><br>
+            <label class="custom-label">Date de déchargement retour</label><br>
             <input formControlName="dateDechargementRetour"  type="date" class="rounded-pill rounded form-control" name="dateDechargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
           </div>
         </div>
@@ -228,7 +224,7 @@
         <label class="mb-2" style="font-weight: bold;padding-left: 5px">Contrat</label>
         <br><span class="detailsCam">Trajet</span>
         <div class="row">
-          <div class="col-6">
+          <div class="col-12">
             <select (change)="getTypeContrat('client')" formControlName="typeTrajet"   class="rounded-pill rounded form-control" name="typeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
             <option value="" selected>Type trajet</option>
             <option value="Aller">Aller</option>
@@ -236,31 +232,45 @@
               <option value="Aller - Retour">Aller - retour</option>
             </select>
           </div>
-          <div class="col-6">
+          <!--<div class="col-6">
             <input formControlName="dureeTrajet"   type="text" class="rounded-pill rounded form-control" name="dureeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Durée trajet">
-          </div>
+          </div>-->
         </div>
-        <div class="row mt-2" *ngIf="typeContrat !='Aller - Retour'">
-          <div class="col-6">
+        <div class="row mt-3 col-12 mx-auto" *ngIf="typeContrat !='Aller - Retour'">
+          <span class="detailsCam">{{typeContrat}}</span>
+          <select (change)="setTypeTra('Aller2')" formControlName="itineraireAller" type="text" class="rounded-pill rounded form-control" name="itineraireAller" style="outline: none;  background-color: #f4f4f4;border: none" >
+            <option value="{{itin.id}}" *ngFor="let itin of listItins">{{itin?.depart }} -> {{ itin?.arrivee}} ( {{itin?.duree}} jours)</option>
+          </select>
+         <!-- <div class="col-6">
             <input  formControlName="lieuChargement" type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
           </div>
           <div class="col-6">
             <input  formControlName="lieuDechargement" type="text" class="rounded-pill rounded form-control" name="lieuDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement">
-          </div>
+          </div>-->
         </div>
-        <div class="row mt-2" *ngIf="typeContrat =='Aller - Retour'">
+        <div class="row mt-3" *ngIf="typeContrat =='Aller - Retour'">
+
+
           <div class="col-6">
-            <input  formControlName="lieuChargement" type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement aller">
-          </div>
-          <div class="col-6">
+            <span class="detailsCam">Aller</span>
+            <select (change)="setTypeTra('Aller2')" formControlName="itineraireAller"  type="text" class="rounded-pill rounded form-control" name="itineraireAller" style="outline: none;  background-color: #f4f4f4;border: none"  >
+              <option value="{{itin.id}}" *ngFor="let itin of listItins">{{itin?.depart }} -> {{ itin?.arrivee}} ( {{itin?.duree}} jours)</option>
+            </select>
+           <!-- <input  formControlName="lieuChargement" type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement aller">
+          --></div>
+         <!-- <div class="col-6">
             <input  formControlName="lieuDechargement" type="text" class="rounded-pill rounded form-control" name="lieuDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement aller">
+          </div>-->
+          <div class="col-6 ">
+            <span class="detailsCam">Retour</span>
+            <select   (change)="setTypeTra('Retour2')" formControlName="itineraireRetour"  name="itineraireRetour" type="text" class="rounded-pill rounded form-control" style="outline: none;  background-color: #f4f4f4;border: none"  >
+              <option value="{{itin.id}}" *ngFor="let itin of listItins">{{itin?.depart }} -> {{ itin?.arrivee}} ( {{itin?.duree}} jours)</option>
+            </select>
+          <!--  <input  formControlName="lieuChargementRetour" type="text" class="rounded-pill rounded form-control" name="lieuChargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement retour">-->
           </div>
-          <div class="col-6 mt-2">
-            <input  formControlName="lieuChargementRetour" type="text" class="rounded-pill rounded form-control" name="lieuChargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement retour">
-          </div>
-          <div class="col-6 mt-2">
-            <input  formControlName="lieuDechargementRetour" type="text" class="rounded-pill rounded form-control" name="lieuDechargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement retour">
-          </div>
+          <!--   <div class="col-6 mt-2">
+       <input  formControlName="lieuDechargementRetour" type="text" class="rounded-pill rounded form-control" name="lieuDechargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement retour">
+          </div>-->
         </div>
         <br><span class="detailsCam">Durée contrat</span>
         <div class="row mt-2">
@@ -469,7 +479,7 @@
               <label class="mb-2" style="font-weight: bold;padding-left: 5px">Contrat</label>
               <br><span class="detailsCam">Trajet</span>
               <div class="row">
-                <div class="col-6">
+                <div class="col-12">
                   <select (change)="getTypeContrat('contrat')" formControlName="typeTrajet"   class="rounded-pill rounded form-control" name="typeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le numéro de telephone">
                     <option value="" selected>Type trajet</option>
                     <option value="Aller">Aller</option>
@@ -477,20 +487,36 @@
                     <option value="Aller - Retour">Aller - retour</option>
                   </select>
                 </div>
-                <div class="col-6">
-                  <input formControlName="dureeTrajet"   type="text" class="rounded-pill rounded form-control" name="dureeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Durée trajet">
+                <div class="col-6 mt-3">
+                  <select (change)="setTypeTra('AllerContrat')" type="text" class="rounded-pill rounded form-control" formControlName="itineraireAller" name="itineraireAller" style="outline: none;  background-color: #f4f4f4;border: none">
+                    <option value="{{itin.id}}" *ngFor="let itin of listItins">{{itin?.depart }} -> {{ itin?.arrivee}} ( {{itin?.duree}} jours)</option>
+                  </select>
                 </div>
+                <div class="col-6 mt-3" *ngIf="typeContrat =='Aller - Retour'">
+                  <select (change)="setTypeTra('RetourContrat')" type="text" class="rounded-pill rounded form-control" formControlName="itineraireRetour" name="itineraireRetour" style="outline: none;  background-color: #f4f4f4;border: none">
+                    <option value="{{itin.id}}" *ngFor="let itin of listItins">{{itin?.depart }} -> {{ itin?.arrivee}} ( {{itin?.duree}} jours)</option>
+                  </select>
+                </div>
+                <!--<div class="col-6">
+                  <input formControlName="dureeTrajet"   type="text" class="rounded-pill rounded form-control" name="dureeTrajet" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Durée trajet">
+                </div>-->
               </div>
               <div class="row mt-2" *ngIf="typeContrat !='Aller - Retour'">
-                <div class="col-6">
+               <!-- <select  type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
+                  <option value="{{itin.id}}" *ngFor="let itin of listItins">{{itin?.depart }} -> {{ itin?.arrivee}} ( {{itin?.duree}} jours)</option>
+                </select>-->
+                <!--<div class="col-6">
                   <input  formControlName="lieuChargement" type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
                 </div>
                 <div class="col-6">
                   <input  formControlName="lieuDechargement" type="text" class="rounded-pill rounded form-control" name="lieuDechargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement">
-                </div>
+                </div>-->
               </div>
               <div class="row mt-2" *ngIf="typeContrat =='Aller - Retour'">
-                <div class="col-6">
+             <!--   <select  type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
+                  <option value="{{itin.id}}" *ngFor="let itin of listItins">{{itin?.depart }} -> {{ itin?.arrivee}} ( {{itin?.duree}} jours)</option>
+                </select>-->
+               <!-- <div class="col-6">
                   <input  formControlName="lieuChargement" type="text" class="rounded-pill rounded form-control" name="lieuChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement aller">
                 </div>
                 <div class="col-6">
@@ -501,7 +527,7 @@
                 </div>
                 <div class="col-6 mt-2">
                   <input  formControlName="lieuDechargementRetour" type="text" class="rounded-pill rounded form-control" name="lieuDechargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu dechargement retour">
-                </div>
+                </div>-->
               </div>
               <br><span class="detailsCam">Durée contrat</span>
               <div class="row mt-2">
