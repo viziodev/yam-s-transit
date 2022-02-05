@@ -162,6 +162,19 @@
            </div>
         </div>
       </div>
+      <div class="modal-body" *ngIf="traitement?.type == 'Lancer la course'">
+        <span class="txt text-dark fw-bold">Client</span>
+
+        <div class="row" style="">
+          <div class="col-8 row">
+            <div class="col-2"><img src="{{traitement?.course?.client?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.client?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
+            <div class="col-10"><span  class="txt  text-dark fw-bold">{{traitement?.course?.client?.nomComplet}}</span><br><span  class="txt">{{traitement?.course?.client?.typeClient}}</span></div>
+          </div>
+          <div class="col-4"><span  class="txt">{{traitement?.course?.lieuChargement | slice:0 : 6}} - {{traitement?.course?.lieuDechargement | slice:0 : 6}}</span><br><span  class="txt">{{traitement?.course?.marchandise}}</span>
+            <br><span  class="txt">Date depart : {{traitement?.course?.dateDepart}}</span>
+           </div>
+        </div>
+      </div>
       <div class="modal-body p-4"  *ngIf="traitement?.type == 'Terminer la course'">
         <span class="txt text-dark fw-bold">Client</span>
          <div class="row" style="">
@@ -210,18 +223,27 @@
           <input id="fileBorderau" type="file" hidden (change)="uploadedFile($event)">
         </div>
       </div>
-      <div class="modal-footer" *ngIf="traitement?.type == 'Validation de la course'">
+      <div  [hidden]="loaderAction" class="modal-footer" *ngIf="traitement?.type == 'Validation de la course'">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
         <button type="button" (click)="validerCourse()" class="btn btn-light">Oui, je valide </button>
       </div>
-      <div class="modal-footer"*ngIf="traitement?.type == 'Annulation de la course'">
+      <div  [hidden]="loaderAction" class="modal-footer"*ngIf="traitement?.type == 'Annulation de la course'">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
         <button (click)="annulerCourse()" type="button"  class="btn btn-light">Oui, je l'annule </button>
       </div>
 
-      <div class="modal-footer" *ngIf="traitement?.type == 'Terminer la course'">
+      <div  [hidden]="loaderAction" class="modal-footer" *ngIf="traitement?.type == 'Terminer la course'">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
         <button type="button"  (click)="terminerCourse()" class="btn btn-light">Oui, je valide </button>
+      </div>
+      <div   [hidden]="loaderAction" class="modal-footer"*ngIf="traitement?.type == 'Lancer la course'">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
+        <button (click)="lancerCourse()" type="button"  class="btn btn-light">Oui, je lance </button>
+      </div>
+      <div  [hidden]="!loaderAction"  class="modal-footer" >
+         <button type="button"  class="btn btn-light">
+           <img  style="height: 25px;width: 25px" src="assets/images/loader.gif">
+         </button>
       </div>
     </div>
   </div>

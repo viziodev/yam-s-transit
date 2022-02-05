@@ -49,5 +49,8 @@ export class ClientService{
   addPayment(body){
     return this.http.post(this.BASE_URL + 'addPaiement' , body,{headers: this.headersFormData});
   }
+  checkDisponibilite(body){
+    return this.http.post(this.BASE_URL + 'checkDisponibilite' , body, {headers: this.headersFormData});
+  }
 }
 
