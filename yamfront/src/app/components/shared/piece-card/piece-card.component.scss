@@ -1,0 +1,67 @@
+
+//CARD
+.vizioCard{
+  width: 170px;
+  height: 170px;
+  padding: 12px 13px 64.7px 11px;
+  border-radius: 4px;
+  background-color: #f4f4f4;
+  border: solid 1px #EAEAEA
+}
+.vizioCardFooter{
+  width:170px;
+  // margin: 0 0 11px;
+  // padding: 0px 13px 64.7px 11px;
+  border-radius: 4px;
+
+}
+
+.immat{
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #2c2c2c;
+}
+
+.course{
+  background-color: #2680EB;
+}
+.entretien{
+  background-color: #F29423;
+}
+.panne{
+  background-color: #E34850;
+}
+.dispo{
+  background-color: #33ab84;
+}
+.actions{
+  width: 185px;
+  position: absolute;
+  margin-top: -115px;
+  height: 218px;
+  padding: 16px 0 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px 0 rgba(121, 121, 121, 0.16);
+  border: solid 0.5px #dedede;
+  background-color: #fff;
+}
+.action-item{
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #505050;
+}
+.selected{
+  background-color: #2680EB;
+}

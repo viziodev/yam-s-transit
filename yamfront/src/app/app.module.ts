@@ -21,6 +21,8 @@ import { ClientComponent } from './components/pages/client/client.component';
 import { ClientCardComponent } from './components/shared/client-card/client-card.component';
 import { CourseComponent } from './components/pages/course/course.component';
 import { CardCourseComponent } from './components/shared/card-course/card-course.component';
+import { PieceCardComponent } from './components/shared/piece-card/piece-card.component';
+import { PiecesComponent } from './components/pages/pieces/pieces.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { CardCourseComponent } from './components/shared/card-course/card-course
     ClientComponent,
     ClientCardComponent,
     CourseComponent,
-    CardCourseComponent
+    CardCourseComponent,
+    PieceCardComponent,
+    PiecesComponent
   ],
   imports: [
     BrowserModule,
