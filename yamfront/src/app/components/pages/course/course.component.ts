@@ -18,11 +18,14 @@ export class CourseComponent implements OnInit {
   courses: any;
   montantVerse: any = 0;
   camion: any;
-  depense: any;
+  depense: any = 0;
   id: any;
   borderau: any;
   loaderAction = false;
   paiementCourse: any = 0;
+  chauffeurRemplace: any = 0;
+  dateChargement: any = 0;
+  dateDechargement: any = 0;
   appreciationChauffeur: any;
   semaine = '';
   moisAnnee = '';
@@ -135,7 +138,7 @@ export class CourseComponent implements OnInit {
         }, 3000)
       },
         error => {
-          this.alertService.successDangerNotif('warning','Erreur lors de la validation de la course!')
+          this.alertService.successDangerNotif('warning', 'Erreur lors de la validation de la course!')
 
           this.loaderAction = false;
        }
@@ -174,7 +177,43 @@ export class CourseComponent implements OnInit {
         console.log(data);
       }, error => {
         this.loaderAction = false;
-        this.alertService.successDangerNotif('warning','Erreur lors du lancement de la course!')
+        this.alertService.successDangerNotif('warning', 'Erreur lors du lancement de la course!');
+
+      }
+    );
+  }
+  reprogrammerCourse(){
+    this.loaderAction = true;
+    this.courseService.reprogrammerCourse({id: this.id, dateChargement: this.dateChargement, dateDechargement: this.dateDechargement}).subscribe(
+      data => {
+        this.loaderAction = false;
+
+        this.alertService.successDangerNotif('success', 'Course reprogrammée avec succés!');
+        setTimeout(function () {
+          document.location.reload();
+        }, 3000);
+        console.log(data);
+      }, error => {
+        this.loaderAction = false;
+        this.alertService.successDangerNotif('warning', 'Erreur lors la reprogrammation de la course!');
+
+      }
+    );
+  }
+  remplacerChauffeur(){
+    this.loaderAction = true;
+    this.courseService.remplacerChauffeur({id: this.id, camion: this.camion}).subscribe(
+      data => {
+        this.loaderAction = false;
+
+        this.alertService.successDangerNotif('success', 'Chauffeur remplacé avec succés!');
+        setTimeout(function () {
+          document.location.reload();
+        }, 3000);
+        console.log(data);
+      }, error => {
+        this.loaderAction = false;
+        this.alertService.successDangerNotif('warning', 'Erreur lors du remplacement du chauffeur!');
 
       }
     );

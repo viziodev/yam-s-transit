@@ -124,7 +124,7 @@
         <div class="row  mt-5" style="" *ngIf="!traitement?.course?.chauffeur">
           <span class="txt text-dark fw-bold">Chauffeur</span>
 
-          <select  [(ngModel)]="camion" class="form-control">
+          <select  [(ngModel)]="camion" class="form-control rounded-pill rounded mt-3">
           <option value="{{camion?.id}}" *ngFor="let camion of camionsDispo">{{camion?.chauffeur?.nomComplet}} - {{camion?.immatriculation}}</option>
         </select>
 
@@ -223,6 +223,57 @@
           <input id="fileBorderau" type="file" hidden (change)="uploadedFile($event)">
         </div>
       </div>
+      <div class="modal-body p-4"  *ngIf="traitement?.type == 'Reprogrammer'">
+        <span class="txt text-dark fw-bold">Client</span>
+
+        <div class="row" style="">
+          <div class="col-7 row">
+            <div class="col-2"><img src="{{traitement?.course?.client?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.client?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
+            <div class="col-10"><span  class="txt  text-dark fw-bold">{{traitement?.course?.client?.nomComplet}}</span><br><span  class="txt">{{traitement?.course?.client?.typeClient}}</span></div>
+          </div>
+          <div class="col-5"><span  class="txt">{{traitement?.course?.lieuChargement | slice:0 : 6}} - {{traitement?.course?.lieuDechargement | slice:0 : 6}}</span><br><span  class="txt">{{traitement?.course?.marchandise}}</span>
+            <br><span  class="txt">Date depart : {{traitement?.course?.dateDepart}}</span>
+          </div>
+        </div>
+    <div class="row">
+      <div class="col-6">
+        <label>Date chargement</label><br>
+        <input [(ngModel)]="dateChargement" class="inputCourse txt" style="font-size: 14px !important;"  type="date" placeholder="Date" >
+
+      </div>
+      <div class="col-6">
+        <label>Date dechargement</label><br>
+        <input [(ngModel)]="dateDechargement" class="inputCourse txt" style="font-size: 14px !important;"  type="date" placeholder="Date" >
+      </div>
+
+    </div>
+
+
+      </div>
+      <div class="modal-body p-4"  *ngIf="traitement?.type == 'Remplacer le chauffeur'">
+        <span class="txt text-dark fw-bold">Client</span>
+
+        <div class="row" style="">
+          <div class="col-7 row">
+            <div class="col-2"><img src="{{traitement?.course?.client?.photo != null?ENDPOINT+'uploads/images/'+traitement?.course?.client?.photo:'assets/images/avatar.jpg'}}" style="height: 40px;width: 40px;border-radius: 50%;margin-top: 5px"></div>
+            <div class="col-10"><span  class="txt  text-dark fw-bold">{{traitement?.course?.client?.nomComplet}}</span><br><span  class="txt">{{traitement?.course?.client?.typeClient}}</span></div>
+          </div>
+          <div class="col-5"><span  class="txt">{{traitement?.course?.lieuChargement | slice:0 : 6}} - {{traitement?.course?.lieuDechargement | slice:0 : 6}}</span><br><span  class="txt">{{traitement?.course?.marchandise}}</span>
+            <br><span  class="txt">Date depart : {{traitement?.course?.dateDepart}}</span>
+          </div>
+        </div>
+
+        <div class="row  mt-5" style="">
+          <span class="txt text-dark fw-bold">Chauffeur</span>
+
+          <select  [(ngModel)]="camion" class="form-control rounded rounded-pill mt-3">
+            <option value="{{camion?.id}}" *ngFor="let camion of camionsDispo">{{camion?.chauffeur?.nomComplet}} - {{camion?.immatriculation}}</option>
+          </select>
+
+        </div>
+
+
+      </div>
       <div  [hidden]="loaderAction" class="modal-footer" *ngIf="traitement?.type == 'Validation de la course'">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
         <button type="button" (click)="validerCourse()" class="btn btn-light">Oui, je valide </button>
@@ -239,6 +290,14 @@
       <div   [hidden]="loaderAction" class="modal-footer"*ngIf="traitement?.type == 'Lancer la course'">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
         <button (click)="lancerCourse()" type="button"  class="btn btn-light">Oui, je lance </button>
+      </div>
+      <div   [hidden]="loaderAction" class="modal-footer"*ngIf="traitement?.type == 'Reprogrammer'">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
+        <button (click)="reprogrammerCourse()" type="button"  class="btn btn-light">Oui, je reprogramme </button>
+      </div>
+      <div   [hidden]="loaderAction" class="modal-footer"*ngIf="traitement?.type == 'Remplacer le chauffeur'">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Non</button>
+        <button (click)="remplacerChauffeur()" type="button"  class="btn btn-light">Oui, je remplace </button>
       </div>
       <div  [hidden]="!loaderAction"  class="modal-footer" >
          <button type="button"  class="btn btn-light">

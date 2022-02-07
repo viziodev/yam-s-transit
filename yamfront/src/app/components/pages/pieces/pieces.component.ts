@@ -20,7 +20,7 @@ export class PiecesComponent implements OnInit {
 
   ngOnInit(): void {
     this.menus = [  {
-      title: 'Camions',
+      title: 'Stock de pieces',
       url: 'Pages',
     },  {
       title: 'Statistiques',
