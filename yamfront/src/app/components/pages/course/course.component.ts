@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CourseService} from '../../../services/api/course.service';
 import {environment} from '../../../../environments/environment';
 import {ChauffeurService} from '../../../services/api/chauffeur-service';
+import {AlertService} from "../../../services/alert.service";
 
 @Component({
   selector: 'app-course',
@@ -9,18 +10,22 @@ import {ChauffeurService} from '../../../services/api/chauffeur-service';
   styleUrls: ['./course.component.scss']
 })
 export class CourseComponent implements OnInit {
-  constructor(private courseService: CourseService, private chauffeurService: ChauffeurService) { }
+  constructor(private courseService: CourseService, private chauffeurService: ChauffeurService, private alertService: AlertService) { }
   menus: any;
   traitement: any;
   camionsDispo: any;
   chauffeursDispo: any;
   courses: any;
-  montantVerse: any;
+  montantVerse: any = 0;
   camion: any;
-  depense: any;
+  depense: any = 0;
   id: any;
   borderau: any;
-  paiementCourse: any;
+  loaderAction = false;
+  paiementCourse: any = 0;
+  chauffeurRemplace: any = 0;
+  dateChargement: any = 0;
+  dateDechargement: any = 0;
   appreciationChauffeur: any;
   semaine = '';
   moisAnnee = '';
@@ -120,23 +125,102 @@ export class CourseComponent implements OnInit {
   }
 
   validerCourse(){
+    this.loaderAction = true;
     const body = {montantVerse: this.montantVerse, depense: this.depense, camion: this.camion, id: this.id};
     this.courseService.validerCourse(body).subscribe(
       data => {
+        this.loaderAction = false;
         console.log(data);
-      }
+
+        this.alertService.successDangerNotif('success','Course validée avec succés!')
+        setTimeout(function () {
+          document.location.reload()
+        }, 3000)
+      },
+        error => {
+          this.alertService.successDangerNotif('warning', 'Erreur lors de la validation de la course!')
+
+          this.loaderAction = false;
+       }
     );
   }
 
   annulerCourse(){
+    this.loaderAction = true;
     this.courseService.annulerCourse(this.id).subscribe(
       data => {
+        this.loaderAction = false;
         console.log(data);
+
+        this.alertService.successDangerNotif('success','Course annulée avec succés!')
+        setTimeout(function () {
+          document.location.reload()
+        }, 3000)
+      }, error => {
+        this.alertService.successDangerNotif('warning','Erreur lors de l\'annulation de la course!')
+
+        this.loaderAction = false;
+      }
+    );
+  }
+  lancerCourse(){
+    this.loaderAction = true;
+
+    this.courseService.lancerCourse(this.id).subscribe(
+      data => {
+        this.loaderAction = false;
+
+        this.alertService.successDangerNotif('success','Course lancée avec succés!')
+        setTimeout(function () {
+          document.location.reload()
+        }, 3000)
+        console.log(data);
+      }, error => {
+        this.loaderAction = false;
+        this.alertService.successDangerNotif('warning', 'Erreur lors du lancement de la course!');
+
+      }
+    );
+  }
+  reprogrammerCourse(){
+    this.loaderAction = true;
+    this.courseService.reprogrammerCourse({id: this.id, dateChargement: this.dateChargement, dateDechargement: this.dateDechargement}).subscribe(
+      data => {
+        this.loaderAction = false;
+
+        this.alertService.successDangerNotif('success', 'Course reprogrammée avec succés!');
+        setTimeout(function () {
+          document.location.reload();
+        }, 3000);
+        console.log(data);
+      }, error => {
+        this.loaderAction = false;
+        this.alertService.successDangerNotif('warning', 'Erreur lors la reprogrammation de la course!');
+
+      }
+    );
+  }
+  remplacerChauffeur(){
+    this.loaderAction = true;
+    this.courseService.remplacerChauffeur({id: this.id, camion: this.camion}).subscribe(
+      data => {
+        this.loaderAction = false;
+
+        this.alertService.successDangerNotif('success', 'Chauffeur remplacé avec succés!');
+        setTimeout(function () {
+          document.location.reload();
+        }, 3000);
+        console.log(data);
+      }, error => {
+        this.loaderAction = false;
+        this.alertService.successDangerNotif('warning', 'Erreur lors du remplacement du chauffeur!');
+
       }
     );
   }
 
   terminerCourse(){
+    this.loaderAction = true;
     const formdata = new FormData();
     formdata.append('bordereau', this.borderau);
     formdata.append('paiement', this.paiementCourse);
@@ -144,7 +228,17 @@ export class CourseComponent implements OnInit {
     formdata.append('id', this.id);
     this.courseService.terminerCourse(formdata).subscribe(
       data => {
+        this.loaderAction = false;
+
+        this.alertService.successDangerNotif('success', 'Course terminée avec succés!')
+        setTimeout(function () {
+          document.location.reload();
+        }, 3000);
         console.log(data);
+      }, error => {
+        this.alertService.successDangerNotif('warning','Erreur lors de la finalisation de la course!')
+
+        this.loaderAction = false;
       }
     );
   }

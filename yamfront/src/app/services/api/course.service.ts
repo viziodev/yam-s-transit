@@ -30,8 +30,19 @@ export class CourseService{
   annulerCourse(id){
     return this.http.get(this.BASE_URL + 'annulerCourse/' + id ,{headers: this.headersFormData});
   }
+
+  lancerCourse(id){
+    return this.http.get(this.BASE_URL + 'lancerCourse/' + id ,{headers: this.headersFormData});
+  }
   terminerCourse(body){
     return this.http.post(this.BASE_URL + 'terminerCourse'  , body, {headers: this.headersFormData});
+  }
+  reprogrammerCourse(body){
+    return this.http.post(this.BASE_URL + 'reprogrammerCourse'  , body, {headers: this.headersFormData});
+  }
+
+  remplacerChauffeur(body){
+    return this.http.post(this.BASE_URL + 'remplacerChauffeur'  , body, {headers: this.headersFormData});
   }
 
 }

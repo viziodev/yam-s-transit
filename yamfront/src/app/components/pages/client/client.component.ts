@@ -30,6 +30,7 @@ export class ClientComponent implements OnInit {
   loaderPay: boolean = false;
   selectedCourse: any;
   selectedContrat: any;
+  disponibilite: any;
   filtreTel: string = '';
   filtreTypeClient: string = '';
   listTypeCamionTonne: any;
@@ -586,7 +587,7 @@ this.selectedContrat=null
     )
   }
   setSelectedContrat(){
-    this.selectedContrat = null;
+   // this.selectedContrat = null;
     this.selectedCourse = null;
     for (const e of  this.client?.contrats) {
       if (  e.id == this.contratId){
@@ -703,6 +704,7 @@ this.selectedContrat=null
            cout.value =  tc?.currentBareme?.cout
            // @ts-ignore
            coutRetour.value =  tc?.currentBareme?.cout
+           this.checkDisponibilite()
          }
 
        }
@@ -715,6 +717,9 @@ this.selectedContrat=null
    }
 
   getClientFilter(){
+    if (this.courseForm.value.tel<7){
+      return;
+    }
     const body = '?tel='+this.courseForm.value.tel;
     this.clientService.getClientFilter(body).subscribe(
       data => {
@@ -749,5 +754,14 @@ this.selectedContrat=null
     );
   }
 
-
+checkDisponibilite(){
+    if (this.courseForm.value.tonnage == '' || this.clientForm.value.dateChargement == ''){
+      return;
+    }
+    this.clientService.checkDisponibilite({tonnage: this.courseForm.value.tonnage, dateChargement: this.courseForm.value.dateChargement}).subscribe(
+      data => {
+        this.disponibilite = data
+      }
+    )
+}
 }

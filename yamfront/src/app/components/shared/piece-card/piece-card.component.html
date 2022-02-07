@@ -1,0 +1,33 @@
+<div style="position: relative" id="{{cardId}}" class="vizioCard">
+  <div class="row">
+    <div  class="col-3">
+      <div   style="padding-top:12px;width: 40px; height: 40px; background-color: #fff;text-align: center">
+        <div (click)="clickedCardAppro()" [class.selected]="isSelected" style="cursor:pointer;height: 14px;width: 14px;margin: auto;border: solid 2px #8e8e8e; "></div>
+      </div>
+    </div>
+    <div class="col-4"></div>
+    <div class="col-5" style="float: right">
+      <div class="badge mt-2" [class.dispo]="piece?.etat == 'Dispo'"  [class.panne]="piece?.etat == 'Epuisé'"  style=" float: right;   height: 22px; padding: 4px 9px 3px 10px;  border-radius: 4px; "  >
+        {{piece?.qteSeuil}} pcs
+      </div>
+    </div>
+    <div class="col-12 mt-2 bg-white">
+      <img src="assets/images/empty-car3.png" style="   width: 100%;  height: 70.3px; ">
+    </div>
+  </div>
+</div>
+<div [hidden]="!isExpanded" class="actions">
+  <p (click)="clickedActionItem(piece?.id,'Entretien') "  class="action-item">Amener en entretien</p>
+  <hr>
+  <p (click)="clickedActionItem(piece?.id,'Course') "  class="action-item">Planifier course</p>
+  <hr>
+  <p (click)="clickedActionItem(piece?.id,'Archiver') " class="action-item">Archiver</p>
+  <hr>
+  <p (click)="clickedActionItem(piece?.id,'Details') " class="action-item">Voir details</p>
+</div>
+
+<div class="row mt-1 vizioCardFooter">
+  <div class="col-10 immat">{{piece?.nomPiece}}</div>
+  <div class="col-2" style="text-align: right;cursor: pointer"><i (click)="clickedActionner(piece?.id) "  class="fas fa-ellipsis-h"></i></div>
+  <div class="col-12" style="font-size: 16px;color: cornflowerblue">En stock : {{piece?.qteStock}} pcs</div>
+</div>

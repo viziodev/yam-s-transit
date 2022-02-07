@@ -106,7 +106,7 @@
         <div class="row mt-2">
           <div class="col-12">
             <label class="custom-label">Date de chargement</label><br>
-            <input formControlName="dateChargement"  type="date" class="rounded-pill rounded form-control" name="dateChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
+            <input formControlName="dateChargement" (change)="checkDisponibilite()"  type="date" class="rounded-pill rounded form-control" name="dateChargement" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
           </div>
         </div>
         <div class="row mt-2">
@@ -119,7 +119,7 @@
         <div class="row mt-2">
           <div class="col-12">
             <label class="custom-label">Date de chargement retour</label><br>
-            <input formControlName="dateChargementRetour"  type="date" class="rounded-pill rounded form-control" name="dateChargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
+            <input formControlName="dateChargementRetour"  (change)="checkDisponibilite()" type="date" class="rounded-pill rounded form-control" name="dateChargementRetour" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Lieu chargement">
           </div>
         </div>
         <div class="row mt-2">
@@ -152,8 +152,8 @@
         </div>
         <div class="col-4"></div>
         <p><span>Disponibilité</span><br>
-          <span>Indisponibilité du camion</span><br>
-          <span>Vous pouvez enregistrer cette course et vous serez notifiés dés qu'il y aura disponibilité d'un camion</span></p>
+          <span>{{disponibilite?.title}}</span><br>
+          <span>{{disponibilite?.message}}</span></p>
 
       </div>
       <div *ngIf="step == 2">
@@ -425,13 +425,13 @@
 
       <div class="row mt-3" style="border-top: solid 1px #DEDEDE">
         <div class="col-6 details-section" style="border-right: solid 1px  #DEDEDE">
-          <div class="col-12 row mx-auto" *ngIf="client?.typeClient == 'Contractuel'">
+          <div class="col-12 row mx-auto mb-4 mt-2" *ngIf="client?.typeClient == 'Contractuel'">
             <div class="col-10">
               <select [(ngModel)]="contratId" (change)="setSelectedContrat()" class="rounded rounded-pill">
-              <option *ngFor="let contrat of client?.contrats">{{contrat?.id}}</option>
+              <option *ngFor="let contrat of client?.contrats">{{contrat?.dateDebut}} / {{contrat?.dateFin}}</option>
             </select>
             </div>
-            <div class="col-2"><span>{{selectedContrat}}</span></div>
+            <div class="col-2"><span style="font-style: italic;color: #378EF0;font-size: 13px">{{selectedContrat?.typeTrajet }}</span></div>
           </div>
           <span class="detailsCam">Lieu chargement<span style="float: right">{{selectedContrat?.lieuChargement}}</span></span><br>
           <span class="detailsCam">Lieu dechargement<span style="float: right">{{selectedContrat?.lieuDechargement}}</span></span><br>
