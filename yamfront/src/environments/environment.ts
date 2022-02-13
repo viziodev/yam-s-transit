@@ -3,8 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  BASE_URL: 'http://127.0.0.1:8002/api/',
-  ENDPOINT: 'http://127.0.0.1:8002/',
+
+  // BASE_URL: 'https://evening-ravine-82409.herokuapp.com/api/',
+  // ENDPOINT: 'https://evening-ravine-82409.herokuapp.com/',
+
+  BASE_URL: 'http://127.0.0.1:8001/api/',
+  ENDPOINT: 'http://127.0.0.1:8001/',
+
   production: false
 };
 
