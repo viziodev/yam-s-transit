@@ -38,15 +38,18 @@ export class ChauffeurComponent implements OnInit {
   listCamions:any;
   listTypePermis:any;
   selectChauffeur:boolean;
+  indispo:boolean;
   menuOpen: boolean = false;
   chauffeurForm: FormGroup ;
   filtreChauffeurForm: FormGroup ;
+  indisponibiliteForm: FormGroup ;
   @ViewChild('toggleButton') toggleButton: ElementRef;
   @ViewChildren(CardChauffeurComponent) cards: QueryList<CardChauffeurComponent>;
   @ViewChild('chauffeursList') chauffeursList: ElementRef;
   private avatarImg: any;
 
   constructor(private renderer: Renderer2, private fb: FormBuilder, private camionService: CamionService,private paramsService: ParamsService,private alertService: AlertService,private chauffeurService: ChauffeurService) {
+    this.indispo=false;
     this.chauffeurForm = this.fb.group({
       nom: ['', [Validators.required]],
       email: [''],
@@ -68,6 +71,13 @@ export class ChauffeurComponent implements OnInit {
       debut: ['', [Validators.required]],
       fin: ['', [Validators.required]],
       total: ['', [Validators.required]],
+
+    })
+    this.indisponibiliteForm=this.fb.group({
+      dateDebut: ['', [Validators.required]],
+      dateFin: ['', [Validators.required]],
+      motif: ['', [Validators.required]],
+      id: [''],
 
     })
     this.renderer.listen('window', 'click', (e: Event) => {
@@ -338,6 +348,30 @@ export class ChauffeurComponent implements OnInit {
       },error=>{
 
         this.loaderList = true
+      }
+    )
+  }
+  rendreIndispo(){
+    this.indispo = !this.indispo;
+  }
+  addIndisponibilite(){
+    this.loaderAdd = false;
+
+    this.indisponibiliteForm.value.id=this.id;
+    this.chauffeurService.addIndisponibilite(this.indisponibiliteForm.value).subscribe(
+      data=>{
+        this.loaderAdd = true;
+        this.indispo = false;
+        this.alertService.successDangerNotif('success', 'Indisponibilité ajoutée avec succés');
+        this.indisponibiliteForm.reset();
+        setTimeout(function (){
+          window.location.reload()
+        },3000)
+        console.log(data)
+      },error => {
+        this.alertService.successDangerNotif('warning', 'Erreur lors du traitement');
+        this.loaderAdd = true;
+
       }
     )
   }

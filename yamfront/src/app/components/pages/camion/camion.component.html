@@ -348,30 +348,30 @@
          <p style="font-size: 13px;font-weight: bold">Statut</p>
          <span class="badge " [class.dispo]="camion?.etat == 'Dispo'"  [class.panne]="camion?.etat == 'En panne'"  [class.entretien]="camion?.etat == 'En entretien'"  [class.course]="camion?.etat == 'En course'">{{camion?.etat}}</span>
          <p style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce camion est en pleine course <span *ngFor="let trajet of camion?.trajet">{{trajet + '-'}}</span> </p>
-       <div *ngFor="let trajetCourse of camion?.trajetCourse">
-         <p class="caracCamion mt-1"> Données du trajet {{trajetCourse?.typeTrajet}}</p>
-         <span class="detailsCam">Depart<span style="float: right">{{trajetCourse?.depart}}</span></span><br>
-         <span class="detailsCam">Arrivee<span style="float: right">{{trajetCourse?.depart}}</span></span><br>
-         <span class="detailsCam">Date chargement<span style="float: right">{{trajetCourse?.dateChargement}}</span></span><br>
-         <span class="detailsCam">Date dechargement<span style="float: right">{{trajetCourse?.dateDechargement}}</span></span><br>
-         <span class="detailsCam">Marchandise<span style="float: right">{{trajetCourse?.marchandise}}</span></span><br>
+       <div *ngIf="camion?.trajetCourse">
+         <p class="caracCamion mt-1"> Données du trajet {{camion?.trajetCourse?.typeTrajet}}</p>
+         <span class="detailsCam">Depart<span style="float: right">{{camion?.trajetCourse?.depart}}</span></span><br>
+         <span class="detailsCam">Arrivee<span style="float: right">{{camion?.trajetCourse?.depart}}</span></span><br>
+         <span class="detailsCam">Date chargement<span style="float: right">{{camion?.trajetCourse?.dateChargement}}</span></span><br>
+         <span class="detailsCam">Date dechargement<span style="float: right">{{camion?.trajetCourse?.dateDechargement}}</span></span><br>
+         <span class="detailsCam">Marchandise<span style="float: right">{{camion?.trajetCourse?.marchandise}}</span></span><br>
 
        </div>
-         <p class="section-title mt-2">Chauffeurs</p>
+         <p class="section-title mt-2">Chauffeur(s)</p>
 
          <div class="row mt-4">
 
            <div class="col-3 text-center">
-             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+             <img src="{{selectedCP?.photo != null?ENDPOINT+'uploads/images/'+selectedCP?.photo:'assets/images/avatar.jpg'}}" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
 
-             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
-
-           </div>
-           <div class="col-3 text-center">
-             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
-             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+             <p style="  color: #505050;font-size: 13px">{{camion?.chauffeur?.nomComplet}}<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">{{camion?.chauffeur?.typePermis}}</span></p>
 
            </div>
+           <!--<div class="col-3 text-center">
+             <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+             <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+           </div>-->
 
          </div>
          <div class="mt-2">

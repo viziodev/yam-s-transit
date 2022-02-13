@@ -250,21 +250,97 @@
           <span class="badge "  [class.dispo-bg]="chauffeur?.etat == 'Disponible'" [class.course-bg]="chauffeur?.etat == 'En course'" [class.indispo-bg]="chauffeur?.etat == 'Indisponible'"  >{{chauffeur?.etat}}</span>
           <span class="badge ml-2" style="background-color: #BCBCBC;margin-left: 20px"   >{{chauffeur?.disponibilite}}</span>
 
-          <p *ngIf="chauffeur?.etat == 'Disponible'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur est dispo pour course</p>
-          <p *ngIf="chauffeur?.etat == 'En course'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur actuellement en course</p>
-          <p *ngIf="chauffeur?.etat == 'Indisponible'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur est indisponible</p>
-          <div class="row mt-2">
-            <div class="col-4"><p style="font-size: 13px;font-weight: bold">Chauffeurs</p></div>
-            <div class="col-8" style="text-align: right"><p style="cursor:pointer;font-size: 13px;  color: blue;"><u>Historique des chauffeurs</u></p></div>
-          </div>
-          <div class="row mt-4">
-            <div (click)="changeChauffeur(chauffeur)" style="cursor: pointer" class="col-3 text-center" *ngFor="let chauffeur of listChauffeursSecon">
-              <img  src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 55px;width: 55px;border-radius: 50%;margin: auto"/>
 
-              <p style="  color: #505050;font-size: 13px">{{chauffeur?.nomComplet}}<br><span style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Secondaire</span></p>
+          <div *ngIf="chauffeur?.etat == 'En course'" class="col-6d detadils-section" >
+            <p *ngIf="chauffeur?.etat == 'En course'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur actuellement en course</p>
+
+             <div *ngIf="chauffeur?.trajetCourse">
+              <p class="caracCamion mt-1"> Données du trajet {{chauffeur?.trajetCourse?.typeTrajet}}</p>
+              <span class="detailsCam">Depart<span style="float: right">{{chauffeur?.trajetCourse?.depart}}</span></span><br>
+              <span class="detailsCam">Arrivee<span style="float: right">{{chauffeur?.trajetCourse?.depart}}</span></span><br>
+              <span class="detailsCam">Date chargement<span style="float: right">{{chauffeur?.trajetCourse?.dateChargement}}</span></span><br>
+              <span class="detailsCam">Date dechargement<span style="float: right">{{chauffeur?.trajetCourse?.dateDechargement}}</span></span><br>
+              <span class="detailsCam">Marchandise<span style="float: right">{{chauffeur?.trajetCourse?.marchandise}}</span></span><br>
+
+            </div>
+            <p class="section-title mt-2">Chauffeur(s)</p>
+
+            <div class="row mt-4">
+
+              <div class="col-3 text-center">
+                <img src="{{chauffeur?.chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+
+                <p style="  color: #505050;font-size: 13px">{{chauffeur?.chauffeur?.nomComplet}}<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">{{chauffeur?.chauffeur?.typePermis}}</span></p>
+
+              </div>
+              <!--<div class="col-3 text-center">
+                <img src="https://source.unsplash.com/random" style="height: 55px;width: 55px;border-radius: 50%;background-color: red;margin: auto"/>
+                <p style="  color: #505050;font-size: 13px">Alpha Baldé<br><span  style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Principal</span></p>
+
+              </div>-->
 
             </div>
           </div>
+          <div  *ngIf="chauffeur?.etat == 'Indisponible'" class="col-6e details-wsection">
+            <p *ngIf="chauffeur?.etat == 'Indisponible'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur est indisponible</p>
+
+
+            <div *ngIf="chauffeur?.indisponibilite">
+              <p class="mt-3 mb-3 detailsCam" style="font-style: italic">Infos sur l'indisponibilité</p>
+
+              <span class="detailsCam">Motif<span style="float: right">{{chauffeur?.indisponibilite?.cause}}</span></span><br>
+               <span class="detailsCam">Debut<span style="float: right">{{chauffeur?.indisponibilite?.dateDebut}}</span></span><br>
+               <span class="detailsCam">Fin<span style="float: right">{{chauffeur?.indisponibilite?.dateFin}}</span></span><br>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-4"><p style="font-size: 13px;font-weight: bold">Chauffeurs</p></div>
+              <div class="col-8" style="text-align: right"><p style="cursor:pointer;font-size: 13px;  color: blue;"><u>Historique des chauffeurs</u></p></div>
+            </div>
+            <div class="row mt-4">
+              <div (click)="changeChauffeur(chauffeur)" style="cursor: pointer" class="col-3 text-center" *ngFor="let chauffeur of listChauffeursSecon">
+                <img  src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 55px;width: 55px;border-radius: 50%;margin: auto"/>
+
+                <p style="  color: #505050;font-size: 13px">{{chauffeur?.nomComplet}}<br><span style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Secondaire</span></p>
+
+              </div>
+            </div>
+          </div>
+          <div  *ngIf="chauffeur?.etat == 'Disponible'" class="col-6e detailws-section">
+            <p *ngIf="chauffeur?.etat == 'Disponible'" style=" font-size: 13px;  line-height: normal;  letter-spacing: normal;   color: #bcbcbc;">Ce chauffeur est dispo pour course</p>
+            <p (click)="rendreIndispo()" style="cursor:pointer;font-size: 13px;  color: blue;"><u>Rendre indisponible</u></p>
+            <div [hidden]="!indispo" class="mb-4" style="border: solid #bcbcbc 1px;border-radius: 5px;padding: 10px">
+              <form  [formGroup]="indisponibiliteForm">
+                <span class="detailsCam">Motif</span>
+                <input formControlName="motif" type="text" class="rounded-pill rounded form-control" name="fin" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le motif">
+                <span class="detailsCam">Date debut</span>
+
+                <input formControlName="dateDebut" type="date" class="rounded-pill rounded form-control" name="fin" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le motif">
+                <span class="detailsCam">Date fin</span>
+
+                <input formControlName="dateFin" type="date" class="rounded-pill rounded form-control" name="fin" style="outline: none;  background-color: #f4f4f4;border: none" placeholder="Saisir le motif">
+                <div   style="text-align: right">
+                  <button [hidden]="!loaderAdd"  [disabled]="!indisponibiliteForm.valid" (click)="addIndisponibilite()"  type="button" class="btn btn-sm btn-secondary rounded rounded-pill mt-2">Enregistrer</button>
+                  <button [hidden]="loaderAdd" type="button" class="btn btn-secondary rounded rounded-pill"><img  style="height: 25px;width: 25px" src="assets/images/loader.gif"></button>
+
+                </div>
+
+              </form>
+                </div>
+            <div class="row mt-2">
+              <div class="col-4"><p style="font-size: 13px;font-weight: bold">Chauffeurs</p></div>
+              <div class="col-8" style="text-align: right"><p style="cursor:pointer;font-size: 13px;  color: blue;"><u>Historique des chauffeurs</u></p></div>
+            </div>
+            <div class="row mt-4">
+              <div (click)="changeChauffeur(chauffeur)" style="cursor: pointer" class="col-3 text-center" *ngFor="let chauffeur of listChauffeursSecon">
+                <img  src="{{chauffeur?.photo != null?ENDPOINT+'uploads/images/'+chauffeur?.photo:'assets/images/avatar.jpg'}}" style="height: 55px;width: 55px;border-radius: 50%;margin: auto"/>
+
+                <p style="  color: #505050;font-size: 13px">{{chauffeur?.nomComplet}}<br><span style=" font-size: 11px;  font-style: italic;  line-height: normal;  letter-spacing: normal; text-align: center; color: #bcbcbc;">Secondaire</span></p>
+
+              </div>
+            </div>
+          </div>
+
           <div>
             <p style="font-size: 13px;font-weight: bold">Statistiques(par mois)</p>
             <div class="row">
